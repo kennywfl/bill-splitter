@@ -3,7 +3,7 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    tools:context=".Login">
+    tools:context=".ui.login.Login">
 
 
     <LinearLayout
@@ -14,19 +14,19 @@
         android:gravity="center">
 
         <Button
-            android:id="@+id/button"
+            android:id="@+id/gsign_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Google Log in" />
 
         <Button
-            android:id="@+id/button2"
+            android:id="@+id/fsign_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Facebook Log in" />
 
         <Button
-            android:id="@+id/button3"
+            android:id="@+id/ssign_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Skip login" />

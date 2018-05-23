@@ -6,16 +6,15 @@
 
     <fragment
         android:id="@+id/login"
-        android:name="com.example.fa.billspliter.Login"
+        android:name="com.example.fa.billspliter.ui.login.Login"
         android:label="fragment_login"
         tools:layout="@layout/fragment_login" >
         <action
-            android:id="@+id/action_login_to_homePage"
-            app:destination="@id/homePage" />
+            android:id="@+id/action_login_to_homeActivity"
+            app:destination="@id/homeActivity" />
     </fragment>
-    <fragment
-        android:id="@+id/homePage"
-        android:name="com.example.fa.billspliter.HomePage"
-        android:label="fragment_home_page"
-        tools:layout="@layout/fragment_home_page" />
+    <activity
+        android:id="@+id/homeActivity"
+        android:name="com.example.fa.billspliter.ui.billspliter.HomeActivity"
+        android:label="HomeActivity" />
 </navigation>

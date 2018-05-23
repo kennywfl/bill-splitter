@@ -8,13 +8,13 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
-                  <entry key="homePage">
+                  <entry key="homeActivity">
                     <value>
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="28" />
-                            <option name="y" value="189" />
+                            <option name="x" value="-113" />
+                            <option name="y" value="-174" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -25,18 +25,62 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-204" />
-                            <option name="y" value="184" />
+                            <option name="x" value="-335" />
+                            <option name="y" value="-174" />
                           </Point>
                         </option>
                         <option name="myPositions">
                           <map>
-                            <entry key="action_login_to_homePage">
+                            <entry key="action_login_to_homeActivity">
                               <value>
                                 <LayoutPositions />
                               </value>
                             </entry>
                           </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </LayoutPositions>
+          </value>
+        </entry>
+        <entry key="nav_graph1.xml">
+          <value>
+            <LayoutPositions>
+              <option name="myPositions">
+                <map>
+                  <entry key="homePage">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="-615" />
+                            <option name="y" value="-260" />
+                          </Point>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                </map>
+              </option>
+            </LayoutPositions>
+          </value>
+        </entry>
+        <entry key="nav_home.xml">
+          <value>
+            <LayoutPositions>
+              <option name="myPositions">
+                <map>
+                  <entry key="homePage">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="20" />
+                            <option name="y" value="20" />
+                          </Point>
                         </option>
                       </LayoutPositions>
                     </value>

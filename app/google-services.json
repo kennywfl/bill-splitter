@@ -1,0 +1,42 @@
+{
+  "project_info": {
+    "project_number": "560659561148",
+    "firebase_url": "https://billspliter-63540.firebaseio.com",
+    "project_id": "billspliter-63540",
+    "storage_bucket": "billspliter-63540.appspot.com"
+  },
+  "client": [
+    {
+      "client_info": {
+        "mobilesdk_app_id": "1:560659561148:android:7335a3992b3d6c23",
+        "android_client_info": {
+          "package_name": "com.example.fa.billspliter"
+        }
+      },
+      "oauth_client": [
+        {
+          "client_id": "560659561148-rohlt1o9f1upasfg6eeauhbopaifi5j2.apps.googleusercontent.com",
+          "client_type": 3
+        }
+      ],
+      "api_key": [
+        {
+          "current_key": "AIzaSyAB4mRgUl7FZF81TYFEN7kowutoSLFgUfs"
+        }
+      ],
+      "services": {
+        "analytics_service": {
+          "status": 1
+        },
+        "appinvite_service": {
+          "status": 1,
+          "other_platform_oauth_client": []
+        },
+        "ads_service": {
+          "status": 2
+        }
+      }
+    }
+  ],
+  "configuration_version": "1"
+}
