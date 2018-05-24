@@ -13,8 +13,8 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-113" />
-                            <option name="y" value="-174" />
+                            <option name="x" value="223" />
+                            <option name="y" value="-101" />
                           </Point>
                         </option>
                       </LayoutPositions>
@@ -25,13 +25,39 @@
                       <LayoutPositions>
                         <option name="myPosition">
                           <Point>
-                            <option name="x" value="-335" />
-                            <option name="y" value="-174" />
+                            <option name="x" value="-165" />
+                            <option name="y" value="-22" />
                           </Point>
                         </option>
                         <option name="myPositions">
                           <map>
                             <entry key="action_login_to_homeActivity">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                            <entry key="action_login_to_skipLogin">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
+                        </option>
+                      </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="skipLogin">
+                    <value>
+                      <LayoutPositions>
+                        <option name="myPosition">
+                          <Point>
+                            <option name="x" value="67" />
+                            <option name="y" value="248" />
+                          </Point>
+                        </option>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_skipLogin_to_homeActivity">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -73,14 +99,22 @@
             <LayoutPositions>
               <option name="myPositions">
                 <map>
+                  <entry key="history2">
+                    <value>
+                      <LayoutPositions />
+                    </value>
+                  </entry>
                   <entry key="homePage">
                     <value>
                       <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="20" />
-                            <option name="y" value="20" />
-                          </Point>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_homePage_to_history2">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
                         </option>
                       </LayoutPositions>
                     </value>

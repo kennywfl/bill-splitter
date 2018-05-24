@@ -5,6 +5,9 @@
 
     <group android:checkableBehavior="single">
         <item
+            android:id="@+id/history"
+            android:title="History" />
+        <item
             android:id="@+id/sign_out"
             android:title="Sign out" />
         <item

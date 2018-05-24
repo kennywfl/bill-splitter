@@ -8,7 +8,16 @@
         android:id="@+id/homePage"
         android:name="com.example.fa.billspliter.ui.billspliter.HomeFragment"
         android:label="fragment_home_page"
-        tools:layout="@layout/fragment_home_page" />
+        tools:layout="@layout/fragment_home_page" >
+        <action
+            android:id="@+id/action_homePage_to_history2"
+            app:destination="@id/history2" />
+    </fragment>
+    <fragment
+        android:id="@+id/history2"
+        android:name="com.example.fa.billspliter.History"
+        android:label="fragment_history"
+        tools:layout="@layout/fragment_history" />
 
 
 </navigation>

@@ -7,14 +7,25 @@
     <fragment
         android:id="@+id/login"
         android:name="com.example.fa.billspliter.ui.login.Login"
-        android:label="fragment_login"
-        tools:layout="@layout/fragment_login" >
+        android:label="Login"
+        tools:layout="@layout/fragment_login">
         <action
             android:id="@+id/action_login_to_homeActivity"
             app:destination="@id/homeActivity" />
+        <action
+            android:id="@+id/action_login_to_skipLogin"
+            app:destination="@id/skipLogin" />
     </fragment>
     <activity
         android:id="@+id/homeActivity"
         android:name="com.example.fa.billspliter.ui.billspliter.HomeActivity"
         android:label="HomeActivity" />
+    <fragment
+        android:id="@+id/skipLogin"
+        android:name="com.example.fa.billspliter.ui.login.SkipLogin"
+        tools:layout="@layout/fragment_skip_login" >
+        <action
+            android:id="@+id/action_skipLogin_to_homeActivity"
+            app:destination="@id/homeActivity" />
+    </fragment>
 </navigation>
