@@ -18,4 +18,9 @@ open class CalculationUtil {
     {
         return TotalAmount/NumberOfPeople
     }
+
+    public fun subtraction(num1:Float,num2:Float) : Float
+    {
+        return num1 - num2
+    }
 }

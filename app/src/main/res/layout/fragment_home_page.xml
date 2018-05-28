@@ -10,27 +10,20 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            android:text="Bill Amount"
-            android:textColor="#000000"
-            android:textSize="20dp"
-             />
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
+            android:layout_marginLeft="4dp"
             android:orientation="horizontal">
 
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="RM "
-                android:gravity="center"
-                android:layout_marginLeft="5dp"
-                android:textSize="15dp"
+                android:layout_marginLeft="4dp"
+                android:text="Bill Amount: RM"
+                android:textColor="#000000"
+                android:textSize="18dp"
                 />
 
             <EditText
@@ -40,19 +33,9 @@
                 android:layout_marginLeft="4dp"
                 android:hint="Enter Amount Here"
                 android:inputType="numberDecimal"
-                android:textSize="15dp" />
+                android:textSize="18dp" />
 
         </LinearLayout>
-
-        <TextView
-            android:layout_width="wrap_content"
-            android:layout_height="wrap_content"
-            android:layout_marginLeft="4dp"
-            android:layout_marginTop="8dp"
-            android:text="Number of People"
-            android:textColor="#000000"
-            android:textSize="20dp"
-            />
 
         <LinearLayout
             android:layout_width="wrap_content"
@@ -60,11 +43,22 @@
             android:layout_marginLeft="4dp"
             android:orientation="horizontal">
 
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="8dp"
+                android:text="Number of People"
+                android:textColor="#000000"
+                android:textSize="18dp"
+                />
+
             <Button
                 android:id="@+id/minusButton"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:background="@drawable/minus" />
+                android:background="@drawable/minus"
+              android:layout_margin="8dp"/>
 
             <EditText
                 android:id="@+id/PeopleText"
@@ -74,13 +68,15 @@
                 android:text="1"
                 android:textAlignment="center"
                 android:textSize="15dp"
+                android:layout_margin="8dp"
                 />
 
             <Button
                 android:id="@+id/plusButton"
                 android:layout_width="30dp"
                 android:layout_height="30dp"
-                android:background="@drawable/plus" />
+                android:background="@drawable/plus"
+                android:layout_margin="8dp"/>
 
         </LinearLayout>
 
@@ -175,7 +171,7 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    android:text="1"
+                    android:text="0"
 
                    />
             </LinearLayout>
@@ -197,23 +193,80 @@
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:inputType="number"
-                    android:text="1"
+                    android:text="0"
                     />
 
                 </LinearLayout>
             </LinearLayout>
         </LinearLayout>
 
-
-        <TextView
+        <LinearLayout
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
             android:layout_marginLeft="4dp"
             android:layout_marginTop="8dp"
-            android:text="Total Bill Amount"
-            android:textColor="#000000"
-            android:textSize="20dp"
-           />
+            android:orientation="horizontal">
+
+            <CheckBox
+                android:id="@+id/checkdiscount"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content" />
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="Do you have discount on your bill?"
+                android:textColor="@color/green"
+                android:textSize="15dp"
+                />
+
+        </LinearLayout>
+
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="vertical"
+            android:id="@+id/DiscountLayout"
+            android:visibility="gone">
+
+            <TextView
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="8dp"
+                android:text="Discount"
+                android:textColor="#000000"
+                android:textSize="20dp"
+                />
+            <LinearLayout
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:orientation="horizontal">
+
+                <EditText
+                    android:id="@+id/DiscountText"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:layout_marginLeft="4dp"
+                    android:text="0"
+                    android:inputType="number"
+                    android:textSize="15dp" />
+
+
+                <TextView
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:text="% "
+                    android:gravity="center"
+                    android:layout_marginLeft="5dp"
+                    android:textSize="15dp"
+                    />
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+
 
         <LinearLayout
             android:layout_width="match_parent"
@@ -223,11 +276,13 @@
             <TextView
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
-                android:text="RM "
-                android:gravity="center"
-                android:layout_marginLeft="5dp"
-                android:textSize="15dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="8dp"
+                android:text="Total Bill Amount  : RM"
+                android:textColor="#000000"
+                android:textSize="18dp"
                 />
+
 
             <TextView
                 android:id="@+id/TotalAmountMoneyText"
@@ -235,8 +290,9 @@
                 android:layout_height="wrap_content"
                 android:inputType="numberDecimal"
                 android:text="0.00"
-                android:textSize="20dp"
-                android:layout_marginLeft="4dp"/>
+                android:textSize="18dp"
+                android:layout_marginLeft="4dp"
+                android:layout_marginTop="8dp"/>
 
         </LinearLayout>
 
