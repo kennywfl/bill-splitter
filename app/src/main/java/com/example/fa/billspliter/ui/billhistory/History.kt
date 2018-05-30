@@ -67,8 +67,7 @@ class History : Fragment(), MvpViewHistory {
     override fun onLongClick(billEntity: BillEntity ) {
         dialogFactory.createRemoveFavDialog(context!!,billEntity).show()
     }
-
-
+    
 
 
 
