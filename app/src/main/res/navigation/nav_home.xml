@@ -10,14 +10,20 @@
         android:label="fragment_home_page"
         tools:layout="@layout/fragment_home_page" >
         <action
-            android:id="@+id/action_homePage_to_history2"
-            app:destination="@id/history2" />
+            android:id="@+id/action_homePage_to_billHistory"
+            app:destination="@id/billHistory" />
+        <action
+            android:id="@+id/action_homePage_self"
+            app:clearTask="true"
+            app:destination="@id/homePage"
+            app:launchDocument="false"
+            app:popUpToInclusive="false" />
     </fragment>
-    <fragment
-        android:id="@+id/history2"
-        android:name="com.example.fa.billspliter.History"
-        android:label="fragment_history"
-        tools:layout="@layout/fragment_history" />
+    <activity
+        android:id="@+id/billHistory"
+        android:name="com.example.fa.billspliter.ui.billhistory.BillHistory"
+        android:label="activity_bill_history"
+        tools:layout="@layout/activity_bill_history" />
 
 
 </navigation>

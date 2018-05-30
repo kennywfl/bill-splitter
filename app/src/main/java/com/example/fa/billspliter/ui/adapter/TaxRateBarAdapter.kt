@@ -29,21 +29,21 @@ class TaxRateBarAdapter:SeekBar.OnSeekBarChangeListener {
 
     override fun onProgressChanged(seekBar: SeekBar?, progress: Int, fromUser: Boolean) {
         taxratetv!!.setText(progress.toString())
-        if(TotalAmount!!.text.toString()!="")
-        {
-            var discountrate:String = DiscountText!!.text.toString()
-            var data =  TotalAmount!!.text.toString()
-            var calculateddata:Float = cal!!.CalculateTaxRate(data.toFloat(),progress.toFloat())
-            var discountammount:Float = cal!!.CalculateTaxRate(data.toFloat(),discountrate.toFloat())
-            taxamounttv!!.setText(calculateddata.toString())
-            var totalamountdata:Float = cal!!.addition(calculateddata,data.toFloat())
-            var finalamountdata:Float = cal!!.subtraction(totalamountdata,discountammount)
-            TotalAmountPlusTax!!.setText(finalamountdata.toString())
+
+        var data =  ""
+        if(TotalAmount!!.text.toString()!="") {
+            val discountrate:String = DiscountText!!.text.toString()
+            data = TotalAmount!!.text.toString()
+            val calculateddata:Float = cal!!.CalculateTaxRate(data.toFloat(),progress.toFloat())
+            val discountammount:Float = cal!!.CalculateTaxRate(data.toFloat(),discountrate.toFloat())
+            taxamounttv!!.setText(roundTwoDecimals(calculateddata))
+            val totalamountdata:Float = cal!!.addition(calculateddata,data.toFloat())
+            val finalamountdata:Float = cal!!.subtraction(totalamountdata,discountammount)
+            TotalAmountPlusTax!!.setText(roundTwoDecimals(finalamountdata))
         }
-        else
-        {
+        else {
             taxamounttv!!.setText("0.00")
-            TotalAmountPlusTax!!.setText(TotalAmount!!.text.toString())
+            TotalAmountPlusTax!!.setText("0.00")
         }
 
     }
@@ -54,5 +54,10 @@ class TaxRateBarAdapter:SeekBar.OnSeekBarChangeListener {
 
     override fun onStopTrackingTouch(seekBar: SeekBar?) {
         //To change body of created functions use File | Settings | File Templates.
+    }
+
+    fun roundTwoDecimals(d: Float): String {
+        val twoDForm = DecimalFormat("#.##")
+        return twoDForm.format(d)
     }
 }

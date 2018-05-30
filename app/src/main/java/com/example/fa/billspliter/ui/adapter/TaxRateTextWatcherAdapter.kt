@@ -15,6 +15,7 @@ class TaxRateTextWatcherAdapter:TextWatcher {
     var TotalBillAmountText:TextView ?=null
     var TaxRate : EditText ?=null
     var cal: CalculationUtil?=null
+
     constructor(TaxRateBar: SeekBar?, TotalTaxAmount: EditText?, BillAmountText: EditText?, TotalBillAmountText: TextView?, TaxRate:EditText?) {
         this.TaxRateBar = TaxRateBar
         this.TotalTaxAmount = TotalTaxAmount
@@ -26,24 +27,20 @@ class TaxRateTextWatcherAdapter:TextWatcher {
 
 
     override fun afterTextChanged(s: Editable?) {
-        if(TaxRate!!.text.toString()!="")
-        {
-            var TaxRateP:String = TaxRate!!.text.toString()
-            if(TaxRateP.toInt()<0)
-            {
+        if(TaxRate!!.text.toString()!="") {
+            val TaxRateP:String = TaxRate!!.text.toString()
+            if(TaxRateP.toInt()<0||TaxRateP=="00") {
+                TaxRate!!.setText("0")
                 TaxRateBar!!.progress=0
             }
-            else if(TaxRateP.toInt()>100)
-            {
+            else if(TaxRateP.toInt()>100) {
                 TaxRateBar!!.progress=100
             }
-            else
-            {
+            else {
                 TaxRateBar!!.progress = TaxRateP.toInt()
             }
         }
-        else
-        {
+        else {
             TaxRateBar!!.progress=0
         }
     }

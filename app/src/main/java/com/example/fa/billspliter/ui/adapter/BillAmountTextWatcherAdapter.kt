@@ -2,9 +2,12 @@ package com.example.fa.billspliter.ui.adapter
 
 import android.text.Editable
 import android.text.TextWatcher
+import android.widget.CheckBox
 import android.widget.EditText
 import android.widget.TextView
 import com.example.fa.billspliter.util.CalculationUtil
+import java.text.DecimalFormat
+import kotlin.math.round
 
 class BillAmountTextWatcherAdapter : TextWatcher {
 
@@ -13,6 +16,7 @@ class BillAmountTextWatcherAdapter : TextWatcher {
     var TaxRate : EditText ?=null
     var TotalTaxAmountText:EditText ?=null
     var DiscountText:EditText ?=null
+
     var cal:CalculationUtil ?=null
 
     constructor(TotalBillAmountText: TextView?, TaxRate: EditText?, TotalTaxAmountText: EditText?,BillAmountText:EditText?,DiscountText:EditText?) {
@@ -26,22 +30,26 @@ class BillAmountTextWatcherAdapter : TextWatcher {
 
 
     override fun afterTextChanged(s: Editable?) {
-        if(BillAmountText!!.text.toString()!="")
-        {
-            var BillAmount:String = BillAmountText!!.text.toString()
-            var RateOfTax:String = TaxRate!!.text.toString()
-            var DiscountP:String = DiscountText!!.text.toString()
-            var TaxAmount:Float = cal!!.CalculateTaxRate(BillAmount.toFloat(),RateOfTax.toFloat())
-            var DiscounAmount:Float = cal!!.CalculateTaxRate(BillAmount.toFloat(),DiscountP.toFloat())
-            TotalTaxAmountText!!.setText(TaxAmount.toString())
-            var TotalBillAmount:Float = cal!!.addition(TaxAmount,BillAmount.toFloat())
-            var FinalBillAmount:Float = cal!!.subtraction(TotalBillAmount,DiscounAmount)
-            TotalBillAmountText!!.setText(FinalBillAmount.toString())
+
+        if(BillAmountText!!.text.toString() =="00") {
+            BillAmountText!!.setText("0")
         }
-        else
-        {
+
+        if(BillAmountText!!.text.toString()!="") {
+            val BillAmount:String = BillAmountText!!.text.toString()
+            val RateOfTax:String = TaxRate!!.text.toString()
+            val DiscountP:String = DiscountText!!.text.toString()
+            val TaxAmount:Float = cal!!.CalculateTaxRate(BillAmount.toFloat(),RateOfTax.toFloat())
+            val DiscounAmount:Float = cal!!.CalculateTaxRate(BillAmount.toFloat(),DiscountP.toFloat())
+            TotalTaxAmountText!!.setText(roundTwoDecimals(TaxAmount))
+            val TotalBillAmount:Float = cal!!.addition(TaxAmount,BillAmount.toFloat())
+            val FinalBillAmount:Float = cal!!.subtraction(TotalBillAmount,DiscounAmount)
+            TotalBillAmountText!!.setText(roundTwoDecimals(FinalBillAmount))
+        }
+        else {
             TotalBillAmountText!!.setText("0.00")
             TotalTaxAmountText!!.setText("0.00")
+            DiscountText!!.setText("0")
         }
 
 
@@ -52,6 +60,12 @@ class BillAmountTextWatcherAdapter : TextWatcher {
     }
 
     override fun onTextChanged(s: CharSequence?, start: Int, before: Int, count: Int) {
-         //To change body of created functions use File | Settings | File Templates.
+        //To change body of created functions use File | Settings | File Templates.
+    }
+
+    fun roundTwoDecimals(d: Float): String
+    {
+        val twoDForm = DecimalFormat("#.##")
+        return twoDForm.format(d)
     }
 }

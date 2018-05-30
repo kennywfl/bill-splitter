@@ -1,5 +1,6 @@
 package com.example.fa.billspliter.ui.billspliter
 
+import android.arch.persistence.room.Room
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
@@ -14,6 +15,7 @@ import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.fa.billspliter.data.PreferencesHelper
 import com.example.fa.billspliter.R
+import com.example.fa.billspliter.data.model.HistoryDatabase
 import com.example.fa.billspliter.ui.login.Main
 import com.example.fa.billspliter.data.model.UserData
 import com.example.fa.billspliter.util.DialogFactory
@@ -35,6 +37,10 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var preferenceHelper: PreferencesHelper
     private var loginType :String ?= null
 
+    companion object {
+        var db: HistoryDatabase? = null
+    }
+
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
@@ -46,7 +52,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
-
+        db = Room.databaseBuilder(applicationContext, HistoryDatabase::class.java, "bill").allowMainThreadQueries().build()
 
         preferenceHelper= PreferencesHelper(this)
 
@@ -62,6 +68,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if(userData?.url != "" && userData?.url != null) {
            Picasso.with(applicationContext).load(userData?.url).fit().into(nav_view.getHeaderView(0).imageView)
         }
+        nav_view.menu.setGroupCheckable(0,false,false)
 
     }
 
@@ -72,7 +79,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)
         } else {
-            if(nav_view.menu.getItem(0).isChecked){nav_view.menu.getItem(0).isChecked=false}
             super.onBackPressed()
         }
     }
@@ -85,7 +91,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onOptionsItemSelected(item: MenuItem): Boolean {
         when (item.itemId) {
             R.id.reset -> {
-                return true
+               recreate()
             }
         }
         return true
@@ -95,10 +101,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         when (item.itemId) {
             R.id.history -> {
-                if(!item.isChecked) {
-                    Navigation.findNavController(this,R.id.nav_home_fragment).navigate(R.id.action_homePage_to_history2)
-                }
-
+                Navigation.findNavController(this,R.id.nav_home_fragment).navigate(R.id.action_homePage_to_billHistory)
             }
             R.id.sign_out -> {
                 signOut()
@@ -126,5 +129,11 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         startActivity(intent)
         finish()
     }
+
+    override fun recreate() {
+        Navigation.findNavController(this,R.id.nav_home_fragment).navigate(R.id.action_homePage_self)
+    }
+
+
 
 }

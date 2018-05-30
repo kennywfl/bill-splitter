@@ -1,0 +1,21 @@
+<?xml version="1.0" encoding="utf-8"?>
+<navigation xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
+    app:startDestination="@id/history">
+
+    <fragment
+        android:id="@+id/history"
+        android:name="com.example.fa.billspliter.ui.billhistory.History"
+        android:label="fragment_history"
+        tools:layout="@layout/fragment_history" >
+        <action
+            android:id="@+id/action_history_to_historyDetail"
+            app:destination="@id/historyDetail" />
+    </fragment>
+    <fragment
+        android:id="@+id/historyDetail"
+        android:name="com.example.fa.billspliter.ui.billhistory.HistoryDetail"
+        android:label="fragment_history_detail"
+        tools:layout="@layout/fragment_history_detail" />
+</navigation>
