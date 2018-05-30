@@ -17,7 +17,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import androidx.navigation.fragment.findNavController
 import com.example.fa.billspliter.R
-import com.example.fa.billspliter.data.PreferencesHelper
+import com.example.fa.billspliter.data.local.PreferencesHelper
 import kotlinx.android.synthetic.main.fragment_skip_login.view.*
 
 class SkipLogin : Fragment() {

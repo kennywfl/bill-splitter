@@ -1,4 +1,4 @@
-package com.example.fa.billspliter.data
+package com.example.fa.billspliter.data.local
 import android.content.Context
 import android.content.SharedPreferences
 

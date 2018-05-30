@@ -2,7 +2,7 @@ package com.example.fa.billspliter.data.model
 
 import android.arch.persistence.room.Database
 import android.arch.persistence.room.RoomDatabase
-import com.example.fa.billspliter.data.BillDao
+import com.example.fa.billspliter.data.local.BillDao
 
 
 @Database(entities = arrayOf(BillEntity::class),version = 1)

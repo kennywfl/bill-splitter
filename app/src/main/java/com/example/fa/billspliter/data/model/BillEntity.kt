@@ -11,23 +11,28 @@ data class BillEntity (
         var id : Int? = null,
 
         @ColumnInfo(name = "amount")
-        var amount : String,
+        var amount : String = "",
 
         @ColumnInfo(name = "numPeople")
-        var numPeople: String,
+        var numPeople: String = "1",
 
         @ColumnInfo(name = "tax")
-        var tax : String,
+        var tax : String = "",
 
         @ColumnInfo(name = "discount")
-        var discount: String,
+        var discount: String = "",
 
         @ColumnInfo(name = "totalPaid")
-        var totalPaid: String,
+        var totalPaid: String = "",
 
         @ColumnInfo(name = "eachPaid")
-        var eachPaid: String,
+        var eachPaid: String = "",
 
         @ColumnInfo(name = "date")
-        var date: String
+        var date: String = "",
+
+        @ColumnInfo(name = "serverKey")
+        var serverKey: String ?= null
+
+
 ) :Serializable

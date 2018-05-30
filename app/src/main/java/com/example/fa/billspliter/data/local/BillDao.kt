@@ -1,4 +1,4 @@
-package com.example.fa.billspliter.data
+package com.example.fa.billspliter.data.local
 
 import android.arch.persistence.room.Dao
 import android.arch.persistence.room.Delete

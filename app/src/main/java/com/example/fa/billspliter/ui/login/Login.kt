@@ -11,13 +11,10 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import android.content.Intent
-import android.support.annotation.NonNull
 import android.util.Log
 import androidx.navigation.fragment.findNavController
-import com.example.fa.billspliter.data.PreferencesHelper
+import com.example.fa.billspliter.data.local.PreferencesHelper
 import com.example.fa.billspliter.R
-import com.example.fa.billspliter.presenter.FirebaseHelper
-import com.example.fa.billspliter.util.DialogFactory
 import com.google.firebase.auth.FirebaseAuth
 
 import com.google.android.gms.auth.api.Auth
@@ -31,7 +28,6 @@ import com.facebook.AccessToken
 import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 import com.google.android.gms.tasks.OnCompleteListener
-import com.google.android.gms.tasks.Task
 import com.google.firebase.auth.AuthResult
 import com.google.firebase.auth.GoogleAuthProvider
 import java.util.*

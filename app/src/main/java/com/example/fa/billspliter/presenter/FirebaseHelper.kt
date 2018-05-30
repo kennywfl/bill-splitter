@@ -14,12 +14,12 @@ import com.google.firebase.auth.GoogleAuthProvider
 
 class FirebaseHelper {
 
-
+/*
     fun firebaseAuthWithGoogle(acct: GoogleSignInAccount,mAuth: FirebaseAuth?) {
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
         mAuth?.signInWithCredential(credential)?.addOnCompleteListener( OnCompleteListener<AuthResult> { task ->
         })
-    }
+    }*/
 
 
 

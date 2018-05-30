@@ -2,6 +2,7 @@ package com.example.fa.billspliter.ui.adapter
 
 import android.content.Context
 import android.support.v7.widget.RecyclerView
+import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
@@ -17,11 +18,13 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
     private  var c: Context
     private  var historyList: List<BillEntity>
     private var historyView : MvpViewHistory?=null
+    var count = 1
 
     constructor(c: Context, nearbyPlaceList: List<BillEntity> ,historyView: MvpViewHistory)  {
         this.c = c
         this.historyList = nearbyPlaceList
-       this.historyView = historyView
+        this.historyView = historyView
+
     }
 
 
@@ -35,11 +38,10 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         var data = historyList[position]
-
-        holder?.tv_id?.text = data.id.toString()
+        holder?.tv_id?.text =  count.toString()
+        count++
         holder?.tv_price?.text = data.amount
         holder?.tv_date?.text = data.date
-
         holder?.itemView?.setOnClickListener(View.OnClickListener {
             historyView?.onClick(data)
         });
@@ -55,8 +57,7 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
         return historyList.size
     }
 
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView)
-    {
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var tv_id: TextView
         var tv_price: TextView
         var tv_date:TextView
@@ -65,7 +66,6 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
             tv_id = itemView.tv_id
             tv_price = itemView.tv_price
             tv_date = itemView.tv_date
-
 
         }
 

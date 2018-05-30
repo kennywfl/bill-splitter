@@ -2,22 +2,26 @@ package com.example.fa.billspliter.ui.billspliter
 
 import android.arch.persistence.room.Room
 import android.content.Intent
+import android.content.pm.PackageManager
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
 import android.support.design.widget.NavigationView
+import android.support.v4.app.ActivityCompat
+import android.support.v4.content.ContextCompat
 import android.support.v4.view.GravityCompat
 import android.support.v7.app.ActionBarDrawerToggle
-import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
-import androidx.navigation.ui.setupActionBarWithNavController
-import com.example.fa.billspliter.data.PreferencesHelper
+import com.example.fa.billspliter.data.local.PreferencesHelper
 import com.example.fa.billspliter.R
 import com.example.fa.billspliter.data.model.HistoryDatabase
 import com.example.fa.billspliter.ui.login.Main
 import com.example.fa.billspliter.data.model.UserData
+import com.example.fa.billspliter.ui.billhistory.BillHistory
+import com.example.fa.billspliter.ui.billhistory.History
 import com.example.fa.billspliter.util.DialogFactory
 import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.Auth
@@ -27,7 +31,6 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
-import java.util.*
 
 class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener {
 
@@ -70,6 +73,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         nav_view.menu.setGroupCheckable(0,false,false)
 
+        var permissionWrite:Boolean = checkStoragePermission()
+
     }
 
     override fun onSupportNavigateUp()
@@ -101,6 +106,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         when (item.itemId) {
             R.id.history -> {
+              /*  val intent = Intent(applicationContext, BillHistory::class.java)
+                startActivity(intent)*/
                 Navigation.findNavController(this,R.id.nav_home_fragment).navigate(R.id.action_homePage_to_billHistory)
             }
             R.id.sign_out -> {
@@ -134,6 +141,27 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         Navigation.findNavController(this,R.id.nav_home_fragment).navigate(R.id.action_homePage_self)
     }
 
+    fun checkStoragePermission() : Boolean{
+        if(ContextCompat.checkSelfPermission(this,android.Manifest.permission.WRITE_EXTERNAL_STORAGE) != PackageManager.PERMISSION_GRANTED) {
+            ActivityCompat.requestPermissions(this,arrayOf(android.Manifest.permission.WRITE_EXTERNAL_STORAGE), 112)
+            return false
+        }
+        else {
+        }
+        return true
+    }
 
+    override fun onRequestPermissionsResult(requestCode: Int, permissions: Array<out String>, grantResults: IntArray) {
+        if(requestCode == 112) {
+            if(grantResults.count()>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED) {
+                if(ContextCompat.checkSelfPermission(this,android.Manifest.permission.WRITE_EXTERNAL_STORAGE)==PackageManager.PERMISSION_GRANTED) {
+
+                }
+            }
+            else {
+                Toast.makeText(this, "Permission Denied", Toast.LENGTH_LONG).show()
+            }
+        }
+    }
 
 }

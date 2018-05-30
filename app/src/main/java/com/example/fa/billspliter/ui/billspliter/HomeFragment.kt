@@ -98,7 +98,7 @@ class HomeFragment : Fragment() {
         val eachPaid = view.BillAmountAfterSpilt.text.toString()
         val date = dateUtil.getDate()
 
-        val entityData= BillEntity(null,amount,numPeople ,tax ,discount ,totalAmount , eachPaid , date)
+        val entityData= BillEntity(null,amount,numPeople ,tax ,discount ,totalAmount , eachPaid , date,null)
         dialogFactory.saveToDbDialog(context!!,entityData).show()
 
 

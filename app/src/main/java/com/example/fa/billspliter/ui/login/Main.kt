@@ -5,7 +5,7 @@ import android.os.Bundle
 import androidx.navigation.findNavController
 import androidx.navigation.ui.setupActionBarWithNavController
 
-import com.example.fa.billspliter.data.PreferencesHelper
+import com.example.fa.billspliter.data.local.PreferencesHelper
 import com.example.fa.billspliter.R
 
 class Main : AppCompatActivity() {
