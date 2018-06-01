@@ -333,8 +333,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
-        android:backgroundTint="#228B22"
-        android:src = "@drawable/go_icon"
+        android:backgroundTint="@color/green"
+        android:src = "@drawable/save_icon"
         android:layout_margin="16dp"
         />
 

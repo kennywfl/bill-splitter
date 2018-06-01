@@ -37,6 +37,7 @@ import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
+import kotlinx.android.synthetic.main.navigation_footer.*
 import java.nio.charset.Charset
 
 class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.ConnectionCallbacks,
@@ -85,7 +86,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if(userData?.url != "" && userData?.url != null) {
            Picasso.with(applicationContext).load(userData?.url).fit().into(nav_view.getHeaderView(0).imageView)
         }
-        //nav_view.menu.setGroupCheckable(0,false,false)
+
               buildGoogleApiClient()
 
         mMessageListener = object: MessageListener() {
