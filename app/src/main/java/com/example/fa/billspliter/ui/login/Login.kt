@@ -46,15 +46,6 @@ class Login : Fragment() {
         super.onCreate(savedInstanceState)
         mAuth = FirebaseAuth.getInstance();
         preferenceHelper= PreferencesHelper(context!!)
-
-        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
-                .requestIdToken(getString(R.string.default_web_client_id))
-                .requestEmail()
-                .build()
-        mGoogleSignInClient = GoogleApiClient.Builder(context!!).addApi(Auth.GOOGLE_SIGN_IN_API,gso).build()
-
-        mCallbackManager = CallbackManager.Factory.create()
-
     }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                                savedInstanceState: Bundle?): View? {
@@ -79,6 +70,11 @@ class Login : Fragment() {
         preferenceHelper= PreferencesHelper(context!!)
         if(preferenceHelper.getName() != null ) {
             if(preferenceHelper.getType() == "google") {
+                val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                        .requestIdToken(getString(R.string.default_web_client_id))
+                        .requestEmail()
+                        .build()
+                mGoogleSignInClient = GoogleApiClient.Builder(context!!).addApi(Auth.GOOGLE_SIGN_IN_API,gso).build()
                 mGoogleSignInClient?.connect()
             }
             findNavController().navigate(R.id.action_login_to_homeActivity)
@@ -88,6 +84,7 @@ class Login : Fragment() {
 
     fun facebookSignIn()
     {
+        mCallbackManager = CallbackManager.Factory.create()
         LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email", "public_profile"))
         LoginManager.getInstance().registerCallback(mCallbackManager, object : FacebookCallback<LoginResult> {
             override fun onSuccess(loginResult: LoginResult) {
@@ -104,6 +101,14 @@ class Login : Fragment() {
     }
 
     private fun googleSignIn() {
+        val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
+                .requestIdToken(getString(R.string.default_web_client_id))
+                .requestEmail()
+                .build()
+        mGoogleSignInClient = GoogleApiClient.Builder(context!!).addApi(Auth.GOOGLE_SIGN_IN_API,gso).build()
+
+
+
         val signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleSignInClient)
         startActivityForResult(signInIntent, RC_SIGN_IN)
     }

@@ -1,6 +1,6 @@
 package com.example.fa.billspliter.presenter
 
-import android.util.Log
+
 import com.example.fa.billspliter.data.model.BillEntity
 import com.example.fa.billspliter.data.server.Firebase
 import com.example.fa.billspliter.ui.billspliter.HomeActivity.Companion.db

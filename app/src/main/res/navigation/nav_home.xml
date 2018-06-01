@@ -10,20 +10,28 @@
         android:label="fragment_home_page"
         tools:layout="@layout/fragment_home_page" >
         <action
-            android:id="@+id/action_homePage_to_billHistory"
-            app:destination="@id/billHistory" />
-        <action
             android:id="@+id/action_homePage_self"
             app:clearTask="true"
             app:destination="@id/homePage"
             app:launchDocument="false"
             app:popUpToInclusive="false" />
+        <action
+            android:id="@+id/action_homePage_to_billHistory"
+            app:destination="@id/billHistory" />
+        <action
+            android:id="@+id/action_homePage_to_nearby2"
+            app:destination="@id/nearby2" />
     </fragment>
     <activity
         android:id="@+id/billHistory"
         android:name="com.example.fa.billspliter.ui.billhistory.BillHistory"
         android:label="activity_bill_history"
         tools:layout="@layout/activity_bill_history" />
+    <fragment
+        android:id="@+id/nearby2"
+        android:name="com.example.fa.billspliter.Nearby"
+        android:label="fragment_nearby"
+        tools:layout="@layout/fragment_nearby" ></fragment>
 
 
 </navigation>

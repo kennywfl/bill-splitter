@@ -5,7 +5,6 @@
     android:layout_height="match_parent"
     tools:context=".ui.billhistory.HistoryDetail">
 
-    <!-- TODO: Update blank fragment layout -->
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -79,6 +78,15 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="end|bottom"
+        android:backgroundTint="#228B22"
+        android:layout_margin="16dp"
+        />
+
+    <android.support.design.widget.FloatingActionButton
+        android:id="@+id/publish"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_gravity="left|bottom"
         android:backgroundTint="#228B22"
         android:layout_margin="16dp"
         />

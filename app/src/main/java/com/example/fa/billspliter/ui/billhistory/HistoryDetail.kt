@@ -12,6 +12,8 @@ import android.view.View
 import android.view.ViewGroup
 import com.example.fa.billspliter.R
 import com.example.fa.billspliter.data.model.BillEntity
+import com.google.android.gms.nearby.Nearby
+import com.google.android.gms.nearby.messages.Message
 import kotlinx.android.synthetic.main.fragment_history_detail.view.*
 import java.io.File
 import java.io.FileNotFoundException
@@ -36,14 +38,16 @@ class HistoryDetail : Fragment() {
         view.tv_each_paid.text="Each  person paid : RM  ${data.eachPaid}"
         view.tv_date.text="Issue date : ${data.date}"
 
-        view.shareBtn.setOnClickListener(
-                {
-
-                    var bitmap: Bitmap = takeScreenshot(view)
+        view.shareBtn.setOnClickListener({
+                    val bitmap: Bitmap = takeScreenshot(view)
                     saveBitmap(bitmap)
                     sharebuttonIntent()
                 }
         )
+        view.publish.setOnClickListener{
+            val mMessage =  Message(data.amount.toByteArray())
+            publish(mMessage)
+        }
         return view
     }
 
@@ -81,7 +85,12 @@ class HistoryDetail : Fragment() {
         catch (e: IOException) {
             Log.e("Image share error:", e.message, e)
         }
+    }
 
+    private fun publish(mMessage : Message) {
+
+        Nearby.getMessagesClient(context!!).publish(mMessage)
+        Log.d("test123","sucessfully publish")
     }
 
 }
