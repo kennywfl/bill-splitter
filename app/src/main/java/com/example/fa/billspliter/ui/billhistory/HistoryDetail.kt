@@ -10,6 +10,7 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
+import android.widget.Toast
 import com.example.fa.billspliter.R
 import com.example.fa.billspliter.data.model.BillEntity
 import com.google.android.gms.nearby.Nearby
@@ -24,6 +25,7 @@ import java.io.IOException
 class HistoryDetail : Fragment() {
 
     var ImagePath:File ?=null
+    var CheckPublishStatus:Boolean =false
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -45,8 +47,17 @@ class HistoryDetail : Fragment() {
                 }
         )
         view.publish.setOnClickListener{
-            val mMessage =  Message(data.amount.toByteArray())
-            publish(mMessage)
+            var combinedData:String = "Bill amount : RM  ${data.amount}"+"\n Number of people : ${data.numPeople}"+"\n Tax rate:  ${data.tax} %" + "\n Discount : ${data.discount} %"+"\n Total bill amount : RM  ${data.totalPaid}"+"\n Each  person paid : RM  ${data.eachPaid}"+"\n Issue date : ${data.date}"
+            val mMessage =  Message(combinedData.toByteArray())
+            if (CheckPublishStatus!=true){
+                publish(mMessage)
+                CheckPublishStatus =true
+                Toast.makeText(context!!,"Published Message", Toast.LENGTH_SHORT).show()
+            }else{
+                unpublish(mMessage)
+                CheckPublishStatus=false
+                Toast.makeText(context!!,"Unpublished Message", Toast.LENGTH_SHORT).show()
+            }
         }
         return view
     }
@@ -88,9 +99,11 @@ class HistoryDetail : Fragment() {
     }
 
     private fun publish(mMessage : Message) {
-
         Nearby.getMessagesClient(context!!).publish(mMessage)
-        Log.d("test123","sucessfully publish")
+    }
+
+    private fun unpublish(mMessage : Message) {
+        Nearby.getMessagesClient(context!!).unpublish(mMessage)
     }
 
 }
