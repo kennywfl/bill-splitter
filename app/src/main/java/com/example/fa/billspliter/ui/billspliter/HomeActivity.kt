@@ -14,6 +14,7 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.widget.CompoundButton
 import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
@@ -23,6 +24,7 @@ import com.example.fa.billspliter.R
 import com.example.fa.billspliter.data.model.HistoryDatabase
 import com.example.fa.billspliter.ui.login.Main
 import com.example.fa.billspliter.data.model.UserData
+import com.example.fa.billspliter.presenter.BusStation
 import com.example.fa.billspliter.ui.billhistory.BillHistory
 import com.example.fa.billspliter.ui.billhistory.History
 import com.example.fa.billspliter.util.DialogFactory
@@ -90,7 +92,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         mMessageListener = object: MessageListener() {
             override fun onFound(message: Message) {
-                Log.d("test123", String(message.content))
+                BusStation.bus.post(message)
             }
 
             override fun onLost(message: Message) {
@@ -199,8 +201,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onConnected(p0: Bundle?) {
-        Log.i("HomeActivity", "GoogleApiClient connected")
         subscribe()
+        Log.i("HomeActivity", "GoogleApiClient connected")
     }
 
     override fun onConnectionSuspended(p0: Int) {
@@ -211,6 +213,10 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun subscribe() {
         Nearby.getMessagesClient(this).subscribe(mMessageListener)
+    }
+
+    private fun unsubscribe(){
+        Nearby.getMessagesClient(this).unsubscribe(mMessageListener)
     }
 
 
