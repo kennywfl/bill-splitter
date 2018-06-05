@@ -1,13 +1,13 @@
 package com.example.fa.billspliter.presenter
 
 
+import android.content.Context
 import com.example.fa.billspliter.data.model.BillEntity
-import com.example.fa.billspliter.data.model.NearbyPeopleEntity
 import com.example.fa.billspliter.data.server.Firebase
 import com.example.fa.billspliter.ui.billspliter.HomeActivity.Companion.db
 import com.example.fa.billspliter.ui.billhistory.MvpViewHistory
 import com.example.fa.billspliter.ui.billspliter.HomeActivity
-import com.example.fa.billspliter.ui.billspliter.HomeActivity.Companion.nearbyDB
+import com.google.android.gms.nearby.messages.Message
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
@@ -65,7 +65,18 @@ class RoomHelper : Presenter.RoomHelper {
         }
     }
 
-    fun insertNearbyPeople(nearbyPeople: NearbyPeopleEntity) {
+    fun saveHost(name : String){
+        firebase.saveName(name)
+    }
+    fun  removeHost(name : String){
+        firebase.removeName(name)
+    }
+    fun getHostList(c : Context,name : String,mMessage : Message) {
+        firebase.getHostName(c,name,mMessage)
+
+    }
+
+/*    fun insertNearbyPeople(nearbyPeople: NearbyPeopleEntity) {
         async(CommonPool) {
             bg {   HomeActivity.nearbyDB!!.NearbyDao().addNearby(nearbyPeople) }.await()
         }
@@ -73,5 +84,5 @@ class RoomHelper : Presenter.RoomHelper {
 
     fun getNearbyPeople() : List<NearbyPeopleEntity> {
         return nearbyDB!!.NearbyDao().getNearbyHistory()
-    }
+    }*/
 }

@@ -19,8 +19,6 @@ import com.example.fa.billspliter.data.model.HistoryDatabase
 import com.example.fa.billspliter.ui.login.Main
 import com.example.fa.billspliter.data.model.UserData
 import com.example.fa.billspliter.data.local.BusStation
-import com.example.fa.billspliter.data.model.NearbyDatabase
-import com.example.fa.billspliter.data.model.NearbyPeopleEntity
 import com.example.fa.billspliter.presenter.RoomHelper
 import com.example.fa.billspliter.util.DialogFactory
 import com.facebook.login.LoginManager
@@ -50,8 +48,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     companion object {
         var db: HistoryDatabase? = null
-        var nearbyDB : NearbyDatabase? = null
-    }
+         }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -66,7 +63,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         nav_view.setNavigationItemSelectedListener(this)
 
         db = Room.databaseBuilder(applicationContext, HistoryDatabase::class.java, "bill").allowMainThreadQueries().build()
-        nearbyDB=Room.databaseBuilder(applicationContext, NearbyDatabase::class.java, "nearby").allowMainThreadQueries().build()
 
         preferenceHelper= PreferencesHelper(this)
 
@@ -89,22 +85,13 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         super.onStart()
         mMessageListener = object: MessageListener() {
             override fun onFound(message: Message) {
-                Log.d("test123",message.type)
-                if(message.type == "host"){
-                    StringBuilder()
-                    roomHelper.insertNearbyPeople(NearbyPeopleEntity(null , String(message.content)))
-                    Log.d("test123","Sucess add host +" + String(message.content))
-                }
                 if(message.type==userData?.name ) {
+                    Log.d("test123", "Sucess publish")
                     BusStation.bus.post(message)
                 }
-
             }
             override fun onLost(message: Message) {
-                if(message.type == "host"){
-                Log.d("test123","Sucess remove host")
                 }
-            }
         }
     }
 
@@ -206,18 +193,16 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onConnected(p0: Bundle?) {
-        subscribe()
-      nav_view.getHeaderView(0).hosting_switch.setOnCheckedChangeListener({ compoundButton, isChecked ->
+         subscribe()
+         nav_view.getHeaderView(0).hosting_switch.setOnCheckedChangeListener({ compoundButton, isChecked ->
             if(isChecked) {
                 val hostedName = userData?.name!!
-                val message = Message(hostedName.toByteArray(),"host")
-                publish(message)
+                roomHelper.saveHost(hostedName)
                 Toast.makeText(this,"You are now discoverable to nearby people", Toast.LENGTH_SHORT).show()
             }
             else {
                 val hostedName = userData?.name!!
-                val message = Message(hostedName.toByteArray(),"host")
-                unpublish(message)
+                roomHelper.removeHost(hostedName)
                 Toast.makeText(this,"You are now hidden from nearby people ", Toast.LENGTH_SHORT).show()
             }
         })
@@ -235,17 +220,19 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         Nearby.getMessagesClient(this).subscribe(mMessageListener)
     }
 
-    private fun unsubscribe(){
+    private fun unsubscribe() {
         Nearby.getMessagesClient(this).unsubscribe(mMessageListener)
     }
 
-    private fun publish(mMessage : Message) {
-        Nearby.getMessagesClient(this).publish(mMessage)
+    override fun onDestroy() {
+        super.onDestroy()
+        checkDiscoverable()
     }
 
-    private fun unpublish(mMessage : Message) {
-        Nearby.getMessagesClient(this).unpublish(mMessage)
+    fun checkDiscoverable(){
+        if(nav_view.hosting_switch.isChecked) {
+            val hostedName = userData?.name!!
+            roomHelper.removeHost(hostedName)
+        }
     }
-
-
 }

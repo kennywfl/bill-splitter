@@ -39,13 +39,9 @@ class Nearby : Fragment() {
         BusStation.bus.unregister(this)
     }
 
-  /*  @Subscribe
+   @Subscribe
     public fun receivedMessage(message:Message){
         NearbyText!!.setText(String(message.content))
-    }*/
-    @Subscribe
-    public fun getString(test : StringBuilder )
-    {
-        Log.d("test123","abc")
     }
+
 }

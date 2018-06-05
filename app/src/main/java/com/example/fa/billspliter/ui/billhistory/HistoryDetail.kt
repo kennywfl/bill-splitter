@@ -10,18 +10,12 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Toast
 import com.example.fa.billspliter.R
-import com.example.fa.billspliter.data.local.BusStation
+import com.example.fa.billspliter.data.local.PreferencesHelper
 import com.example.fa.billspliter.data.model.BillEntity
-import com.example.fa.billspliter.data.model.NearbyDatabase
-import com.example.fa.billspliter.data.model.NearbyPeopleEntity
 import com.example.fa.billspliter.presenter.RoomHelper
-import com.example.fa.billspliter.ui.billspliter.HomeActivity
 import com.example.fa.billspliter.util.DialogFactory
-import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.messages.Message
-import com.squareup.otto.Subscribe
 import kotlinx.android.synthetic.main.fragment_history_detail.view.*
 import java.io.File
 import java.io.FileNotFoundException
@@ -32,7 +26,7 @@ import java.io.IOException
 class HistoryDetail : Fragment() {
 
     var ImagePath:File ?=null
-    val dialogFactory = DialogFactory()
+    private lateinit var preferenceHelper: PreferencesHelper
     val roomhelper = RoomHelper()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
@@ -48,6 +42,7 @@ class HistoryDetail : Fragment() {
         view.tv_each_paid.text="Each  person paid : RM  ${data.eachPaid}"
         view.tv_date.text="Issue date : ${data.date}"
 
+        preferenceHelper= PreferencesHelper(context!!)
         view.shareBtn.setOnClickListener({
                     val bitmap: Bitmap = takeScreenshot(view)
                     saveBitmap(bitmap)
@@ -57,8 +52,7 @@ class HistoryDetail : Fragment() {
         view.publish.setOnClickListener{
             val combinedData:String = "Bill amount : RM  ${data.amount}"+"\n Number of people : ${data.numPeople}"+"\n Tax rate:  ${data.tax} %" + "\n Discount : ${data.discount} %"+"\n Total bill amount : RM  ${data.totalPaid}"+"\n Each  person paid : RM  ${data.eachPaid}"+"\n Issue date : ${data.date}"
             val mMessage =  Message(combinedData.toByteArray())
-            val hostList =  roomhelper.getNearbyPeople()
-            dialogFactory.showNearbyDialog(context!!,hostList,mMessage).show()
+            roomhelper.getHostList(context!!,preferenceHelper.getName()!!,mMessage)
         }
         return view
     }
