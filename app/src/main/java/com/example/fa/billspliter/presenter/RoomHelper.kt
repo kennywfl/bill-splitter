@@ -2,9 +2,12 @@ package com.example.fa.billspliter.presenter
 
 
 import com.example.fa.billspliter.data.model.BillEntity
+import com.example.fa.billspliter.data.model.NearbyPeopleEntity
 import com.example.fa.billspliter.data.server.Firebase
 import com.example.fa.billspliter.ui.billspliter.HomeActivity.Companion.db
 import com.example.fa.billspliter.ui.billhistory.MvpViewHistory
+import com.example.fa.billspliter.ui.billspliter.HomeActivity
+import com.example.fa.billspliter.ui.billspliter.HomeActivity.Companion.nearbyDB
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
@@ -60,5 +63,15 @@ class RoomHelper : Presenter.RoomHelper {
         async(CommonPool) {
             bg { db!!.billDao().deleteTable() }.await()
         }
+    }
+
+    fun insertNearbyPeople(nearbyPeople: NearbyPeopleEntity) {
+        async(CommonPool) {
+            bg {   HomeActivity.nearbyDB!!.NearbyDao().addNearby(nearbyPeople) }.await()
+        }
+    }
+
+    fun getNearbyPeople() : List<NearbyPeopleEntity> {
+        return nearbyDB!!.NearbyDao().getNearbyHistory()
     }
 }

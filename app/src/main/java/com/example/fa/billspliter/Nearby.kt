@@ -1,23 +1,17 @@
 package com.example.fa.billspliter
 
-import android.content.Context
-import android.net.Uri
+import android.app.Activity
 import android.os.Bundle
-import android.os.Message
 import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import androidx.navigation.fragment.findNavController
-import com.example.fa.billspliter.presenter.BusStation
-import com.google.android.gms.common.api.GoogleApiClient
-import com.google.android.gms.nearby.Nearby
-import com.google.android.gms.nearby.messages.*
+import com.example.fa.billspliter.data.local.BusStation
+import com.google.android.gms.nearby.messages.Message
 import com.squareup.otto.Subscribe
 import kotlinx.android.synthetic.main.fragment_nearby.view.*
-import java.nio.charset.Charset
 
 
 class Nearby : Fragment() {
@@ -35,8 +29,7 @@ class Nearby : Fragment() {
         NearbyText = view.NearbyText
         return view
     }
-
-    override fun onResume() {
+     override fun onResume() {
         super.onResume()
         BusStation.bus.register(this)
     }
@@ -46,8 +39,13 @@ class Nearby : Fragment() {
         BusStation.bus.unregister(this)
     }
 
-    @Subscribe
-    public fun receivedMessage(message:com.google.android.gms.nearby.messages.Message){
+  /*  @Subscribe
+    public fun receivedMessage(message:Message){
         NearbyText!!.setText(String(message.content))
+    }*/
+    @Subscribe
+    public fun getString(test : StringBuilder )
+    {
+        Log.d("test123","abc")
     }
 }

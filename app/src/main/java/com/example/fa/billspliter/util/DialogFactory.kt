@@ -5,6 +5,8 @@ import android.app.AlertDialog
 import android.app.Dialog
 import android.content.Context
 import android.content.DialogInterface
+import android.support.v7.widget.LinearLayoutManager
+import android.text.Layout
 import android.text.TextUtils
 import android.view.LayoutInflater
 import android.widget.EditText
@@ -13,8 +15,13 @@ import androidx.navigation.fragment.findNavController
 import com.example.fa.billspliter.R
 import com.example.fa.billspliter.data.local.PreferencesHelper
 import com.example.fa.billspliter.data.model.BillEntity
+import com.example.fa.billspliter.data.model.NearbyPeopleEntity
 import com.example.fa.billspliter.data.server.Firebase
 import com.example.fa.billspliter.presenter.RoomHelper
+import com.example.fa.billspliter.ui.NearbyAdapter
+import com.google.android.gms.nearby.Nearby
+import com.google.android.gms.nearby.messages.Message
+import kotlinx.android.synthetic.main.nearby_dialog.view.*
 
 
 class DialogFactory
@@ -61,6 +68,7 @@ class DialogFactory
 
         return alertDialog.create()
     }
+
     fun saveToDbDialog(context: Context,bill: BillEntity):Dialog {
         val alertDialog = AlertDialog.Builder(context, R.style.AlertDialogTheme)
         preferenceHelper= PreferencesHelper(context)
@@ -86,5 +94,20 @@ class DialogFactory
 
         return alertDialog.create()
     }
+
+    fun showNearbyDialog(context:Context,nearbyUser: List<NearbyPeopleEntity>,mMessage: Message):Dialog {
+        val alertDialog = AlertDialog.Builder(context)
+        val inflater = LayoutInflater.from(context)
+        val dialogView = inflater.inflate(R.layout.nearby_dialog, null)
+        alertDialog.setView(dialogView)
+        alertDialog.setTitle("Select and send to nearby user.")
+        val  recycleAdapter = NearbyAdapter(context!!, nearbyUser,mMessage)
+        val recycleLayout = LinearLayoutManager(context!!, LinearLayoutManager.VERTICAL, false)
+        dialogView.recycleView.layoutManager = recycleLayout
+        dialogView.recycleView.adapter = recycleAdapter
+        dialogView.recycleView.adapter
+        return alertDialog.create()
+    }
+
 
 }

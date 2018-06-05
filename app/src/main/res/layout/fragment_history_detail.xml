@@ -11,6 +11,10 @@
         android:layout_height="match_parent"
         android:orientation="vertical">
 
+    <LinearLayout
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical">
         <TextView
             android:id="@+id/tv_amount"
             android:layout_width="match_parent"
@@ -73,6 +77,15 @@
 
     </LinearLayout>
 
+        <TextView
+            android:layout_width="wrap_content"
+            android:layout_height="wrap_content"
+            android:textColor="@color/black"
+            android:text="Share  "
+            android:layout_margin="5dp"/>
+
+    </LinearLayout>
+
     <android.support.design.widget.FloatingActionButton
         android:id="@+id/shareBtn"
         android:layout_width="wrap_content"
@@ -88,8 +101,8 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left|bottom"
-        android:src="@drawable/publish_icon"
-        android:backgroundTint="@color/green"
         android:layout_margin="16dp"
-        />
+        android:backgroundTint="@color/green"
+        android:src="@drawable/publish_icon" />
+
 </FrameLayout>

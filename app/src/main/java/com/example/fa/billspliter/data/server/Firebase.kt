@@ -1,5 +1,6 @@
 package com.example.fa.billspliter.data.server
 
+import android.util.Log
 import com.example.fa.billspliter.data.model.BillEntity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
@@ -59,4 +60,30 @@ class Firebase
         val historyDB = FirebaseDatabase.getInstance().getReference("History").child(id!!).child(serverKey)
         historyDB.removeValue()
     }
+
+/*    fun saveName(name : String) {
+        val nameDB = FirebaseDatabase.getInstance().getReference("Nearby")
+        val key = nameDB.push().key
+        nameDB.child(key!!).setValue(name)
+    }
+    fun removeName(name : String) {
+        val nameDB = FirebaseDatabase.getInstance().getReference("Nearby")
+        nameDB.addListenerForSingleValueEvent(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                for (ds in dataSnapshot.children){
+                    val savedName = ds.getValue(String::class.java)!!
+                    if (savedName == name) {
+                        val key = ds.key
+                        Log.d("key123"," $key + $name")
+                        nameDB.child(key!!).removeValue()
+                    }
+
+                }
+
+            }
+            override fun onCancelled(databaseError: DatabaseError) {
+
+            }
+        })
+    }*/
 }

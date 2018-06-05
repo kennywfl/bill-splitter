@@ -12,9 +12,16 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
 import com.example.fa.billspliter.R
+import com.example.fa.billspliter.data.local.BusStation
 import com.example.fa.billspliter.data.model.BillEntity
+import com.example.fa.billspliter.data.model.NearbyDatabase
+import com.example.fa.billspliter.data.model.NearbyPeopleEntity
+import com.example.fa.billspliter.presenter.RoomHelper
+import com.example.fa.billspliter.ui.billspliter.HomeActivity
+import com.example.fa.billspliter.util.DialogFactory
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.messages.Message
+import com.squareup.otto.Subscribe
 import kotlinx.android.synthetic.main.fragment_history_detail.view.*
 import java.io.File
 import java.io.FileNotFoundException
@@ -25,7 +32,8 @@ import java.io.IOException
 class HistoryDetail : Fragment() {
 
     var ImagePath:File ?=null
-    var CheckPublishStatus:Boolean =false
+    val dialogFactory = DialogFactory()
+    val roomhelper = RoomHelper()
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
@@ -47,17 +55,10 @@ class HistoryDetail : Fragment() {
                 }
         )
         view.publish.setOnClickListener{
-            var combinedData:String = "Bill amount : RM  ${data.amount}"+"\n Number of people : ${data.numPeople}"+"\n Tax rate:  ${data.tax} %" + "\n Discount : ${data.discount} %"+"\n Total bill amount : RM  ${data.totalPaid}"+"\n Each  person paid : RM  ${data.eachPaid}"+"\n Issue date : ${data.date}"
+            val combinedData:String = "Bill amount : RM  ${data.amount}"+"\n Number of people : ${data.numPeople}"+"\n Tax rate:  ${data.tax} %" + "\n Discount : ${data.discount} %"+"\n Total bill amount : RM  ${data.totalPaid}"+"\n Each  person paid : RM  ${data.eachPaid}"+"\n Issue date : ${data.date}"
             val mMessage =  Message(combinedData.toByteArray())
-            if (CheckPublishStatus!=true){
-                publish(mMessage)
-                CheckPublishStatus =true
-                Toast.makeText(context!!,"Published Message", Toast.LENGTH_SHORT).show()
-            }else{
-                unpublish(mMessage)
-                CheckPublishStatus=false
-                Toast.makeText(context!!,"Unpublished Message", Toast.LENGTH_SHORT).show()
-            }
+            val hostList =  roomhelper.getNearbyPeople()
+            dialogFactory.showNearbyDialog(context!!,hostList,mMessage).show()
         }
         return view
     }
@@ -71,6 +72,7 @@ class HistoryDetail : Fragment() {
         myIntent.putExtra(Intent.EXTRA_STREAM,uri)
         startActivity(Intent.createChooser(myIntent,"Share Using : "))
     }
+
     private fun takeScreenshot(view: View) : Bitmap {
         val rootView:View = view.rootView
         rootView.isDrawingCacheEnabled = true
@@ -78,7 +80,6 @@ class HistoryDetail : Fragment() {
     }
 
     private fun saveBitmap(bitmap: Bitmap) {
-
         val path:String = Environment.getExternalStorageDirectory().toString()
         ImagePath = File(path,"/DCIM/Screenshots/screenshot.png")
 
@@ -98,12 +99,5 @@ class HistoryDetail : Fragment() {
         }
     }
 
-    private fun publish(mMessage : Message) {
-        Nearby.getMessagesClient(context!!).publish(mMessage)
-    }
-
-    private fun unpublish(mMessage : Message) {
-        Nearby.getMessagesClient(context!!).unpublish(mMessage)
-    }
 
 }
