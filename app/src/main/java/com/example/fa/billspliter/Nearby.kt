@@ -11,7 +11,7 @@ import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
 import androidx.navigation.fragment.findNavController
-import com.example.fa.billspliter.presenter.BusStation
+import com.example.fa.billspliter.data.local.BusStation
 import com.example.fa.billspliter.ui.billspliter.HomeActivity
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.nearby.Nearby

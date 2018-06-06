@@ -15,11 +15,11 @@ import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import com.example.fa.billspliter.data.local.PreferencesHelper
 import com.example.fa.billspliter.R
+import com.example.fa.billspliter.data.local.BusStation
 import com.example.fa.billspliter.data.model.DeviceData
 import com.example.fa.billspliter.data.model.HistoryDatabase
 import com.example.fa.billspliter.ui.login.Main
 import com.example.fa.billspliter.data.model.UserData
-import com.example.fa.billspliter.presenter.BusStation
 import com.example.fa.billspliter.ui.adapter.ConnectionLifeCycleCallBackAcceptAdapter
 import com.example.fa.billspliter.ui.adapter.EndPointConnectionCallbackAdapter
 import com.example.fa.billspliter.util.DialogFactory
