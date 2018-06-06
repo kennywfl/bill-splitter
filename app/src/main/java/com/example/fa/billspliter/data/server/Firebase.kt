@@ -30,6 +30,12 @@ class Firebase
         bill.serverKey = key
         historyDB.child(key!!).setValue(bill)
     }
+    fun saveNearbyBill(bill : BillEntity) {
+        val nearbyBillDB = FirebaseDatabase.getInstance().getReference("NearbyBill").child(id!!)
+        val key = nearbyBillDB.push().key
+        bill.serverKey = key
+        nearbyBillDB.child(key!!).setValue(bill)
+    }
 
     fun saveToServer(historyList : List<BillEntity>) {
 
@@ -50,7 +56,7 @@ class Firebase
                     arrayContainer.add(bill)
                 }
                 if(!arrayContainer.isEmpty()) {
-                    roomPresenter!!.showList(arrayContainer)
+                    roomPresenter!!.showNearbyList(arrayContainer)
                 }
             }
 
@@ -59,7 +65,26 @@ class Firebase
             }
         })
     }
+    fun getNearbyFromServer() {
+        val nearbyBillDB = FirebaseDatabase.getInstance().getReference("NearbyBill").child(id!!)
+        nearbyBillDB.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val arrayContainer = ArrayList<BillEntity>()
+                for (ds in dataSnapshot.children){
+                    val bill = ds.getValue(BillEntity::class.java)!!
+                    arrayContainer.add(bill)
+                }
 
+                if(!arrayContainer.isEmpty()) {
+                    roomPresenter!!.showNearbyList(arrayContainer)
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+
+            }
+        })
+    }
     fun removeFromServer(serverKey : String) {
         val historyDB = FirebaseDatabase.getInstance().getReference("History").child(id!!).child(serverKey)
         historyDB.removeValue()

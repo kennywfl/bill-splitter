@@ -10,12 +10,8 @@ interface Presenter {
         fun getHistory()
         fun getHistorySaveServer()
         fun showList(historyList:List<BillEntity>)
+        fun showNearbyList(nearbyList:List<BillEntity>)
         fun removeTable()
 
-    }
-
-    interface FirebaseHelper {
-        fun saveNearbyName(name: String)
-        fun removeNearbyName(name: String)
     }
 }

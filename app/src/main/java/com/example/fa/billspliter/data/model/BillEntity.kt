@@ -34,5 +34,4 @@ data class BillEntity (
         @ColumnInfo(name = "serverKey")
         var serverKey: String ?= null
 
-
 ) :Serializable

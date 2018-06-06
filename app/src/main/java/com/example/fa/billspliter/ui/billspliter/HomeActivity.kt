@@ -15,6 +15,7 @@ import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import com.example.fa.billspliter.data.local.PreferencesHelper
 import com.example.fa.billspliter.R
+import com.example.fa.billspliter.StringSpliter
 import com.example.fa.billspliter.data.model.HistoryDatabase
 import com.example.fa.billspliter.ui.login.Main
 import com.example.fa.billspliter.data.model.UserData
@@ -87,7 +88,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             override fun onFound(message: Message) {
                 if(message.type==userData?.name ) {
                     Log.d("test123", "Sucess publish")
-                    BusStation.bus.post(message)
+                    StringSpliter().split(String(message.content),loginType!!)
+                  //  BusStation.bus.post(message)
                 }
             }
             override fun onLost(message: Message) {

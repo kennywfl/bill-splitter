@@ -2,6 +2,8 @@ package com.example.fa.billspliter.presenter
 
 
 import android.content.Context
+import android.util.Log
+import com.example.fa.billspliter.MvpViewNearby
 import com.example.fa.billspliter.data.model.BillEntity
 import com.example.fa.billspliter.data.server.Firebase
 import com.example.fa.billspliter.ui.billspliter.HomeActivity.Companion.db
@@ -17,13 +19,17 @@ class RoomHelper : Presenter.RoomHelper {
 
     private var historyView : MvpViewHistory?=null
     private var firebase = Firebase(this)
-
+    private var nearbyView : MvpViewNearby ?= null
 
     constructor() {
     }
 
     constructor(historyView: MvpViewHistory) {
         this.historyView=historyView
+    }
+
+    constructor(nearbyView: MvpViewNearby) {
+        this.nearbyView=nearbyView
     }
     /* Saving data to database. */
     override fun insertToDb(entityData: BillEntity) {
@@ -54,6 +60,15 @@ class RoomHelper : Presenter.RoomHelper {
             }
             firebase.getFromServer()
         }
+    }
+
+      fun getNearbySave() {
+        async(UI) {
+            firebase.getNearbyFromServer()
+        }
+    }
+    override fun showNearbyList(nearbyList: List<BillEntity>) {
+         nearbyView?.setRecycleView(nearbyList)
     }
     override fun showList(historyList: List<BillEntity>) {
         historyView?.setRecycleView(historyList)

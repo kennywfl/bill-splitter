@@ -27,7 +27,6 @@ class NearbyAdapter : RecyclerView.Adapter<NearbyAdapter.ViewHolder> {
         this.mMessage=mMessage
     }
 
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent?.getContext())
                 .inflate(R.layout.nearby_rv_layout, parent, false)

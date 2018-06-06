@@ -50,7 +50,8 @@ class HistoryDetail : Fragment() {
                 }
         )
         view.publish.setOnClickListener{
-            val combinedData:String = "Bill amount : RM  ${data.amount}"+"\n Number of people : ${data.numPeople}"+"\n Tax rate:  ${data.tax} %" + "\n Discount : ${data.discount} %"+"\n Total bill amount : RM  ${data.totalPaid}"+"\n Each  person paid : RM  ${data.eachPaid}"+"\n Issue date : ${data.date}"
+            val combinedData= "${data.amount},${data.numPeople},${data.tax},${data.discount},${data.totalPaid},${data.eachPaid}, ${data.date}"
+            // val combinedData:String = "Bill amount : RM  ${data.amount}"+"\n Number of people : ${data.numPeople}"+"\n Tax rate:  ${data.tax} %" + "\n Discount : ${data.discount} %"+"\n Total bill amount : RM  ${data.totalPaid}"+"\n Each  person paid : RM  ${data.eachPaid}"+"\n Issue date : ${data.date}"
             val mMessage =  Message(combinedData.toByteArray())
             roomhelper.getHostList(context!!,preferenceHelper.getName()!!,mMessage)
         }
@@ -92,6 +93,4 @@ class HistoryDetail : Fragment() {
             Log.e("Image share error:", e.message, e)
         }
     }
-
-
 }
