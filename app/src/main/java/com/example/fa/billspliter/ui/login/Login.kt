@@ -82,8 +82,7 @@ class Login : Fragment() {
         }
     }
 
-    fun facebookSignIn()
-    {
+    fun facebookSignIn() {
         mCallbackManager = CallbackManager.Factory.create()
         LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email", "public_profile"))
         LoginManager.getInstance().registerCallback(mCallbackManager, object : FacebookCallback<LoginResult> {
