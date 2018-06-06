@@ -81,6 +81,14 @@ class HomeFragment : Fragment() {
             saveToDatabase(view)
         }
         )
+        view.BluetoothShareBtn.setOnClickListener({
+            if(TextUtils.isEmpty(view.AmountText.text.toString())) {
+                Toast.makeText(context!!,"Please insert amount money . ",Toast.LENGTH_SHORT).show()
+            }
+            else {
+                (activity as HomeActivity).sendPayLoad(sendDataToAllConnected(view))
+            }
+        })
 
         return view
     }
@@ -153,7 +161,18 @@ class HomeFragment : Fragment() {
         view.PeopleText.addTextChangedListener(textWatcher)
     }
 
+    private fun sendDataToAllConnected(view:View) :String{
 
+        var combinedData:String = "${view.AmountText.text.toString()}"+
+                ",${view.PeopleText.text.toString()}"+
+                ",${view.taxratetext.text.toString()}" +
+                ",${view.DiscountText.text.toString()}"+
+                ",${view.TotalAmountMoneyText.text.toString()}"+
+                ",${view.BillAmountAfterSpilt.text.toString()}"+
+                ",${dateUtil.getDate()}"
+        return combinedData
+
+    }
 
 
 

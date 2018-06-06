@@ -47,7 +47,13 @@ class HistoryDetail : Fragment() {
                 }
         )
         view.publish.setOnClickListener{
-            var combinedData:String = "Bill amount : RM  ${data.amount}"+"\n Number of people : ${data.numPeople}"+"\n Tax rate:  ${data.tax} %" + "\n Discount : ${data.discount} %"+"\n Total bill amount : RM  ${data.totalPaid}"+"\n Each  person paid : RM  ${data.eachPaid}"+"\n Issue date : ${data.date}"
+            var combinedData:String = "Bill amount : RM  ${data.amount}"+
+                    "\n Number of people : ${data.numPeople}"+
+                    "\n Tax rate:  ${data.tax} %" +
+                    "\n Discount : ${data.discount} %"+
+                    "\n Total bill amount : RM  ${data.totalPaid}"+
+                    "\n Each  person paid : RM  ${data.eachPaid}"+
+                    "\n Issue date : ${data.date}"
             val mMessage =  Message(combinedData.toByteArray())
             if (CheckPublishStatus!=true){
                 publish(mMessage)

@@ -12,6 +12,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import androidx.navigation.fragment.findNavController
 import com.example.fa.billspliter.presenter.BusStation
+import com.example.fa.billspliter.ui.billspliter.HomeActivity
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.messages.*
@@ -33,6 +34,9 @@ class Nearby : Fragment() {
         val view = inflater.inflate(R.layout.fragment_nearby, container, false)
 
         NearbyText = view.NearbyText
+        view.DiscoverButton.setOnClickListener({
+            (activity as HomeActivity).startDiscovery()
+        })
         return view
     }
 
