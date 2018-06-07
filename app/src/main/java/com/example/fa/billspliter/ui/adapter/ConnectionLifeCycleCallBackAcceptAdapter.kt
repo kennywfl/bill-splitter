@@ -45,6 +45,7 @@ class ConnectionLifeCycleCallBackAcceptAdapter:ConnectionLifecycleCallback {
    fun sendPayLoad(endpointId: String,data:String){
         connectionClients!!.sendPayload(endpointId, Payload.fromBytes(data.toByteArray())) .addOnSuccessListener(object: OnSuccessListener<Void> {
             override fun onSuccess(p0: Void?) {
+                connectionClients!!.disconnectFromEndpoint(endpointId)
                 connectionClients!!.stopDiscovery()
             }
         }).addOnFailureListener(object: OnFailureListener {

@@ -1,6 +1,7 @@
 package com.example.fa.billspliter.presenter
 
 import com.example.fa.billspliter.data.model.BillEntity
+import com.example.fa.billspliter.data.model.ReceivedBillEntity
 
 interface Presenter {
 
@@ -10,8 +11,15 @@ interface Presenter {
         fun getHistory()
         fun getHistorySaveServer()
         fun showList(historyList:List<BillEntity>)
-        fun showNearbyList(nearbyList:List<BillEntity>)
         fun removeTable()
+
+        fun insertToRDb(entityData: ReceivedBillEntity)
+        fun removeFromRDb(entityData: ReceivedBillEntity)
+        fun getRBillHistory()
+        fun getRBillSaveServer()
+        fun showRList(RBillList: List<ReceivedBillEntity>)
+        fun removeRTable()
+
 
     }
 }

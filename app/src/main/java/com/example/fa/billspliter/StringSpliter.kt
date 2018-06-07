@@ -2,22 +2,23 @@ package com.example.fa.billspliter
 
 import android.util.Log
 import com.example.fa.billspliter.data.model.BillEntity
+import com.example.fa.billspliter.data.model.ReceivedBillEntity
 import com.example.fa.billspliter.data.server.Firebase
 import com.example.fa.billspliter.presenter.RoomHelper
+import com.example.fa.billspliter.ui.billspliter.HomeActivity.Companion.loginType
 
 class StringSpliter{
     private var roomHelper = RoomHelper()
     private val firebaseHelper = Firebase()
 
-    fun split(string : String , loginType : String) {
+    fun split(string : String ) {
        val data = string.split(",")
-       val entityData= BillEntity(null,data[0],data[1] ,data[2] ,data[3] ,data[4] , data[5] , data[6],null)
         if(loginType == "skip"){
-
-         //  roomHelper.insertToDb(entityData)
+            val entityData= ReceivedBillEntity(null,data[0],data[1] ,data[2] ,data[3] ,data[4] , data[5] , data[6],null)
+          roomHelper.insertToRDb(entityData)
         }
         else {
-            Log.d("test123","Sucess12")
+            val entityData= BillEntity(null,data[0],data[1] ,data[2] ,data[3] ,data[4] , data[5] , data[6],null)
             firebaseHelper.saveNearbyBill(entityData)
         }
 

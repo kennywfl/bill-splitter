@@ -3,6 +3,7 @@ package com.example.fa.billspliter.data.server
 import android.content.Context
 import android.util.Log
 import com.example.fa.billspliter.data.model.BillEntity
+import com.example.fa.billspliter.data.model.ReceivedBillEntity
 import com.google.firebase.auth.FirebaseAuth
 import com.google.firebase.database.FirebaseDatabase
 import com.example.fa.billspliter.presenter.Presenter
@@ -30,12 +31,6 @@ class Firebase
         bill.serverKey = key
         historyDB.child(key!!).setValue(bill)
     }
-    fun saveNearbyBill(bill : BillEntity) {
-        val nearbyBillDB = FirebaseDatabase.getInstance().getReference("NearbyBill").child(id!!)
-        val key = nearbyBillDB.push().key
-        bill.serverKey = key
-        nearbyBillDB.child(key!!).setValue(bill)
-    }
 
     fun saveToServer(historyList : List<BillEntity>) {
 
@@ -46,6 +41,7 @@ class Firebase
             historyDB.child(key!!).setValue(historyList[i])
         }
     }
+
     fun getFromServer() {
         val historyDB = FirebaseDatabase.getInstance().getReference("History").child(id!!)
         historyDB.addValueEventListener(object : ValueEventListener {
@@ -56,27 +52,7 @@ class Firebase
                     arrayContainer.add(bill)
                 }
                 if(!arrayContainer.isEmpty()) {
-                    roomPresenter!!.showNearbyList(arrayContainer)
-                }
-            }
-
-            override fun onCancelled(databaseError: DatabaseError) {
-
-            }
-        })
-    }
-    fun getNearbyFromServer() {
-        val nearbyBillDB = FirebaseDatabase.getInstance().getReference("NearbyBill").child(id!!)
-        nearbyBillDB.addValueEventListener(object : ValueEventListener {
-            override fun onDataChange(dataSnapshot: DataSnapshot) {
-                val arrayContainer = ArrayList<BillEntity>()
-                for (ds in dataSnapshot.children){
-                    val bill = ds.getValue(BillEntity::class.java)!!
-                    arrayContainer.add(bill)
-                }
-
-                if(!arrayContainer.isEmpty()) {
-                    roomPresenter!!.showNearbyList(arrayContainer)
+                    roomPresenter!!.showList(arrayContainer)
                 }
             }
 
@@ -88,5 +64,46 @@ class Firebase
     fun removeFromServer(serverKey : String) {
         val historyDB = FirebaseDatabase.getInstance().getReference("History").child(id!!).child(serverKey)
         historyDB.removeValue()
+    }
+    fun saveNearbyBill(bill : BillEntity) {
+        val nearbyBillDB = FirebaseDatabase.getInstance().getReference("NearbyBill").child(id!!)
+        val key = nearbyBillDB.push().key
+        bill.serverKey = key
+        nearbyBillDB.child(key!!).setValue(bill)
+    }
+
+    fun saveRBillToServer(RBillList : List<ReceivedBillEntity>) {
+
+        val nearbyBillDB = FirebaseDatabase.getInstance().getReference("NearbyBill").child(id!!)
+        for (i in  RBillList.indices){
+            val key = nearbyBillDB.push().key
+            RBillList[i].serverKey = key
+            nearbyBillDB.child(key!!).setValue(RBillList[i])
+        }
+    }
+
+    fun getNearbyFromServer() {
+        val nearbyBillDB = FirebaseDatabase.getInstance().getReference("NearbyBill").child(id!!)
+        nearbyBillDB.addValueEventListener(object : ValueEventListener {
+            override fun onDataChange(dataSnapshot: DataSnapshot) {
+                val arrayContainer = ArrayList<ReceivedBillEntity>()
+                for (ds in dataSnapshot.children){
+                    val bill = ds.getValue(ReceivedBillEntity::class.java)!!
+                    arrayContainer.add(bill)
+                }
+
+                if(!arrayContainer.isEmpty()) {
+                    roomPresenter!!.showRList(arrayContainer)
+                }
+            }
+
+            override fun onCancelled(databaseError: DatabaseError) {
+
+            }
+        })
+    }
+    fun removeRBill(serverKey : String) {
+        val nearbyBillDB = FirebaseDatabase.getInstance().getReference("NearbyBill").child(id!!).child(serverKey)
+        nearbyBillDB.removeValue()
     }
 }

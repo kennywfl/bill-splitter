@@ -14,6 +14,7 @@ import com.example.fa.billspliter.R
 import com.example.fa.billspliter.data.local.PreferencesHelper
 import com.example.fa.billspliter.data.model.BillEntity
 import com.example.fa.billspliter.presenter.RoomHelper
+import com.example.fa.billspliter.ui.billspliter.HomeActivity.Companion.loginType
 import com.example.fa.billspliter.util.DialogFactory
 import kotlinx.android.synthetic.main.fragment_history.view.*
 
@@ -23,15 +24,12 @@ class History : Fragment(), MvpViewHistory {
     var roomHelper = RoomHelper(this)
     private lateinit var recycleView: RecyclerView
     private var dialogFactory = DialogFactory()
-    private lateinit var preferenceHelper: PreferencesHelper
-    private var loginType : String ?= null
+
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_history, container, false)
         recycleView = view.recycleView
-        preferenceHelper= PreferencesHelper(context!!)
-        loginType = preferenceHelper.getType()
 
         if(loginType == "skip" ) {
             roomHelper.getHistory()

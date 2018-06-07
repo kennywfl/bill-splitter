@@ -19,6 +19,7 @@ import com.google.android.gms.nearby.messages.Message
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
 import kotlinx.android.synthetic.main.nearby_rv_layout.view.*
+import kotlin.coroutines.experimental.coroutineContext
 
 class NearbyAdapter : RecyclerView.Adapter<NearbyAdapter.ViewHolder> {
 

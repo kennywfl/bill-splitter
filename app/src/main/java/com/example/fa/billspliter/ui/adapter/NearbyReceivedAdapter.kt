@@ -12,6 +12,7 @@ import android.widget.TextView
 import com.example.fa.billspliter.MvpViewNearby
 import com.example.fa.billspliter.R
 import com.example.fa.billspliter.data.model.BillEntity
+import com.example.fa.billspliter.data.model.ReceivedBillEntity
 import com.example.fa.billspliter.ui.billhistory.MvpViewHistory
 import kotlinx.android.synthetic.main.nearby_receive_rv_layout.view.*
 
@@ -19,12 +20,12 @@ class NearbyReceivedAdapter : RecyclerView.Adapter<NearbyReceivedAdapter.ViewHol
 
 
     private  var c: Context
-    private  var nearbyList: List<BillEntity>
+    private  var RBList: List<ReceivedBillEntity>
     private var nearbyView : MvpViewNearby?=null
 
-    constructor(c: Context, nearbyPlaceList: List<BillEntity> ,nearbyView: MvpViewNearby)  {
+    constructor(c: Context, RBList: List<ReceivedBillEntity>, nearbyView: MvpViewNearby)  {
         this.c = c
-        this.nearbyList = nearbyPlaceList
+        this.RBList = RBList
         this.nearbyView = nearbyView
 
     }
@@ -39,7 +40,7 @@ class NearbyReceivedAdapter : RecyclerView.Adapter<NearbyReceivedAdapter.ViewHol
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
-        var data = nearbyList[position]
+        var data = RBList[position]
         holder?.tv_amount?.text ="Bill amount : RM  ${data.amount}"
         holder?.tv_num_people?.text = "Number of people  ${data.numPeople}"
         holder?.tv_tax?.text ="Tex rate:  ${data.tax} %"
@@ -47,13 +48,17 @@ class NearbyReceivedAdapter : RecyclerView.Adapter<NearbyReceivedAdapter.ViewHol
         holder?.tv_total?.text ="Total bill amount : RM  ${data.totalPaid}"
         holder?.tv_each_paid?.text ="Each  person paid : RM  ${data.eachPaid}"
         holder?.tv_date?.text = "Issue date : ${data.date}"
+
         holder?.shareBtn.setOnClickListener(View.OnClickListener {
-            nearbyView?.onClick(data)
+            nearbyView?.onClick(RBList,position)
         });
     }
 
     override fun getItemCount(): Int {
-        return nearbyList.size
+        return RBList.size
+    }
+    fun setData(RBList: List<ReceivedBillEntity>) {
+        this.RBList = RBList
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

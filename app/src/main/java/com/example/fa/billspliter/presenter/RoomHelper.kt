@@ -5,10 +5,12 @@ import android.content.Context
 import android.util.Log
 import com.example.fa.billspliter.MvpViewNearby
 import com.example.fa.billspliter.data.model.BillEntity
+import com.example.fa.billspliter.data.model.ReceivedBillEntity
 import com.example.fa.billspliter.data.server.Firebase
 import com.example.fa.billspliter.ui.billspliter.HomeActivity.Companion.db
 import com.example.fa.billspliter.ui.billhistory.MvpViewHistory
 import com.example.fa.billspliter.ui.billspliter.HomeActivity
+import com.example.fa.billspliter.ui.billspliter.HomeActivity.Companion.rdb
 import com.google.android.gms.nearby.messages.Message
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
@@ -19,7 +21,7 @@ class RoomHelper : Presenter.RoomHelper {
 
     private var historyView : MvpViewHistory?=null
     private var firebase = Firebase(this)
-    private var nearbyView : MvpViewNearby ?= null
+    private var nearbyView : MvpViewNearby ?=null
 
     constructor() {
     }
@@ -27,10 +29,10 @@ class RoomHelper : Presenter.RoomHelper {
     constructor(historyView: MvpViewHistory) {
         this.historyView=historyView
     }
-
-    constructor(nearbyView: MvpViewNearby) {
-        this.nearbyView=nearbyView
+    constructor(nearbyView : MvpViewNearby){
+        this.nearbyView = nearbyView
     }
+
     /* Saving data to database. */
     override fun insertToDb(entityData: BillEntity) {
         async(CommonPool) {
@@ -42,7 +44,8 @@ class RoomHelper : Presenter.RoomHelper {
         async(CommonPool) {
             bg { db!!.billDao().deleteBill(entityData) }.await()
         }
-    }    /* Retrieving the data from the database. */
+    }
+    /* Retrieving the data from the database. */
     override fun getHistory()  {
         async(UI) {
             val historyList = bg { db!!.billDao().getBillHistory() }.await()
@@ -61,18 +64,10 @@ class RoomHelper : Presenter.RoomHelper {
             firebase.getFromServer()
         }
     }
+    override fun showList(billList: List<BillEntity>) {
+        historyView?.setRecycleView(billList)
+    }
 
-      fun getNearbySave() {
-        async(UI) {
-            firebase.getNearbyFromServer()
-        }
-    }
-    override fun showNearbyList(nearbyList: List<BillEntity>) {
-         nearbyView?.setRecycleView(nearbyList)
-    }
-    override fun showList(historyList: List<BillEntity>) {
-        historyView?.setRecycleView(historyList)
-    }
 
     override fun removeTable() {
         async(CommonPool) {
@@ -80,16 +75,41 @@ class RoomHelper : Presenter.RoomHelper {
         }
     }
 
-
-
-
-/*    fun insertNearbyPeople(nearbyPeople: NearbyPeopleEntity) {
+    override  fun insertToRDb(entityData: ReceivedBillEntity) {
         async(CommonPool) {
-            bg {   HomeActivity.nearbyDB!!.NearbyDao().addNearby(nearbyPeople) }.await()
+            bg { rdb!!.RBillDao().addBill(entityData) }.await()
+        }
+    }
+    override fun removeFromRDb(entityData: ReceivedBillEntity) {
+        async(CommonPool) {
+            bg { rdb!!.RBillDao().deleteBill(entityData) }.await()
+        }
+    }
+    override  fun getRBillHistory()  {
+        async(UI) {
+            val RBillList = bg { rdb!!.RBillDao().getBillHistory() }.await()
+            if(RBillList .size > 0) {
+                showRList(RBillList)
+            }
+        }
+    }
+    override fun getRBillSaveServer() {
+        async(UI) {
+            val RBillList = bg { rdb!!.RBillDao().getBillHistory() }.await()
+            if(RBillList .size > 0) {
+                firebase.saveRBillToServer(RBillList)
+                removeRTable()
+            }
+            firebase.getNearbyFromServer()
+        }
+    }
+    override fun showRList(RBillList: List<ReceivedBillEntity>) {
+        nearbyView?.setRecycleViewRBIll(RBillList)
+    }
+    override fun removeRTable() {
+        async(CommonPool) {
+            bg { rdb!!.RBillDao().deleteTable() }.await()
         }
     }
 
-    fun getNearbyPeople() : List<NearbyPeopleEntity> {
-        return nearbyDB!!.NearbyDao().getNearbyHistory()
-    }*/
 }

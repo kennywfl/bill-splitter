@@ -1,5 +1,6 @@
 package com.example.fa.billspliter.ui.billspliter
 
+import android.annotation.SuppressLint
 import android.arch.persistence.room.Room
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -16,6 +17,7 @@ import androidx.navigation.findNavController
 import com.example.fa.billspliter.data.local.PreferencesHelper
 import com.example.fa.billspliter.R
 import com.example.fa.billspliter.data.model.HistoryDatabase
+import com.example.fa.billspliter.data.model.ReceivedDatabase
 import com.example.fa.billspliter.ui.login.Main
 import com.example.fa.billspliter.data.model.UserData
 import com.example.fa.billspliter.ui.adapter.ConnectionLifeCycleCallBackAcceptAdapter
@@ -45,7 +47,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private var mGoogleSignInClient : GoogleApiClient?= null
     private var dialogFactory = DialogFactory()
     private lateinit var preferenceHelper: PreferencesHelper
-    private var loginType :String ?= null
     private var previousMenuItem :  MenuItem ?=null
     private  var googleApiClient: GoogleApiClient? = null
 
@@ -55,7 +56,9 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     companion object {
         var db: HistoryDatabase? = null
+        var rdb : ReceivedDatabase?= null
         var connectionClients: ConnectionsClient?=null
+        var loginType :String ?= null
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,6 +73,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         nav_view.setNavigationItemSelectedListener(this)
 
         db = Room.databaseBuilder(applicationContext, HistoryDatabase::class.java, "bill").allowMainThreadQueries().build()
+        rdb= Room.databaseBuilder(applicationContext, ReceivedDatabase::class.java, "rbill").allowMainThreadQueries().build()
 
         preferenceHelper= PreferencesHelper(this)
 

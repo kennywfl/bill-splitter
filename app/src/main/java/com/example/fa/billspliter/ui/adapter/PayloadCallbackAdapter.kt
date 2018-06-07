@@ -8,11 +8,13 @@ import com.google.android.gms.nearby.connection.PayloadTransferUpdate
 import java.nio.charset.StandardCharsets.UTF_8
 
 class PayloadCallbackAdapter:PayloadCallback {
-    constructor() : super()
+    var loginType : String ? = null
 
+    constructor() : super(){
+    }
     override fun onPayloadReceived(endpointId: String, payload: Payload) {
         val receivedData:String = String(payload.asBytes()!!)
-        StringSpliter().split(receivedData,"google")
+        StringSpliter().split(receivedData)
         Log.d("received","received")
     }
 

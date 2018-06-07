@@ -8,13 +8,16 @@ import android.content.DialogInterface
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.widget.Toast
+import com.example.fa.billspliter.Nearby
 import com.example.fa.billspliter.R
 import com.example.fa.billspliter.data.local.PreferencesHelper
 import com.example.fa.billspliter.data.model.BillEntity
 import com.example.fa.billspliter.data.model.DeviceData
+import com.example.fa.billspliter.data.model.ReceivedBillEntity
 import com.example.fa.billspliter.data.server.Firebase
 import com.example.fa.billspliter.presenter.RoomHelper
 import com.example.fa.billspliter.ui.adapter.NearbyAdapter
+import com.example.fa.billspliter.ui.adapter.NearbyReceivedAdapter
 import com.google.android.gms.nearby.messages.Message
 import kotlinx.android.synthetic.main.nearby_dialog.view.*
 
@@ -64,7 +67,28 @@ class DialogFactory
 
         return alertDialog.create()
     }
+    fun removeNearbyDialog(context: Context,RBList: List<ReceivedBillEntity>,position : Int ,recycleAdapter:NearbyReceivedAdapter):Dialog {
+        val alertDialog = AlertDialog.Builder(context, R.style.AlertDialogTheme)
+        preferenceHelper= PreferencesHelper(context)
+        val loginType = preferenceHelper.getType()
+        alertDialog.setTitle("ALERT!")
+                .setMessage("Are you sure want to remove?")
+                .setPositiveButton("YES", DialogInterface.OnClickListener { dialog, which ->
+                    if(loginType == "skip"){
+                        roomHelper.removeFromRDb(RBList[position])
+                    }
+                    else {
+                        firebase.removeRBill(RBList[position].serverKey!!)
+                    }
+                      resetRecyclerView(RBList,position,recycleAdapter)
+                })
 
+                .setNegativeButton("NO", DialogInterface.OnClickListener { dialog, which ->
+                    dialog.dismiss()
+                })
+
+        return alertDialog.create()
+    }
     fun saveToDbDialog(context: Context,bill: BillEntity):Dialog {
         val alertDialog = AlertDialog.Builder(context, R.style.AlertDialogTheme)
         preferenceHelper= PreferencesHelper(context)
@@ -109,6 +133,12 @@ class DialogFactory
     fun resetRecyclerView(nearbyUser: ArrayList<DeviceData>){
         recycleAdapter!!.setDevicedata(nearbyUser)
         recycleAdapter!!.notifyDataSetChanged()
+    }
+    fun resetRecyclerView(RBList: List<ReceivedBillEntity>,position: Int,recycleAdapter:NearbyReceivedAdapter){
+        var dummy = RBList as ArrayList<ReceivedBillEntity>
+        dummy.remove(RBList[position])
+        recycleAdapter.setData(dummy)
+       // recycleAdapter!!.notifyDataSetChanged()
     }
 
 
