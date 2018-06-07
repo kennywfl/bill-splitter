@@ -131,7 +131,7 @@ class Firebase
                         hostList.add(savedName)
                     }
                 }
-              dialogFactory.showNearbyDialog(context,hostList,mMessage).show()
+              //dialogFactory.showNearbyDialog(context,hostList,mMessage).show()
 
             }
 
