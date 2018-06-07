@@ -1,5 +1,6 @@
 package com.example.fa.billspliter.ui.adapter
 
+import android.app.Activity
 import android.content.Context
 import android.support.v7.widget.RecyclerView
 import android.view.LayoutInflater
@@ -8,6 +9,8 @@ import android.view.ViewGroup
 import android.widget.TextView
 import android.widget.Toast
 import com.example.fa.billspliter.R
+import com.example.fa.billspliter.data.model.DeviceData
+import com.example.fa.billspliter.ui.billspliter.HomeActivity
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.messages.Message
 import kotlinx.android.synthetic.main.nearby_rv_layout.view.*
@@ -15,17 +18,15 @@ import kotlinx.android.synthetic.main.nearby_rv_layout.view.*
 class NearbyAdapter : RecyclerView.Adapter<NearbyAdapter.ViewHolder> {
 
 
-    private  var c: Context
-    private  var nearbyUser: List<String>
-    private  var mMessage : Message
-
+    private  var activity: Activity
+    private  var nearbyUser: ArrayList<DeviceData>
     var count = 1
 
-    constructor(c: Context, nearbyUser: List<String>,mMessage : Message)  {
-        this.c = c
+    constructor(activity: Activity, nearbyUser: ArrayList<DeviceData>)  {
+        this.activity = activity
         this.nearbyUser = nearbyUser
-        this.mMessage=mMessage
     }
+
 
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent?.getContext())
@@ -37,22 +38,22 @@ class NearbyAdapter : RecyclerView.Adapter<NearbyAdapter.ViewHolder> {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         var data = nearbyUser[position]
-        holder?.tv_name?.text = data
+        holder?.tv_name?.text = data.NickName
+        holder.tv_name.setOnClickListener {
 
-        holder?.itemView?.setOnClickListener(View.OnClickListener {
-            val newMessage = Message(mMessage.content,data)
-            publish(newMessage)
+            (activity as HomeActivity).startConnect(data)
+        }
 
-        });
+
     }
 
     override fun getItemCount(): Int {
         return nearbyUser.size
     }
 
-    fun publish(mMessage : Message) {
-        Nearby.getMessagesClient(c).publish(mMessage)
-        Toast.makeText(c,"Sucessfully publish.",Toast.LENGTH_SHORT).show()
+
+    fun setDevicedata(nearbyUser:ArrayList<DeviceData>) {
+        this.nearbyUser = nearbyUser
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

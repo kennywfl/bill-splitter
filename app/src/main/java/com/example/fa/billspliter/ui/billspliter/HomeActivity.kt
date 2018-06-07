@@ -62,7 +62,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     companion object {
         var db: HistoryDatabase? = null
-         }
+    }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -90,24 +90,24 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         nav_view.getHeaderView(0).tv_email.text=userData?.email
 
         if(userData?.url != "" && userData?.url != null) {
-           Picasso.with(applicationContext).load(userData?.url).fit().into(nav_view.getHeaderView(0).imageView)
+            Picasso.with(applicationContext).load(userData?.url).fit().into(nav_view.getHeaderView(0).imageView)
         }
-              buildGoogleApiClient()
+        buildGoogleApiClient()
     }
 
     override fun onStart() {
         super.onStart()
-   /*     mMessageListener = object: MessageListener() {
-            override fun onFound(message: Message) {
-                if(message.type==userData?.name ) {
-                    Log.d("test123", "Sucess publish")
-                    StringSpliter().split(String(message.content),loginType!!)
-                  //  BusStation.bus.post(message)
-                }
-            }
-            override fun onLost(message: Message) {
-                }
-        }*/
+        /*     mMessageListener = object: MessageListener() {
+                 override fun onFound(message: Message) {
+                     if(message.type==userData?.name ) {
+                         Log.d("test123", "Sucess publish")
+                         StringSpliter().split(String(message.content),loginType!!)
+                       //  BusStation.bus.post(message)
+                     }
+                 }
+                 override fun onLost(message: Message) {
+                     }
+             }*/
         ConnectionClients =Nearby.getConnectionsClient(this)
     }
 
@@ -138,7 +138,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 if(previousMenuItem != null) {
                     Navigation.findNavController(this,R.id.nav_home_fragment).popBackStack(R.id.nav_home_fragment,true)
                 }
-               recreate()
+                recreate()
             }
         }
         return true
@@ -169,7 +169,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
                 val exitDialog = dialogFactory.createExitDialog(this)
                 exitDialog.show()
             }
-    }
+        }
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
@@ -209,17 +209,17 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onConnected(p0: Bundle?) {
-         //subscribe()
-         nav_view.getHeaderView(0).hosting_switch.setOnCheckedChangeListener({ compoundButton, isChecked ->
+        //subscribe()
+        nav_view.getHeaderView(0).hosting_switch.setOnCheckedChangeListener({ compoundButton, isChecked ->
             if(isChecked) {
-              /*  val hostedName = userData?.name!!
-                roomHelper.saveHost(hostedName)*/
+                /*  val hostedName = userData?.name!!
+                  roomHelper.saveHost(hostedName)*/
                 startAdvertising()
                 Toast.makeText(this,"You are now discoverable to nearby people", Toast.LENGTH_SHORT).show()
             }
             else {
-        /*        val hostedName = userData?.name!!
-                roomHelper.removeHost(hostedName)*/
+                /*        val hostedName = userData?.name!!
+                        roomHelper.removeHost(hostedName)*/
                 ConnectionClients?.stopAdvertising()
                 Toast.makeText(this,"You are now hidden from nearby people ", Toast.LENGTH_SHORT).show()
             }
@@ -234,14 +234,14 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onConnectionFailed(p0: ConnectionResult) {
     }
 
-/*    private fun subscribe() {
-        Nearby.getMessagesClient(this).subscribe(mMessageListener)
-    }
+    /*    private fun subscribe() {
+            Nearby.getMessagesClient(this).subscribe(mMessageListener)
+        }
 
-    private fun unsubscribe() {
-        Nearby.getMessagesClient(this).unsubscribe(mMessageListener)
-    }
-*/
+        private fun unsubscribe() {
+            Nearby.getMessagesClient(this).unsubscribe(mMessageListener)
+        }
+    */
     override fun onDestroy() {
         super.onDestroy()
         checkDiscoverable()

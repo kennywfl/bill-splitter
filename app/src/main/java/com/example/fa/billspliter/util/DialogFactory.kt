@@ -11,6 +11,7 @@ import android.widget.Toast
 import com.example.fa.billspliter.R
 import com.example.fa.billspliter.data.local.PreferencesHelper
 import com.example.fa.billspliter.data.model.BillEntity
+import com.example.fa.billspliter.data.model.DeviceData
 import com.example.fa.billspliter.data.server.Firebase
 import com.example.fa.billspliter.presenter.RoomHelper
 import com.example.fa.billspliter.ui.adapter.NearbyAdapter
@@ -23,6 +24,7 @@ class DialogFactory
     private var roomHelper =RoomHelper()
     private lateinit var preferenceHelper: PreferencesHelper
     private var firebase = Firebase()
+    private var  recycleAdapter:NearbyAdapter ?= null
 
     fun createExitDialog(context: Context):Dialog {
         val alertDialog = AlertDialog.Builder(context, R.style.AlertDialogTheme)
@@ -89,18 +91,24 @@ class DialogFactory
         return alertDialog.create()
     }
 
-    fun showNearbyDialog(context:Context,nearbyUser: List<String>,mMessage: Message):Dialog {
+    fun showNearbyDialog(context:Context,nearbyUser: ArrayList<DeviceData>,activity: Activity){
         val alertDialog = AlertDialog.Builder(context)
         val inflater = LayoutInflater.from(context)
         val dialogView = inflater.inflate(R.layout.nearby_dialog, null)
         alertDialog.setView(dialogView)
         alertDialog.setTitle("Select and send to nearby user.")
-        val  recycleAdapter = NearbyAdapter(context!!, nearbyUser, mMessage)
         val recycleLayout = LinearLayoutManager(context!!, LinearLayoutManager.VERTICAL, false)
+        recycleAdapter =  NearbyAdapter(activity, nearbyUser)
         dialogView.recycleView.layoutManager = recycleLayout
         dialogView.recycleView.adapter = recycleAdapter
         dialogView.recycleView.adapter
-        return alertDialog.create()
+        alertDialog.create()
+        alertDialog.show()
+    }
+
+    fun resetRecyclerView(nearbyUser: ArrayList<DeviceData>){
+        recycleAdapter!!.setDevicedata(nearbyUser)
+        recycleAdapter!!.notifyDataSetChanged()
     }
 
 
