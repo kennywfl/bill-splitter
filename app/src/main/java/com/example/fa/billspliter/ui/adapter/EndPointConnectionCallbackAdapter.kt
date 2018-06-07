@@ -33,7 +33,6 @@ class EndPointConnectionCallbackAdapter:EndpointDiscoveryCallback {
     constructor(context:Context,data:String) : super() {
         DeviceList = ArrayList<DeviceData>()
         DeviceListDialogFactory = DialogFactory()
-        Log.d("founded", " test123");
         DeviceListDialogFactory!!.showNearbyDialog(context,DeviceList!!,data)
     }
 }
