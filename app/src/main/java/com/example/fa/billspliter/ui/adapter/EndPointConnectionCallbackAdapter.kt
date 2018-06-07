@@ -29,9 +29,9 @@ class EndPointConnectionCallbackAdapter:EndpointDiscoveryCallback {
         }
     }
 
-    constructor(context:Context,activity:Activity) : super() {
+    constructor(context:Context) : super() {
         DeviceList = ArrayList<DeviceData>()
         DeviceListDialogFactory = DialogFactory()
-        DeviceListDialogFactory!!.showNearbyDialog(context,DeviceList!!,activity)
+        DeviceListDialogFactory!!.showNearbyDialog(context,DeviceList!!)
     }
 }
