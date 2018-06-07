@@ -344,7 +344,7 @@
         android:layout_height="wrap_content"
         android:layout_gravity="left|bottom"
         android:backgroundTint="#228B22"
-        android:src = "@drawable/go_icon"
+        android:src = "@drawable/publish_icon"
         android:layout_margin="16dp"
         />
 

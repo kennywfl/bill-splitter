@@ -80,16 +80,8 @@ class RoomHelper : Presenter.RoomHelper {
         }
     }
 
-    fun saveHost(name : String){
-        firebase.saveName(name)
-    }
-    fun  removeHost(name : String){
-        firebase.removeName(name)
-    }
-    fun getHostList(c : Context,name : String,mMessage : Message) {
-        firebase.getHostName(c,name,mMessage)
 
-    }
+
 
 /*    fun insertNearbyPeople(nearbyPeople: NearbyPeopleEntity) {
         async(CommonPool) {

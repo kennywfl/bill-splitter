@@ -91,14 +91,14 @@ class DialogFactory
         return alertDialog.create()
     }
 
-    fun showNearbyDialog(context:Context,nearbyUser: ArrayList<DeviceData>,activity: Activity){
+    fun showNearbyDialog(context:Context,nearbyUser: ArrayList<DeviceData>,data:String){
         val alertDialog = AlertDialog.Builder(context)
         val inflater = LayoutInflater.from(context)
         val dialogView = inflater.inflate(R.layout.nearby_dialog, null)
         alertDialog.setView(dialogView)
         alertDialog.setTitle("Select and send to nearby user.")
         val recycleLayout = LinearLayoutManager(context!!, LinearLayoutManager.VERTICAL, false)
-        recycleAdapter =  NearbyAdapter(activity, nearbyUser)
+        recycleAdapter =  NearbyAdapter(nearbyUser,data)
         dialogView.recycleView.layoutManager = recycleLayout
         dialogView.recycleView.adapter = recycleAdapter
         dialogView.recycleView.adapter

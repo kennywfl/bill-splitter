@@ -14,6 +14,7 @@ class EndPointConnectionCallbackAdapter:EndpointDiscoveryCallback {
 
     var DeviceList:ArrayList<DeviceData> ?=null
     var DeviceListDialogFactory:DialogFactory ?=null
+
     override fun onEndpointFound(endpointId: String, discoveredEndpointInfo: DiscoveredEndpointInfo) {
         DeviceList!!.add(DeviceData(discoveredEndpointInfo.endpointName,endpointId))
         DeviceListDialogFactory!!.resetRecyclerView(DeviceList!!)
@@ -29,9 +30,9 @@ class EndPointConnectionCallbackAdapter:EndpointDiscoveryCallback {
         }
     }
 
-    constructor(context:Context,activity:Activity) : super() {
+    constructor(context:Context,data:String) : super() {
         DeviceList = ArrayList<DeviceData>()
         DeviceListDialogFactory = DialogFactory()
-        DeviceListDialogFactory!!.showNearbyDialog(context,DeviceList!!,activity)
+        DeviceListDialogFactory!!.showNearbyDialog(context,DeviceList!!,data)
     }
 }

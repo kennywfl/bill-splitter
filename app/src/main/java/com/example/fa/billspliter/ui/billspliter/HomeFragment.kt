@@ -1,8 +1,6 @@
 package com.example.fa.billspliter.ui.billspliter
 
 
-import android.app.Activity
-import android.content.Intent
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.TextUtils
@@ -11,28 +9,31 @@ import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.TextView
 import android.widget.Toast
 import com.example.fa.billspliter.R
 import com.example.fa.billspliter.data.model.BillEntity
-import com.example.fa.billspliter.presenter.RoomHelper
 import com.example.fa.billspliter.ui.adapter.*
+import com.example.fa.billspliter.ui.billspliter.HomeActivity.Companion.connectionClients
 import com.example.fa.billspliter.util.DateUtil
 import com.example.fa.billspliter.util.DialogFactory
-import kotlinx.android.synthetic.main.activity_home.*
+import com.google.android.gms.nearby.connection.DiscoveryOptions
+import com.google.android.gms.nearby.connection.Strategy
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
 import kotlinx.android.synthetic.main.fragment_home_page.view.*
-import org.w3c.dom.Text
 
 
 class HomeFragment : Fragment() {
 
     private var dateUtil =DateUtil()
     private var dialogFactory = DialogFactory()
-
+    private var Service_ID:String = "com.example.fa.billspliter.ui.billspliter"
+    private var NearbyStrategy: Strategy = Strategy.P2P_CLUSTER
+    private lateinit var view1 : View
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_home_page, container, false)
-
+        view1 = view
         view.checktax.setOnClickListener(
                 {
                     if(view.checktax.isChecked) {
@@ -86,7 +87,7 @@ class HomeFragment : Fragment() {
                 Toast.makeText(context!!,"Please insert amount money . ",Toast.LENGTH_SHORT).show()
             }
             else {
-                (activity as HomeActivity).sendPayLoad(sendDataToAllConnected(view))
+                startDiscovery()
             }
         })
 
@@ -174,6 +175,21 @@ class HomeFragment : Fragment() {
 
     }
 
+     fun startDiscovery() {
+          Log.d("test123","Connecting.....")
+        connectionClients!!.startDiscovery(
+                Service_ID,
+                EndPointConnectionCallbackAdapter(context!!,sendDataToAllConnected(view1)),
+                DiscoveryOptions(NearbyStrategy)
+        ).addOnSuccessListener(object : OnSuccessListener<Void> {
+            override fun onSuccess(p0: Void?) {
+                Log.d("successful called", "discovering")
+            }
 
-
+        }).addOnFailureListener(object : OnFailureListener {
+            override fun onFailure(it: Exception) {
+                Log.d("Failed to called", "discovering"+ it.message)
+            }
+        })
+    }
 }

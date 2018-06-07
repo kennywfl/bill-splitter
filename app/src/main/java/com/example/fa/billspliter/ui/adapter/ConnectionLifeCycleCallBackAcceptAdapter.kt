@@ -1,24 +1,28 @@
 package com.example.fa.billspliter.ui.adapter
 
-import android.app.Activity
 import android.util.Log
-import com.example.fa.billspliter.ui.billspliter.HomeActivity
 import com.google.android.gms.nearby.connection.*
+import com.google.android.gms.tasks.OnFailureListener
+import com.google.android.gms.tasks.OnSuccessListener
 
 
 class ConnectionLifeCycleCallBackAcceptAdapter:ConnectionLifecycleCallback {
     var connectionClients: ConnectionsClient?=null
-    var activity:Activity ?=null
-    constructor(connectionClients:ConnectionsClient,activity: Activity) : super(){
+    var data : String ?= null
+
+    constructor(connectionClients:ConnectionsClient,data:String?) : super(){
         this.connectionClients = connectionClients
-        this.activity = activity
+        this.data = data
+
     }
 
     override fun onConnectionResult(endpointId: String, result: ConnectionResolution) {
         when (result.status.statusCode) {
             ConnectionsStatusCodes.STATUS_OK -> {
                 Log.d("device connected","device connected")
-                (activity as HomeActivity).AddDevice(endpointId)
+                if(data != null){
+                    sendPayLoad(endpointId,data!!)
+                }
             }
             ConnectionsStatusCodes.STATUS_CONNECTION_REJECTED -> {
                 Log.d("device rejected","device rejected")
@@ -30,8 +34,7 @@ class ConnectionLifeCycleCallBackAcceptAdapter:ConnectionLifecycleCallback {
     }
 
     override fun onDisconnected(endpointId: String) {
-        (activity as HomeActivity).RemoveDevice(endpointId)
-        Log.d("device removed","device removed")//To change body of created functions use File | Settings | File Templates.
+
     }
 
     override fun onConnectionInitiated(endpointId: String, connectionInfo: ConnectionInfo) {
@@ -39,5 +42,16 @@ class ConnectionLifeCycleCallBackAcceptAdapter:ConnectionLifecycleCallback {
     }
 
 
+   fun sendPayLoad(endpointId: String,data:String){
+        connectionClients!!.sendPayload(endpointId, Payload.fromBytes(data.toByteArray())) .addOnSuccessListener(object: OnSuccessListener<Void> {
+            override fun onSuccess(p0: Void?) {
+                connectionClients!!.stopDiscovery()
+            }
+        }).addOnFailureListener(object: OnFailureListener {
+            override fun onFailure(it: Exception) {
+                Log.d("ConnectionLifeCycle", "Fail to send message . "+ it.message)
+            }
+        })
 
+    }
 }

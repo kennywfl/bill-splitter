@@ -15,15 +15,10 @@ import androidx.navigation.Navigation
 import androidx.navigation.findNavController
 import com.example.fa.billspliter.data.local.PreferencesHelper
 import com.example.fa.billspliter.R
-import com.example.fa.billspliter.StringSpliter
 import com.example.fa.billspliter.data.model.HistoryDatabase
 import com.example.fa.billspliter.ui.login.Main
 import com.example.fa.billspliter.data.model.UserData
-import com.example.fa.billspliter.data.local.BusStation
-import com.example.fa.billspliter.data.model.DeviceData
-import com.example.fa.billspliter.presenter.RoomHelper
 import com.example.fa.billspliter.ui.adapter.ConnectionLifeCycleCallBackAcceptAdapter
-import com.example.fa.billspliter.ui.adapter.EndPointConnectionCallbackAdapter
 import com.example.fa.billspliter.util.DialogFactory
 import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.Auth
@@ -53,22 +48,20 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private var loginType :String ?= null
     private var previousMenuItem :  MenuItem ?=null
     private  var googleApiClient: GoogleApiClient? = null
-    private var roomHelper = RoomHelper()
 
     private var Service_ID:String = "com.example.fa.billspliter.ui.billspliter"
     private var NearbyStrategy:Strategy = Strategy.P2P_CLUSTER
-    private var ConnectionClients: ConnectionsClient?=null
-    private var ConnectedDevice:ArrayList<String> ?=null
+
 
     companion object {
         var db: HistoryDatabase? = null
+        var connectionClients: ConnectionsClient?=null
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         setSupportActionBar(toolbar)
-        ConnectedDevice = ArrayList<String>()
         val toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle)
@@ -93,22 +86,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             Picasso.with(applicationContext).load(userData?.url).fit().into(nav_view.getHeaderView(0).imageView)
         }
         buildGoogleApiClient()
-    }
-
-    override fun onStart() {
-        super.onStart()
-        /*     mMessageListener = object: MessageListener() {
-                 override fun onFound(message: Message) {
-                     if(message.type==userData?.name ) {
-                         Log.d("test123", "Sucess publish")
-                         StringSpliter().split(String(message.content),loginType!!)
-                       //  BusStation.bus.post(message)
-                     }
-                 }
-                 override fun onLost(message: Message) {
-                     }
-             }*/
-        ConnectionClients =Nearby.getConnectionsClient(this)
+        connectionClients =Nearby.getConnectionsClient(this)
     }
 
     override fun onResume() {
@@ -209,18 +187,13 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun onConnected(p0: Bundle?) {
-        //subscribe()
         nav_view.getHeaderView(0).hosting_switch.setOnCheckedChangeListener({ compoundButton, isChecked ->
             if(isChecked) {
-                /*  val hostedName = userData?.name!!
-                  roomHelper.saveHost(hostedName)*/
                 startAdvertising()
                 Toast.makeText(this,"You are now discoverable to nearby people", Toast.LENGTH_SHORT).show()
             }
             else {
-                /*        val hostedName = userData?.name!!
-                        roomHelper.removeHost(hostedName)*/
-                ConnectionClients?.stopAdvertising()
+                connectionClients?.stopAdvertising()
                 Toast.makeText(this,"You are now hidden from nearby people ", Toast.LENGTH_SHORT).show()
             }
         })
@@ -234,14 +207,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onConnectionFailed(p0: ConnectionResult) {
     }
 
-    /*    private fun subscribe() {
-            Nearby.getMessagesClient(this).subscribe(mMessageListener)
-        }
-
-        private fun unsubscribe() {
-            Nearby.getMessagesClient(this).unsubscribe(mMessageListener)
-        }
-    */
     override fun onDestroy() {
         super.onDestroy()
         checkDiscoverable()
@@ -249,15 +214,17 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     fun checkDiscoverable(){
         if(nav_view.hosting_switch.isChecked) {
-            ConnectionClients?.stopAdvertising()
+            connectionClients?.stopAdvertising()
+            connectionClients?.stopDiscovery()
+
         }
     }
 
     private fun startAdvertising() {
-        ConnectionClients!!.startAdvertising(
+        connectionClients!!.startAdvertising(
                 userData!!.name!!,
                 Service_ID,
-                ConnectionLifeCycleCallBackAcceptAdapter(ConnectionClients!!,this),
+                ConnectionLifeCycleCallBackAcceptAdapter(connectionClients!!,null),
                 AdvertisingOptions(NearbyStrategy)
         ).addOnSuccessListener(object:OnSuccessListener<Void> {
             override fun onSuccess(p0: Void?) {
@@ -271,54 +238,4 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         })
     }
 
-    public fun startDiscovery() {
-        ConnectionClients!!.startDiscovery(
-                Service_ID,
-                EndPointConnectionCallbackAdapter(this,this),
-                DiscoveryOptions(NearbyStrategy)
-        ).addOnSuccessListener(object : OnSuccessListener<Void> {
-            override fun onSuccess(p0: Void?) {
-                Log.d("successful called", "discovering")
-            }
-
-        }).addOnFailureListener(object : OnFailureListener {
-            override fun onFailure(it: Exception) {
-                Log.d("Failed to called", "discovering"+ it.message)
-            }
-        })
-
-    }
-
-    public fun startConnect(deviceData: DeviceData){
-        ConnectionClients!!.requestConnection(
-                deviceData.NickName!!,
-                deviceData.EndPointID!!,
-                ConnectionLifeCycleCallBackAcceptAdapter(ConnectionClients!!,this)
-        ).addOnSuccessListener(object:OnSuccessListener<Void>{
-            override fun onSuccess(p0: Void?) {
-                Log.d("connection connected","connection connected")
-            }
-
-        }).addOnFailureListener(object:OnFailureListener{
-            override fun onFailure(p0: Exception) {
-                Log.d("connection failed",p0.message)
-            }
-
-        })
-    }
-
-    public fun AddDevice(data:String){
-        ConnectedDevice!!.add(data)
-    }
-
-    public fun RemoveDevice(data:String){
-        ConnectedDevice!!.remove(data)
-    }
-
-    public fun sendPayLoad(data:String){
-        for (i in 0..ConnectedDevice!!.count()-1){
-            ConnectionClients!!.sendPayload(ConnectedDevice!![i], Payload.fromBytes(data.toByteArray()))
-        }
-        Log.d("Sending...","qweqwe")
-    }
 }

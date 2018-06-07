@@ -10,7 +10,6 @@ import java.nio.charset.StandardCharsets.UTF_8
 class PayloadCallbackAdapter:PayloadCallback {
     constructor() : super()
 
-
     override fun onPayloadReceived(endpointId: String, payload: Payload) {
         val receivedData:String = String(payload.asBytes()!!)
         StringSpliter().split(receivedData,"google")
