@@ -19,6 +19,7 @@ import com.example.fa.billspliter.presenter.RoomHelper
 import com.example.fa.billspliter.ui.adapter.*
 import com.example.fa.billspliter.util.DateUtil
 import com.example.fa.billspliter.util.DialogFactory
+import com.google.android.gms.nearby.connection.Payload
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.fragment_home_page.view.*
 import org.w3c.dom.Text
@@ -86,7 +87,7 @@ class HomeFragment : Fragment() {
                 Toast.makeText(context!!,"Please insert amount money . ",Toast.LENGTH_SHORT).show()
             }
             else {
-                (activity as HomeActivity).sendPayLoad(sendDataToAllConnected(view))
+                sendPayLoad(sendDataToAllConnected(view))
             }
         })
 
@@ -172,6 +173,13 @@ class HomeFragment : Fragment() {
                 ",${dateUtil.getDate()}"
         return combinedData
 
+    }
+
+    public fun sendPayLoad(data:String){
+        for (i in 0..HomeActivity.ConnectedDevice!!.count()-1){
+            HomeActivity.ConnectionClients!!.sendPayload(HomeActivity.ConnectedDevice!![i], Payload.fromBytes(data.toByteArray()))
+        }
+        Log.d("Sending...","qweqwe")
     }
 
 

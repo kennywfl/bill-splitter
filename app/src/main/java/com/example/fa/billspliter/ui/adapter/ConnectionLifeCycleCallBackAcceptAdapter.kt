@@ -8,17 +8,15 @@ import com.google.android.gms.nearby.connection.*
 
 class ConnectionLifeCycleCallBackAcceptAdapter:ConnectionLifecycleCallback {
     var connectionClients: ConnectionsClient?=null
-    var activity:Activity ?=null
-    constructor(connectionClients:ConnectionsClient,activity: Activity) : super(){
+    constructor(connectionClients:ConnectionsClient) : super(){
         this.connectionClients = connectionClients
-        this.activity = activity
     }
 
     override fun onConnectionResult(endpointId: String, result: ConnectionResolution) {
         when (result.status.statusCode) {
             ConnectionsStatusCodes.STATUS_OK -> {
                 Log.d("device connected","device connected")
-                (activity as HomeActivity).AddDevice(endpointId)
+                AddDevice(endpointId)
             }
             ConnectionsStatusCodes.STATUS_CONNECTION_REJECTED -> {
                 Log.d("device rejected","device rejected")
@@ -30,7 +28,7 @@ class ConnectionLifeCycleCallBackAcceptAdapter:ConnectionLifecycleCallback {
     }
 
     override fun onDisconnected(endpointId: String) {
-        (activity as HomeActivity).RemoveDevice(endpointId)
+        RemoveDevice(endpointId)
         Log.d("device removed","device removed")//To change body of created functions use File | Settings | File Templates.
     }
 
@@ -38,6 +36,12 @@ class ConnectionLifeCycleCallBackAcceptAdapter:ConnectionLifecycleCallback {
         connectionClients!!.acceptConnection(endpointId,PayloadCallbackAdapter()) //To change body of created functions use File | Settings | File Templates.
     }
 
+    public fun AddDevice(data:String){
+        HomeActivity.ConnectedDevice!!.add(data)
+    }
 
+    public fun RemoveDevice(data:String){
+        HomeActivity.ConnectedDevice!!.remove(data)
+    }
 
 }

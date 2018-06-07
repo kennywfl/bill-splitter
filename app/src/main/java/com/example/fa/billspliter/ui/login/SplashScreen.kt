@@ -1,4 +1,4 @@
-package com.example.fa.billspliter.ui
+package com.example.fa.billspliter.ui.login
 
 import android.Manifest
 import android.content.Intent
@@ -10,7 +10,6 @@ import android.support.v4.content.ContextCompat
 import android.util.Log
 import android.widget.Toast
 import com.example.fa.billspliter.R
-import com.example.fa.billspliter.ui.login.Main
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
 import kotlinx.coroutines.experimental.delay
