@@ -343,7 +343,7 @@
         android:layout_width="wrap_content"
         android:layout_height="wrap_content"
         android:layout_gravity="left|bottom"
-        android:backgroundTint="#228B22"
+        android:backgroundTint="@color/green"
         android:src = "@drawable/publish_icon"
         android:layout_margin="16dp"
         />
