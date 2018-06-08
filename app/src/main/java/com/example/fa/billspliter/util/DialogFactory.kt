@@ -8,7 +8,6 @@ import android.content.DialogInterface
 import android.support.v7.widget.LinearLayoutManager
 import android.view.LayoutInflater
 import android.widget.Toast
-import com.example.fa.billspliter.Nearby
 import com.example.fa.billspliter.R
 import com.example.fa.billspliter.data.local.PreferencesHelper
 import com.example.fa.billspliter.data.model.BillEntity
@@ -18,7 +17,6 @@ import com.example.fa.billspliter.data.server.Firebase
 import com.example.fa.billspliter.presenter.RoomHelper
 import com.example.fa.billspliter.ui.adapter.NearbyAdapter
 import com.example.fa.billspliter.ui.adapter.NearbyReceivedAdapter
-import com.google.android.gms.nearby.messages.Message
 import kotlinx.android.synthetic.main.nearby_dialog.view.*
 
 

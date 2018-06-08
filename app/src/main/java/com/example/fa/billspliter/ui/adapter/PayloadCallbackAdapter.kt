@@ -1,11 +1,10 @@
 package com.example.fa.billspliter.ui.adapter
 
 import android.util.Log
-import com.example.fa.billspliter.StringSpliter
+import com.example.fa.billspliter.util.StringSpliter
 import com.google.android.gms.nearby.connection.Payload
 import com.google.android.gms.nearby.connection.PayloadCallback
 import com.google.android.gms.nearby.connection.PayloadTransferUpdate
-import java.nio.charset.StandardCharsets.UTF_8
 
 class PayloadCallbackAdapter:PayloadCallback {
     var loginType : String ? = null

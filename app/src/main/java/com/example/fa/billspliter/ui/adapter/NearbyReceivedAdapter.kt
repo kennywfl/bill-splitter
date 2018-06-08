@@ -3,17 +3,13 @@ package com.example.fa.billspliter.ui.adapter
 import android.content.Context
 import android.support.design.widget.FloatingActionButton
 import android.support.v7.widget.RecyclerView
-import android.util.Log
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
-import android.widget.Button
 import android.widget.TextView
-import com.example.fa.billspliter.MvpViewNearby
+import com.example.fa.billspliter.ui.nearbymessage.MvpViewNearby
 import com.example.fa.billspliter.R
-import com.example.fa.billspliter.data.model.BillEntity
 import com.example.fa.billspliter.data.model.ReceivedBillEntity
-import com.example.fa.billspliter.ui.billhistory.MvpViewHistory
 import kotlinx.android.synthetic.main.nearby_receive_rv_layout.view.*
 
 class NearbyReceivedAdapter : RecyclerView.Adapter<NearbyReceivedAdapter.ViewHolder> {

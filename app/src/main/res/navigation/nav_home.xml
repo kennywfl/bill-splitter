@@ -29,7 +29,7 @@
         tools:layout="@layout/activity_bill_history" />
     <fragment
         android:id="@+id/nearby2"
-        android:name="com.example.fa.billspliter.Nearby"
+        android:name="com.example.fa.billspliter.ui.nearbymessage.Nearby"
         android:label="fragment_nearby"
         tools:layout="@layout/fragment_nearby" ></fragment>
 

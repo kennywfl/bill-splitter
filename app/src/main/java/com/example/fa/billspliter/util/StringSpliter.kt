@@ -1,6 +1,5 @@
-package com.example.fa.billspliter
+package com.example.fa.billspliter.util
 
-import android.util.Log
 import com.example.fa.billspliter.data.model.BillEntity
 import com.example.fa.billspliter.data.model.ReceivedBillEntity
 import com.example.fa.billspliter.data.server.Firebase
@@ -18,7 +17,7 @@ class StringSpliter{
           roomHelper.insertToRDb(entityData)
         }
         else {
-            val entityData= BillEntity(null,data[0],data[1] ,data[2] ,data[3] ,data[4] , data[5] , data[6],null)
+            val entityData= ReceivedBillEntity(null,data[0],data[1] ,data[2] ,data[3] ,data[4] , data[5] , data[6],null)
             firebaseHelper.saveNearbyBill(entityData)
         }
 

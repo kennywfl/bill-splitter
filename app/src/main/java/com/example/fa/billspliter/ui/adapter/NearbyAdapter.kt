@@ -26,7 +26,6 @@ class NearbyAdapter : RecyclerView.Adapter<NearbyAdapter.ViewHolder> {
 
     private  var nearbyUser: ArrayList<DeviceData>
     private var data : String ?= null
-    var count = 1
 
     constructor( nearbyUser: ArrayList<DeviceData>,data:String)  {
         this.nearbyUser = nearbyUser
@@ -42,8 +41,7 @@ class NearbyAdapter : RecyclerView.Adapter<NearbyAdapter.ViewHolder> {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-
-        var data = nearbyUser[position]
+        val data = nearbyUser[position]
         holder?.tv_name?.text = data.NickName
         holder.itemView?.setOnClickListener {
             startConnect(data)
@@ -55,20 +53,8 @@ class NearbyAdapter : RecyclerView.Adapter<NearbyAdapter.ViewHolder> {
         return nearbyUser.size
     }
 
-
     fun setDevicedata(nearbyUser:ArrayList<DeviceData>) {
         this.nearbyUser = nearbyUser
-    }
-
-    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
-        var tv_name: TextView
-
-
-        init {
-            tv_name = itemView.tv_name
-
-        }
-
     }
 
     fun startConnect(deviceData: DeviceData) {
@@ -80,15 +66,18 @@ class NearbyAdapter : RecyclerView.Adapter<NearbyAdapter.ViewHolder> {
             override fun onSuccess(p0: Void?) {
                 Log.d("connection connected", "connection connected")
             }
-
         }).addOnFailureListener(object : OnFailureListener {
             override fun onFailure(p0: Exception) {
                 Log.d("connection failed", p0.message)
             }
-
         })
     }
 
-
+    class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
+        var tv_name: TextView
+        init {
+            tv_name = itemView.tv_name
+        }
+    }
 
     }

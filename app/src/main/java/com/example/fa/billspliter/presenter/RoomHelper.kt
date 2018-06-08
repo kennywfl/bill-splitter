@@ -1,17 +1,13 @@
 package com.example.fa.billspliter.presenter
 
 
-import android.content.Context
-import android.util.Log
-import com.example.fa.billspliter.MvpViewNearby
+import com.example.fa.billspliter.ui.nearbymessage.MvpViewNearby
 import com.example.fa.billspliter.data.model.BillEntity
 import com.example.fa.billspliter.data.model.ReceivedBillEntity
 import com.example.fa.billspliter.data.server.Firebase
 import com.example.fa.billspliter.ui.billspliter.HomeActivity.Companion.db
 import com.example.fa.billspliter.ui.billhistory.MvpViewHistory
-import com.example.fa.billspliter.ui.billspliter.HomeActivity
 import com.example.fa.billspliter.ui.billspliter.HomeActivity.Companion.rdb
-import com.google.android.gms.nearby.messages.Message
 import kotlinx.coroutines.experimental.CommonPool
 import kotlinx.coroutines.experimental.android.UI
 import kotlinx.coroutines.experimental.async
@@ -21,7 +17,7 @@ class RoomHelper : Presenter.RoomHelper {
 
     private var historyView : MvpViewHistory?=null
     private var firebase = Firebase(this)
-    private var nearbyView : MvpViewNearby ?=null
+    private var nearbyView : MvpViewNearby?=null
 
     constructor() {
     }
@@ -29,6 +25,7 @@ class RoomHelper : Presenter.RoomHelper {
     constructor(historyView: MvpViewHistory) {
         this.historyView=historyView
     }
+
     constructor(nearbyView : MvpViewNearby){
         this.nearbyView = nearbyView
     }
@@ -40,11 +37,13 @@ class RoomHelper : Presenter.RoomHelper {
         }
     }
 
+    /* Removing data from database*/
     override fun removeFromDb(entityData: BillEntity) {
         async(CommonPool) {
             bg { db!!.billDao().deleteBill(entityData) }.await()
         }
     }
+
     /* Retrieving the data from the database. */
     override fun getHistory()  {
         async(UI) {
@@ -54,6 +53,8 @@ class RoomHelper : Presenter.RoomHelper {
             }
         }
     }
+
+    /*Automatically save to server , when the user login. */
     override fun getHistorySaveServer() {
         async(UI) {
             val historyList = bg { db!!.billDao().getBillHistory() }.await()
@@ -64,27 +65,35 @@ class RoomHelper : Presenter.RoomHelper {
             firebase.getFromServer()
         }
     }
+
+    /* Set the recycle view for history list.*/
     override fun showList(billList: List<BillEntity>) {
         historyView?.setRecycleView(billList)
     }
 
-
+    /* Removing the table of history bill from the room table */
     override fun removeTable() {
         async(CommonPool) {
             bg { db!!.billDao().deleteTable() }.await()
         }
     }
 
+    /* Database operation for message received by Nearby API */
+    /* Insert received bill into database*/
     override  fun insertToRDb(entityData: ReceivedBillEntity) {
         async(CommonPool) {
             bg { rdb!!.RBillDao().addBill(entityData) }.await()
         }
     }
+
+    /* Removing received bill from the database*/
     override fun removeFromRDb(entityData: ReceivedBillEntity) {
         async(CommonPool) {
             bg { rdb!!.RBillDao().deleteBill(entityData) }.await()
         }
     }
+
+    /*Retrieve received bill from the database.*/
     override  fun getRBillHistory()  {
         async(UI) {
             val RBillList = bg { rdb!!.RBillDao().getBillHistory() }.await()
@@ -93,6 +102,8 @@ class RoomHelper : Presenter.RoomHelper {
             }
         }
     }
+
+    /*Automatically save received bill to server , when the  user login.*/
     override fun getRBillSaveServer() {
         async(UI) {
             val RBillList = bg { rdb!!.RBillDao().getBillHistory() }.await()
@@ -103,9 +114,13 @@ class RoomHelper : Presenter.RoomHelper {
             firebase.getNearbyFromServer()
         }
     }
+
+    /* Setting recylce view for nearby list*/
     override fun showRList(RBillList: List<ReceivedBillEntity>) {
         nearbyView?.setRecycleViewRBIll(RBillList)
     }
+
+    /* Removing the table of received bill from the database */
     override fun removeRTable() {
         async(CommonPool) {
             bg { rdb!!.RBillDao().deleteTable() }.await()
