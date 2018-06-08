@@ -1,6 +1,7 @@
 package com.example.fa.billspliter.ui.adapter
 
 import android.util.Log
+import com.example.fa.billspliter.presenter.NearbyConnectionManager
 import com.google.android.gms.nearby.connection.*
 import com.google.android.gms.tasks.OnFailureListener
 import com.google.android.gms.tasks.OnSuccessListener
@@ -9,6 +10,7 @@ import com.google.android.gms.tasks.OnSuccessListener
 class ConnectionLifeCycleCallBackAcceptAdapter:ConnectionLifecycleCallback {
     var connectionClients: ConnectionsClient?=null
     var data : String ?= null
+    private var nearbyConnectionManager = NearbyConnectionManager()
 
     constructor(connectionClients:ConnectionsClient,data:String?) : super(){
         this.connectionClients = connectionClients
@@ -21,7 +23,7 @@ class ConnectionLifeCycleCallBackAcceptAdapter:ConnectionLifecycleCallback {
             ConnectionsStatusCodes.STATUS_OK -> {
                 Log.d("device connected","device connected")
                 if(data != null){
-                    sendPayLoad(endpointId,data!!)
+                    nearbyConnectionManager.sendPayLoad(endpointId,data!!)
                 }
             }
             ConnectionsStatusCodes.STATUS_CONNECTION_REJECTED -> {
@@ -40,19 +42,5 @@ class ConnectionLifeCycleCallBackAcceptAdapter:ConnectionLifecycleCallback {
     override fun onConnectionInitiated(endpointId: String, connectionInfo: ConnectionInfo) {
         connectionClients!!.acceptConnection(endpointId,PayloadCallbackAdapter()) //To change body of created functions use File | Settings | File Templates.
     }
-
-
-   fun sendPayLoad(endpointId: String,data:String){
-        connectionClients!!.sendPayload(endpointId, Payload.fromBytes(data.toByteArray())
-        ).addOnFailureListener(object: OnFailureListener {
-            override fun onFailure(it: Exception) {
-                Log.d("ConnectionLifeCycle", "Fail to send message . "+ it.message)
-            }
-        }).addOnCompleteListener({
-            Log.d("completed ", "disconnect endpoint")
-            connectionClients!!.disconnectFromEndpoint(endpointId)
-            connectionClients!!.stopDiscovery()
-        })
-
-    }
+    
 }

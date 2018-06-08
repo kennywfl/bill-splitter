@@ -11,6 +11,7 @@ import android.widget.TextView
 import android.widget.Toast
 import com.example.fa.billspliter.R
 import com.example.fa.billspliter.data.model.DeviceData
+import com.example.fa.billspliter.presenter.NearbyConnectionManager
 import com.example.fa.billspliter.ui.billspliter.HomeActivity
 import com.example.fa.billspliter.ui.billspliter.HomeActivity.Companion.connectionClients
 import com.google.android.gms.nearby.Nearby
@@ -26,6 +27,7 @@ class NearbyAdapter : RecyclerView.Adapter<NearbyAdapter.ViewHolder> {
 
     private  var nearbyUser: ArrayList<DeviceData>
     private var data : String ?= null
+    private var nearbyConnectionManager = NearbyConnectionManager()
 
     constructor( nearbyUser: ArrayList<DeviceData>,data:String)  {
         this.nearbyUser = nearbyUser
@@ -41,10 +43,10 @@ class NearbyAdapter : RecyclerView.Adapter<NearbyAdapter.ViewHolder> {
     }
 
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
-        val data = nearbyUser[position]
-        holder?.tv_name?.text = data.NickName
+        val Devicedata = nearbyUser[position]
+        holder?.tv_name?.text = Devicedata.NickName
         holder.itemView?.setOnClickListener {
-            startConnect(data)
+            nearbyConnectionManager.startConnect(Devicedata,data!!)
         }
 
     }
@@ -55,22 +57,6 @@ class NearbyAdapter : RecyclerView.Adapter<NearbyAdapter.ViewHolder> {
 
     fun setDevicedata(nearbyUser:ArrayList<DeviceData>) {
         this.nearbyUser = nearbyUser
-    }
-
-    fun startConnect(deviceData: DeviceData) {
-        connectionClients!!.requestConnection(
-                deviceData.NickName!!,
-                deviceData.EndPointID!!,
-                ConnectionLifeCycleCallBackAcceptAdapter(connectionClients!!,data!!)
-        ).addOnSuccessListener(object : OnSuccessListener<Void> {
-            override fun onSuccess(p0: Void?) {
-                Log.d("connection connected", "connection connected")
-            }
-        }).addOnFailureListener(object : OnFailureListener {
-            override fun onFailure(p0: Exception) {
-                Log.d("connection failed", p0.message)
-            }
-        })
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

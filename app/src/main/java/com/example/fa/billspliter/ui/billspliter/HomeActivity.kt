@@ -20,6 +20,7 @@ import com.example.fa.billspliter.data.model.HistoryDatabase
 import com.example.fa.billspliter.data.model.ReceivedDatabase
 import com.example.fa.billspliter.ui.login.Main
 import com.example.fa.billspliter.data.model.UserData
+import com.example.fa.billspliter.presenter.NearbyConnectionManager
 import com.example.fa.billspliter.ui.adapter.ConnectionLifeCycleCallBackAcceptAdapter
 import com.example.fa.billspliter.util.DialogFactory
 import com.facebook.login.LoginManager
@@ -49,6 +50,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private lateinit var preferenceHelper: PreferencesHelper
     private var previousMenuItem :  MenuItem ?=null
     private  var googleApiClient: GoogleApiClient? = null
+    private var nearbyConnectionManager = NearbyConnectionManager()
 
     private var Service_ID:String = "com.example.fa.billspliter.ui.billspliter"
     private var NearbyStrategy:Strategy = Strategy.P2P_CLUSTER
@@ -193,7 +195,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     override fun onConnected(p0: Bundle?) {
         nav_view.getHeaderView(0).hosting_switch.setOnCheckedChangeListener({ compoundButton, isChecked ->
             if(isChecked) {
-                startAdvertising()
+                nearbyConnectionManager.startAdvertising(userData!!,Service_ID,NearbyStrategy)
                 Toast.makeText(this,"You are now discoverable to nearby people", Toast.LENGTH_SHORT).show()
             }
             else {
@@ -222,24 +224,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             connectionClients?.stopDiscovery()
 
         }
-    }
-
-    private fun startAdvertising() {
-        connectionClients!!.startAdvertising(
-                userData!!.name!!,
-                Service_ID,
-                ConnectionLifeCycleCallBackAcceptAdapter(connectionClients!!,null),
-                AdvertisingOptions(NearbyStrategy)
-        ).addOnSuccessListener(object:OnSuccessListener<Void> {
-            override fun onSuccess(p0: Void?) {
-                Log.d("successful called", "advertising")
-            }
-
-        }).addOnFailureListener(object:OnFailureListener{
-            override fun onFailure(it: Exception) {
-                Log.d("Failed to called", "advertising"+ it.message)
-            }
-        })
     }
 
 }

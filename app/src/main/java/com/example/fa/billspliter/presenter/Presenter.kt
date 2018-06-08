@@ -21,4 +21,8 @@ interface Presenter {
 
 
     }
+
+    interface NearbyConnection {
+        
+    }
 }

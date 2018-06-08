@@ -15,6 +15,7 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.example.fa.billspliter.R
 import com.example.fa.billspliter.data.model.BillEntity
+import com.example.fa.billspliter.presenter.NearbyConnectionManager
 import com.example.fa.billspliter.ui.adapter.*
 import com.example.fa.billspliter.ui.billspliter.HomeActivity.Companion.connectionClients
 import com.example.fa.billspliter.util.DateUtil
@@ -31,6 +32,7 @@ class HomeFragment : Fragment() {
 
     private var dateUtil =DateUtil()
     private var dialogFactory = DialogFactory()
+    private var nearbyConnectionManager = NearbyConnectionManager()
     private var Service_ID:String = "com.example.fa.billspliter.ui.billspliter"
     private var NearbyStrategy: Strategy = Strategy.P2P_CLUSTER
     private lateinit var view1 : View
@@ -98,7 +100,7 @@ class HomeFragment : Fragment() {
                 Toast.makeText(context!!,"Please insert amount money . ",Toast.LENGTH_SHORT).show()
             }
             else {
-                startDiscovery()
+                nearbyConnectionManager.startDiscovery(Service_ID,NearbyStrategy,context!!,sendDataToAllConnected(view))
             }
         })
 
@@ -185,23 +187,4 @@ class HomeFragment : Fragment() {
         return combinedData
 
     }
-
-     fun startDiscovery() {
-          Log.d("test123","Connecting.....")
-        connectionClients!!.startDiscovery(
-                Service_ID,
-                EndPointConnectionCallbackAdapter(context!!,sendDataToAllConnected(view1)),
-                DiscoveryOptions(NearbyStrategy)
-        ).addOnSuccessListener(object : OnSuccessListener<Void> {
-            override fun onSuccess(p0: Void?) {
-                Log.d("successful called", "discovering")
-            }
-
-        }).addOnFailureListener(object : OnFailureListener {
-            override fun onFailure(it: Exception) {
-                Log.d("Failed to called", "discovering"+ it.message)
-            }
-        })
-    }
-
 }
