@@ -1,6 +1,9 @@
 package com.example.fa.billspliter.ui.billspliter
 
 
+import android.content.Intent
+import android.graphics.Bitmap
+import android.net.Uri
 import android.os.Bundle
 import android.support.v4.app.Fragment
 import android.text.TextUtils
@@ -16,6 +19,7 @@ import com.example.fa.billspliter.ui.adapter.*
 import com.example.fa.billspliter.ui.billspliter.HomeActivity.Companion.connectionClients
 import com.example.fa.billspliter.util.DateUtil
 import com.example.fa.billspliter.util.DialogFactory
+import com.example.fa.billspliter.util.ScreenShotClass
 import com.google.android.gms.nearby.connection.DiscoveryOptions
 import com.google.android.gms.nearby.connection.Strategy
 import com.google.android.gms.tasks.OnFailureListener
@@ -30,6 +34,7 @@ class HomeFragment : Fragment() {
     private var Service_ID:String = "com.example.fa.billspliter.ui.billspliter"
     private var NearbyStrategy: Strategy = Strategy.P2P_CLUSTER
     private lateinit var view1 : View
+    private var screenShotClass:ScreenShotClass ?=null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_home_page, container, false)
@@ -56,6 +61,12 @@ class HomeFragment : Fragment() {
                     }
 
                 })
+        screenShotClass = ScreenShotClass(context)
+        view.OtherDeviceShareBtn.setOnClickListener({
+            var bitmap:Bitmap = screenShotClass!!.takeScreenshot(view)
+            screenShotClass!!.saveBitmap(bitmap)
+            screenShotClass!!.sharebuttonIntent()
+        })
         setBillTextAdapter(view)
         setTaxRateAdapter(view)
         setDiscountextAdapter(view)
@@ -192,4 +203,5 @@ class HomeFragment : Fragment() {
             }
         })
     }
+
 }

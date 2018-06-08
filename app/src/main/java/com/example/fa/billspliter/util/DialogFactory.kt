@@ -17,6 +17,8 @@ import com.example.fa.billspliter.data.server.Firebase
 import com.example.fa.billspliter.presenter.RoomHelper
 import com.example.fa.billspliter.ui.adapter.NearbyAdapter
 import com.example.fa.billspliter.ui.adapter.NearbyReceivedAdapter
+import com.example.fa.billspliter.ui.billspliter.HomeActivity
+import com.google.android.gms.nearby.messages.Message
 import kotlinx.android.synthetic.main.nearby_dialog.view.*
 
 
@@ -118,14 +120,19 @@ class DialogFactory
         val inflater = LayoutInflater.from(context)
         val dialogView = inflater.inflate(R.layout.nearby_dialog, null)
         alertDialog.setView(dialogView)
+        alertDialog.setCancelable(false)
         alertDialog.setTitle("Select and send to nearby user.")
         val recycleLayout = LinearLayoutManager(context!!, LinearLayoutManager.VERTICAL, false)
         recycleAdapter =  NearbyAdapter(nearbyUser,data)
         dialogView.recycleView.layoutManager = recycleLayout
         dialogView.recycleView.adapter = recycleAdapter
         dialogView.recycleView.adapter
-        alertDialog.create()
-        alertDialog.show()
+        var contentdialog = alertDialog.create()
+        contentdialog.show()
+        dialogView.CloseBtn.setOnClickListener({
+            HomeActivity.connectionClients!!.stopDiscovery()
+            contentdialog.dismiss()
+        })
     }
 
     fun resetRecyclerView(nearbyUser: ArrayList<DeviceData>){

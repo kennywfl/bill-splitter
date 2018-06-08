@@ -17,7 +17,7 @@ class ConnectionLifeCycleCallBackAcceptAdapter:ConnectionLifecycleCallback {
     }
 
     override fun onConnectionResult(endpointId: String, result: ConnectionResolution) {
-        when (result.status.statusCode) {
+        when(result.status.statusCode) {
             ConnectionsStatusCodes.STATUS_OK -> {
                 Log.d("device connected","device connected")
                 if(data != null){
@@ -43,15 +43,15 @@ class ConnectionLifeCycleCallBackAcceptAdapter:ConnectionLifecycleCallback {
 
 
    fun sendPayLoad(endpointId: String,data:String){
-        connectionClients!!.sendPayload(endpointId, Payload.fromBytes(data.toByteArray())) .addOnSuccessListener(object: OnSuccessListener<Void> {
-            override fun onSuccess(p0: Void?) {
-                connectionClients!!.disconnectFromEndpoint(endpointId)
-                connectionClients!!.stopDiscovery()
-            }
-        }).addOnFailureListener(object: OnFailureListener {
+        connectionClients!!.sendPayload(endpointId, Payload.fromBytes(data.toByteArray())
+        ).addOnFailureListener(object: OnFailureListener {
             override fun onFailure(it: Exception) {
                 Log.d("ConnectionLifeCycle", "Fail to send message . "+ it.message)
             }
+        }).addOnCompleteListener({
+            Log.d("completed ", "disconnect endpoint")
+            connectionClients!!.disconnectFromEndpoint(endpointId)
+            connectionClients!!.stopDiscovery()
         })
 
     }
