@@ -51,7 +51,7 @@ class SplashScreen : AppCompatActivity() {
                 finish()
             }
         }
-           if(requestCode == REQUEST_WRITNG_CODE) {
+        if(requestCode == REQUEST_WRITNG_CODE) {
                 if(grantResults.count()>0 && grantResults[0]==PackageManager.PERMISSION_GRANTED) {
                     if(ContextCompat.checkSelfPermission(this,android.Manifest.permission.WRITE_EXTERNAL_STORAGE)==PackageManager.PERMISSION_GRANTED) {
 

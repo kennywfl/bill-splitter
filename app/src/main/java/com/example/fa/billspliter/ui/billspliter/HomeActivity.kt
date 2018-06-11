@@ -43,7 +43,6 @@ import com.google.android.gms.tasks.OnSuccessListener
 class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
-    private var mMessageListener = MessageListener()
     private  var userData : UserData?= null
     private var mGoogleSignInClient : GoogleApiClient?= null
     private var dialogFactory = DialogFactory()
@@ -158,20 +157,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         return true
     }
 
-    fun signOut() {
-        preferenceHelper.clear()
-        if(loginType == "google") {
-            FirebaseAuth.getInstance().signOut()
-            Auth.GoogleSignInApi.signOut(mGoogleSignInClient)
-        }
-        else if(loginType=="facebook"){
-            FirebaseAuth.getInstance().signOut()
-            LoginManager.getInstance().logOut();
-        }
-        val intent = Intent(this, Main::class.java)
-        startActivity(intent)
-        finish()
-    }
+
 
     override fun recreate() {
         Navigation.findNavController(this,R.id.nav_home_fragment).navigate(R.id.action_homePage_self)
@@ -218,12 +204,27 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         checkDiscoverable()
     }
 
-    fun checkDiscoverable(){
+    private fun checkDiscoverable(){
         if(nav_view.hosting_switch.isChecked) {
             connectionClients?.stopAdvertising()
             connectionClients?.stopDiscovery()
 
         }
+    }
+
+    private fun signOut() {
+        preferenceHelper.clear()
+        if(loginType == "google") {
+            FirebaseAuth.getInstance().signOut()
+            Auth.GoogleSignInApi.signOut(mGoogleSignInClient)
+        }
+        else if(loginType=="facebook"){
+            FirebaseAuth.getInstance().signOut()
+            LoginManager.getInstance().logOut();
+        }
+        val intent = Intent(this, Main::class.java)
+        startActivity(intent)
+        finish()
     }
 
 }

@@ -28,59 +28,40 @@ import com.google.android.gms.tasks.OnSuccessListener
 import kotlinx.android.synthetic.main.fragment_home_page.view.*
 
 
-class HomeFragment : Fragment() {
+class HomeFragment : Fragment() , MvpViewHome.HomeFragment {
 
     private var dateUtil =DateUtil()
     private var dialogFactory = DialogFactory()
     private var nearbyConnectionManager = NearbyConnectionManager()
     private var Service_ID:String = "com.example.fa.billspliter.ui.billspliter"
     private var NearbyStrategy: Strategy = Strategy.P2P_CLUSTER
-    private lateinit var view1 : View
     private var screenShotClass:ScreenShotClass ?=null
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_home_page, container, false)
-        view1 = view
-        view.checktax.setOnClickListener(
-                {
-                    if(view.checktax.isChecked) {
-                        view.TaxRateLayout.visibility = View.VISIBLE
-                    }
-                    else {
-                        view.TaxRateLayout.visibility = View.GONE
-                        view.taxratetext.setText("0")
-                    }
-
-                })
-        view.checkdiscount.setOnClickListener(
-                {
-                    if(view.checkdiscount.isChecked) {
-                        view.DiscountLayout.visibility = View.VISIBLE
-                    }
-                    else {
-                        view.DiscountLayout.visibility = View.GONE
-                        view.DiscountText.setText("0")
-                    }
-
-                })
         screenShotClass = ScreenShotClass(context)
-        view.OtherDeviceShareBtn.setOnClickListener({
-            var bitmap:Bitmap = screenShotClass!!.takeScreenshot(view)
-            screenShotClass!!.saveBitmap(bitmap)
-            screenShotClass!!.sharebuttonIntent()
-        })
+
+        initView(view)
+
+
+        return view
+    }
+    override fun initView (view : View){
         setBillTextAdapter(view)
         setTaxRateAdapter(view)
         setDiscountextAdapter(view)
         setTotalAmountTextWatcher(view)
         setPeopleTextWatcher(view)
+
         val taxRateBarAdapter:TaxRateBarAdapter = TaxRateBarAdapter(view.taxratetext,view.textamounttext,view.AmountText,view.TotalAmountMoneyText,view.DiscountText)
         view.taxratebar.setOnSeekBarChangeListener(taxRateBarAdapter)
+
         view.plusButton.setOnClickListener({
             val data = view.PeopleText.text.toString()
             val calculateddata = data.toInt()+1
             view.PeopleText.setText(calculateddata.toString())
         })
+
         view.minusButton.setOnClickListener({
             val data = view.PeopleText.text.toString()
             if(data.toInt()<=0) {
@@ -91,23 +72,54 @@ class HomeFragment : Fragment() {
                 view.PeopleText.setText(calculateddata.toString())
             }
         })
+
+        view.checktax.setOnClickListener({
+            if(view.checktax.isChecked) {
+                view.TaxRateLayout.visibility = View.VISIBLE
+            }
+            else {
+                view.TaxRateLayout.visibility = View.GONE
+                view.taxratetext.setText("0")
+            }
+        })
+
+        view.checkdiscount.setOnClickListener({
+            if(view.checkdiscount.isChecked) {
+                view.DiscountLayout.visibility = View.VISIBLE
+            }
+            else {
+                view.DiscountLayout.visibility = View.GONE
+                view.DiscountText.setText("0")
+            }
+
+        })
+
         view.saveBtn.setOnClickListener({
             saveToDatabase(view)
-        }
-        )
+        })
+
         view.BluetoothShareBtn.setOnClickListener({
             if(TextUtils.isEmpty(view.AmountText.text.toString())) {
                 Toast.makeText(context!!,"Please insert amount money . ",Toast.LENGTH_SHORT).show()
             }
             else {
-                nearbyConnectionManager.startDiscovery(Service_ID,NearbyStrategy,context!!,sendDataToAllConnected(view))
+                nearbyConnectionManager.startDiscovery(Service_ID,NearbyStrategy,context!!,getSendData(view))
             }
         })
 
-        return view
+        view.OtherDeviceShareBtn.setOnClickListener({
+            if(TextUtils.isEmpty(view.AmountText.text.toString())) {
+                Toast.makeText(context!!,"Please insert amount money . ",Toast.LENGTH_SHORT).show()
+            }else {
+                val bitmap:Bitmap = screenShotClass!!.takeScreenshot(view)
+                screenShotClass!!.saveBitmap(bitmap)
+                screenShotClass!!.sharebuttonIntent()
+            }
+
+        })
     }
 
-    fun saveToDatabase(view:View) {
+    override fun saveToDatabase(view:View) {
         if(TextUtils.isEmpty(view.AmountText.text.toString())) {
             Toast.makeText(context!!,"Please insert amount money . ",Toast.LENGTH_SHORT).show()
             return
@@ -125,7 +137,8 @@ class HomeFragment : Fragment() {
 
 
     }
-    private fun setBillTextAdapter(view:View) {
+
+    override fun setBillTextAdapter(view:View) {
         val textWactcher:TextWatcher = BillAmountTextWatcherAdapter(
                 view.TotalAmountMoneyText,
                 view.taxratetext,
@@ -136,7 +149,7 @@ class HomeFragment : Fragment() {
         view.AmountText.addTextChangedListener(textWactcher)
     }
 
-    private fun setTaxRateAdapter(view:View) {
+    override fun setTaxRateAdapter(view:View) {
         val textWatcher:TextWatcher = TaxRateTextWatcherAdapter(
                 view.taxratebar,
                 view.textamounttext,
@@ -147,7 +160,7 @@ class HomeFragment : Fragment() {
         view.taxratetext.addTextChangedListener(textWatcher)
     }
 
-    private fun setDiscountextAdapter(view:View) {
+    override fun setDiscountextAdapter(view:View) {
         val textWatcher:TextWatcher = DiscountRateTextWatcherAdapter(
                 view.DiscountText,
                 view.TotalAmountMoneyText,
@@ -157,7 +170,7 @@ class HomeFragment : Fragment() {
         view.DiscountText.addTextChangedListener(textWatcher)
     }
 
-    private fun setTotalAmountTextWatcher(view:View) {
+    override fun setTotalAmountTextWatcher(view:View) {
         val textWatcher:TextWatcher = TotalAmountAdapter(
                 view.TotalAmountMoneyText,
                 view.PeopleText,
@@ -166,7 +179,7 @@ class HomeFragment : Fragment() {
         view.TotalAmountMoneyText.addTextChangedListener(textWatcher)
     }
 
-    private fun setPeopleTextWatcher(view:View) {
+    override fun setPeopleTextWatcher(view:View) {
         val textWatcher:TextWatcher = PersonTextWatcherAdapter(
                 view.TotalAmountMoneyText,
                 view.PeopleText,
@@ -175,9 +188,9 @@ class HomeFragment : Fragment() {
         view.PeopleText.addTextChangedListener(textWatcher)
     }
 
-    private fun sendDataToAllConnected(view:View) :String{
+    override fun getSendData(view:View) :String{
 
-        var combinedData:String = "${view.AmountText.text.toString()}"+
+        val combinedData:String = "${view.AmountText.text.toString()}"+
                 ",${view.PeopleText.text.toString()}"+
                 ",${view.taxratetext.text.toString()}" +
                 ",${view.DiscountText.text.toString()}"+

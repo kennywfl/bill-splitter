@@ -33,7 +33,7 @@ import com.google.firebase.auth.GoogleAuthProvider
 import java.util.*
 
 
-class Login : Fragment() {
+class Login : Fragment() ,MvpViewLogin {
 
     private var mAuth: FirebaseAuth? = null
     private val RC_SIGN_IN = 1;
@@ -66,7 +66,7 @@ class Login : Fragment() {
         return view
     }
 
-    fun checkSignIn() {
+    override fun checkSignIn() {
         preferenceHelper= PreferencesHelper(context!!)
         if(preferenceHelper.getName() != null ) {
             if(preferenceHelper.getType() == "google") {
@@ -82,7 +82,7 @@ class Login : Fragment() {
         }
     }
 
-    fun facebookSignIn() {
+    override fun facebookSignIn() {
         mCallbackManager = CallbackManager.Factory.create()
         LoginManager.getInstance().logInWithReadPermissions(this, Arrays.asList("email", "public_profile"))
         LoginManager.getInstance().registerCallback(mCallbackManager, object : FacebookCallback<LoginResult> {
@@ -99,14 +99,12 @@ class Login : Fragment() {
         })
     }
 
-    private fun googleSignIn() {
+    override fun googleSignIn() {
         val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build()
         mGoogleSignInClient = GoogleApiClient.Builder(context!!).addApi(Auth.GOOGLE_SIGN_IN_API,gso).build()
-
-
 
         val signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleSignInClient)
         startActivityForResult(signInIntent, RC_SIGN_IN)
@@ -130,7 +128,7 @@ class Login : Fragment() {
         }
     }
 
-    fun handleFacebookAccessToken(token:AccessToken) {
+    override fun handleFacebookAccessToken(token: AccessToken) {
         val credential = FacebookAuthProvider.getCredential(token.token);
         mAuth?.signInWithCredential(credential)?.addOnCompleteListener(OnCompleteListener<AuthResult> { task ->
             if (task.isSuccessful()) {
@@ -142,7 +140,7 @@ class Login : Fragment() {
         })
     }
 
-    fun handleGoogleSignIn(acct: GoogleSignInAccount) {
+    override fun handleGoogleSignIn(acct: GoogleSignInAccount) {
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
         mAuth?.signInWithCredential(credential)?.addOnCompleteListener( OnCompleteListener<AuthResult> { task ->
             if (task.isSuccessful()) {
