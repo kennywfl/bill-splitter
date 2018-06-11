@@ -42,5 +42,5 @@ class ConnectionLifeCycleCallBackAcceptAdapter:ConnectionLifecycleCallback {
     override fun onConnectionInitiated(endpointId: String, connectionInfo: ConnectionInfo) {
         connectionClients!!.acceptConnection(endpointId,PayloadCallbackAdapter()) //To change body of created functions use File | Settings | File Templates.
     }
-    
+
 }

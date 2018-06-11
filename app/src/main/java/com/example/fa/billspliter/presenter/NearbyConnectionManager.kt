@@ -8,6 +8,7 @@ import com.example.fa.billspliter.ui.adapter.ConnectionLifeCycleCallBackAcceptAd
 import com.example.fa.billspliter.ui.adapter.EndPointConnectionCallbackAdapter
 import com.example.fa.billspliter.ui.billspliter.HomeActivity
 import com.example.fa.billspliter.ui.billspliter.HomeActivity.Companion.connectionClients
+import com.example.fa.billspliter.util.ProgressDialogUtil
 import com.google.android.gms.nearby.connection.AdvertisingOptions
 import com.google.android.gms.nearby.connection.DiscoveryOptions
 import com.google.android.gms.nearby.connection.Payload
@@ -68,14 +69,13 @@ class NearbyConnectionManager {
             }
         }).addOnCompleteListener({
             Log.d("completed ", "disconnect endpoint")
-            connectionClients!!.disconnectFromEndpoint(endpointId)
-            connectionClients!!.stopDiscovery()
         })
 
     }
 
 
     public fun startConnect(deviceData: DeviceData,data: String) {
+        ProgressDialogUtil.progressDialog.show()
         connectionClients!!.requestConnection(
                 deviceData.NickName!!,
                 deviceData.EndPointID!!,

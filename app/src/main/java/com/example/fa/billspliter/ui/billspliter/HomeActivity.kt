@@ -23,6 +23,7 @@ import com.example.fa.billspliter.data.model.UserData
 import com.example.fa.billspliter.presenter.NearbyConnectionManager
 import com.example.fa.billspliter.ui.adapter.ConnectionLifeCycleCallBackAcceptAdapter
 import com.example.fa.billspliter.util.DialogFactory
+import com.example.fa.billspliter.util.ProgressDialogUtil
 import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.common.ConnectionResult
@@ -92,6 +93,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         }
         buildGoogleApiClient()
         connectionClients =Nearby.getConnectionsClient(this)
+        ProgressDialogUtil(this)
     }
 
     override fun onResume() {
