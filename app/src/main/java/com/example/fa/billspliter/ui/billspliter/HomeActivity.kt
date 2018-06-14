@@ -1,19 +1,27 @@
 package com.example.fa.billspliter.ui.billspliter
 
+import android.animation.ValueAnimator
 import android.annotation.SuppressLint
 import android.arch.persistence.room.Room
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
 import android.os.Bundle
+import android.renderscript.Sampler
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
+import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.View
+import android.view.View.GONE
+import android.view.animation.AnimationUtils
+import android.view.animation.DecelerateInterpolator
 import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
+import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.fa.billspliter.data.local.PreferencesHelper
 import com.example.fa.billspliter.R
 import com.example.fa.billspliter.data.model.HistoryDatabase
@@ -60,27 +68,48 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         var rdb : ReceivedDatabase?= null
         var connectionClients: ConnectionsClient?=null
         var loginType :String ?= null
+        var toggle : ActionBarDrawerToggle ?=null
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         setSupportActionBar(toolbar)
-        val toggle = ActionBarDrawerToggle(
-                this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
-        drawer_layout.addDrawerListener(toggle)
-        toggle.syncState()
 
         nav_view.setNavigationItemSelectedListener(this)
 
         db = Room.databaseBuilder(applicationContext, HistoryDatabase::class.java, "bill").allowMainThreadQueries().build()
         rdb= Room.databaseBuilder(applicationContext, ReceivedDatabase::class.java, "rbill").allowMainThreadQueries().build()
 
-        preferenceHelper= PreferencesHelper(this)
+        onCreateDrawerToggle()
+        initView()
 
+        buildGoogleApiClient()
+        connectionClients =Nearby.getConnectionsClient(this)
+
+    }
+
+    private fun onCreateDrawerToggle(){
+        toggle = ActionBarDrawerToggle(
+                this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
+        drawer_layout.addDrawerListener(toggle!!)
+        toggle!!.syncState()
+
+        toggle!!.setToolbarNavigationClickListener {
+            val current = findNavController(R.id.nav_home_fragment).currentDestination.id
+            onSupportNavigateUp()
+            if (current != R.id.nav_home_fragment) {
+                getSupportActionBar()!!.setDisplayHomeAsUpEnabled(false);
+                toggle!!.setDrawerIndicatorEnabled(true);
+                nav_view.menu.getItem(0).isChecked=true
+            }
+        }
+    }
+
+    private fun initView(){
+        preferenceHelper= PreferencesHelper(this)
         userData= UserData(preferenceHelper.getName(), preferenceHelper.getEmail(), preferenceHelper.getUrl())
         loginType =preferenceHelper.getType()
-
         if(loginType == "google") {
             mGoogleSignInClient = GoogleApiClient.getAllClients().first()
         }
@@ -90,8 +119,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if(userData?.url != "" && userData?.url != null) {
             Picasso.with(applicationContext).load(userData?.url).fit().into(nav_view.getHeaderView(0).imageView)
         }
-        buildGoogleApiClient()
-        connectionClients =Nearby.getConnectionsClient(this)
     }
 
     override fun onResume() {
@@ -143,7 +170,11 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             R.id.nearby -> {
                 toolbar.menu.findItem(R.id.reset).title="Back"
                 previousMenuItem = item
+                 toggle!!.setDrawerIndicatorEnabled(false);
+                 supportActionBar!!.setDisplayHomeAsUpEnabled(true)
                 Navigation.findNavController(this,R.id.nav_home_fragment).navigate(R.id.action_homePage_to_nearby2)
+
+
             }
             R.id.sign_out -> {
                 signOut()
@@ -156,8 +187,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawer_layout.closeDrawer(GravityCompat.START)
         return true
     }
-
-
 
     override fun recreate() {
         Navigation.findNavController(this,R.id.nav_home_fragment).navigate(R.id.action_homePage_self)
@@ -226,5 +255,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         startActivity(intent)
         finish()
     }
+
+
 
 }
