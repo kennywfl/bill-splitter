@@ -1,26 +1,17 @@
 package com.example.fa.billspliter.ui.adapter
 
-import android.app.Activity
-import android.content.Context
+
 import android.support.v7.widget.RecyclerView
-import android.util.Log
+
 import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.TextView
-import android.widget.Toast
 import com.example.fa.billspliter.R
 import com.example.fa.billspliter.data.model.DeviceData
 import com.example.fa.billspliter.presenter.NearbyConnectionManager
-import com.example.fa.billspliter.ui.billspliter.HomeActivity
-import com.example.fa.billspliter.ui.billspliter.HomeActivity.Companion.connectionClients
-import com.google.android.gms.nearby.Nearby
-import com.google.android.gms.nearby.connection.Payload
-import com.google.android.gms.nearby.messages.Message
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
+import com.example.fa.billspliter.util.DialogFactory
 import kotlinx.android.synthetic.main.nearby_rv_layout.view.*
-import kotlin.coroutines.experimental.coroutineContext
 
 class NearbyAdapter : RecyclerView.Adapter<NearbyAdapter.ViewHolder> {
 
@@ -47,6 +38,7 @@ class NearbyAdapter : RecyclerView.Adapter<NearbyAdapter.ViewHolder> {
         holder?.tv_name?.text = Devicedata.NickName
         holder.itemView?.setOnClickListener {
             nearbyConnectionManager.startConnect(Devicedata,data!!)
+            DialogFactory.contentdialog!!.dismiss()
         }
 
     }

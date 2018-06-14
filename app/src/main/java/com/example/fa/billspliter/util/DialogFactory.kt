@@ -28,6 +28,9 @@ class DialogFactory
     private lateinit var preferenceHelper: PreferencesHelper
     private var firebase = Firebase()
     private var  recycleAdapter:NearbyAdapter ?= null
+    companion object {
+        var contentdialog:AlertDialog ?=null
+    }
 
     fun createExitDialog(context: Context):Dialog {
         val alertDialog = AlertDialog.Builder(context, R.style.AlertDialogTheme)
@@ -127,11 +130,11 @@ class DialogFactory
         dialogView.recycleView.layoutManager = recycleLayout
         dialogView.recycleView.adapter = recycleAdapter
         dialogView.recycleView.adapter
-        var contentdialog = alertDialog.create()
-        contentdialog.show()
+        contentdialog= alertDialog.create()
+        contentdialog!!.show()
         dialogView.CloseBtn.setOnClickListener({
             HomeActivity.connectionClients!!.stopDiscovery()
-            contentdialog.dismiss()
+            contentdialog!!.dismiss()
         })
     }
 
