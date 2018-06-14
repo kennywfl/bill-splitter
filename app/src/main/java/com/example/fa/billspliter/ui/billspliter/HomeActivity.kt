@@ -1,7 +1,5 @@
 package com.example.fa.billspliter.ui.billspliter
 
-import android.animation.ValueAnimator
-import android.annotation.SuppressLint
 import android.arch.persistence.room.Room
 import android.content.Intent
 import android.support.v7.app.AppCompatActivity
@@ -9,19 +7,13 @@ import android.os.Bundle
 import android.renderscript.Sampler
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
-import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
-import android.view.View
-import android.view.View.GONE
-import android.view.animation.AnimationUtils
-import android.view.animation.DecelerateInterpolator
 import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
-import androidx.navigation.ui.setupActionBarWithNavController
 import com.example.fa.billspliter.data.local.PreferencesHelper
 import com.example.fa.billspliter.R
 import com.example.fa.billspliter.data.model.HistoryDatabase
@@ -29,24 +21,20 @@ import com.example.fa.billspliter.data.model.ReceivedDatabase
 import com.example.fa.billspliter.ui.login.Main
 import com.example.fa.billspliter.data.model.UserData
 import com.example.fa.billspliter.presenter.NearbyConnectionManager
-import com.example.fa.billspliter.ui.adapter.ConnectionLifeCycleCallBackAcceptAdapter
 import com.example.fa.billspliter.util.DialogFactory
+import com.example.fa.billspliter.util.ProgressDialogUtil
 import com.facebook.login.LoginManager
 import com.google.android.gms.auth.api.Auth
 import com.google.android.gms.common.ConnectionResult
 import com.google.android.gms.common.api.GoogleApiClient
 import com.google.android.gms.nearby.Nearby
 import com.google.android.gms.nearby.connection.ConnectionsClient
-import com.google.android.gms.nearby.messages.*
 import com.google.firebase.auth.FirebaseAuth
 import com.squareup.picasso.Picasso
 import kotlinx.android.synthetic.main.activity_home.*
 import kotlinx.android.synthetic.main.app_bar_main.*
 import kotlinx.android.synthetic.main.nav_header_main.view.*
-import com.google.android.gms.nearby.connection.*
 import com.google.android.gms.nearby.connection.Strategy
-import com.google.android.gms.tasks.OnFailureListener
-import com.google.android.gms.tasks.OnSuccessListener
 
 class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
@@ -86,7 +74,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
         buildGoogleApiClient()
         connectionClients =Nearby.getConnectionsClient(this)
-
+        ProgressDialogUtil(this)
     }
 
     private fun onCreateDrawerToggle(){
@@ -119,6 +107,11 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         if(userData?.url != "" && userData?.url != null) {
             Picasso.with(applicationContext).load(userData?.url).fit().into(nav_view.getHeaderView(0).imageView)
         }
+
+        buildGoogleApiClient()
+        connectionClients =Nearby.getConnectionsClient(this)
+        ProgressDialogUtil(this)
+
     }
 
     override fun onResume() {

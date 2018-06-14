@@ -36,7 +36,6 @@ class ConnectionLifeCycleCallBackAcceptAdapter:ConnectionLifecycleCallback {
     }
 
     override fun onDisconnected(endpointId: String) {
-
     }
 
     override fun onConnectionInitiated(endpointId: String, connectionInfo: ConnectionInfo) {
