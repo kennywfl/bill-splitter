@@ -55,6 +55,7 @@ class NearbyReceivedAdapter : RecyclerView.Adapter<NearbyReceivedAdapter.ViewHol
     }
     fun setData(RBList: List<ReceivedBillEntity>) {
         this.RBList = RBList
+        notifyDataSetChanged()
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {

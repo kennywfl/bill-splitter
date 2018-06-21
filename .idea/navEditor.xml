@@ -5,45 +5,7 @@
       <map>
         <entry key="nav_bill.xml">
           <value>
-            <LayoutPositions>
-              <option name="myPositions">
-                <map>
-                  <entry key="history">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="-582" />
-                            <option name="y" value="9" />
-                          </Point>
-                        </option>
-                        <option name="myPositions">
-                          <map>
-                            <entry key="action_history_to_historyDetail">
-                              <value>
-                                <LayoutPositions />
-                              </value>
-                            </entry>
-                          </map>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
-                  <entry key="historyDetail">
-                    <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="-361" />
-                            <option name="y" value="7" />
-                          </Point>
-                        </option>
-                      </LayoutPositions>
-                    </value>
-                  </entry>
-                </map>
-              </option>
-            </LayoutPositions>
+            <LayoutPositions />
           </value>
         </entry>
         <entry key="nav_graph.xml">
@@ -53,25 +15,12 @@
                 <map>
                   <entry key="homeActivity">
                     <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="380" />
-                            <option name="y" value="20" />
-                          </Point>
-                        </option>
-                      </LayoutPositions>
+                      <LayoutPositions />
                     </value>
                   </entry>
                   <entry key="login">
                     <value>
                       <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="200" />
-                            <option name="y" value="20" />
-                          </Point>
-                        </option>
                         <option name="myPositions">
                           <map>
                             <entry key="action_login_to_homeActivity">
@@ -92,12 +41,6 @@
                   <entry key="skipLogin">
                     <value>
                       <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="20" />
-                            <option name="y" value="20" />
-                          </Point>
-                        </option>
                         <option name="myPositions">
                           <map>
                             <entry key="action_skipLogin_to_homeActivity">
@@ -126,27 +69,29 @@
               </option>
               <option name="myPositions">
                 <map>
-                  <entry key="billHistory">
+                  <entry key="history">
                     <value>
                       <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="380" />
-                            <option name="y" value="20" />
-                          </Point>
+                        <option name="myPositions">
+                          <map>
+                            <entry key="action_history_to_historyDetail">
+                              <value>
+                                <LayoutPositions />
+                              </value>
+                            </entry>
+                          </map>
                         </option>
                       </LayoutPositions>
+                    </value>
+                  </entry>
+                  <entry key="historyDetail">
+                    <value>
+                      <LayoutPositions />
                     </value>
                   </entry>
                   <entry key="homePage">
                     <value>
                       <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="-156" />
-                            <option name="y" value="104" />
-                          </Point>
-                        </option>
                         <option name="myPositions">
                           <map>
                             <entry key="action_homePage_self">
@@ -154,7 +99,7 @@
                                 <LayoutPositions />
                               </value>
                             </entry>
-                            <entry key="action_homePage_to_billHistory">
+                            <entry key="action_homePage_to_history">
                               <value>
                                 <LayoutPositions />
                               </value>
@@ -171,14 +116,7 @@
                   </entry>
                   <entry key="nearby2">
                     <value>
-                      <LayoutPositions>
-                        <option name="myPosition">
-                          <Point>
-                            <option name="x" value="20" />
-                            <option name="y" value="20" />
-                          </Point>
-                        </option>
-                      </LayoutPositions>
+                      <LayoutPositions />
                     </value>
                   </entry>
                 </map>

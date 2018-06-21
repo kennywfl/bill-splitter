@@ -12,6 +12,7 @@ interface Presenter {
         fun getHistorySaveServer()
         fun showList(historyList:List<BillEntity>)
         fun removeTable()
+        fun removeFromFirebase(serverKey:String)
         fun insertToRDb(entityData: ReceivedBillEntity)
         fun removeFromRDb(entityData: ReceivedBillEntity)
         fun getRBillHistory()

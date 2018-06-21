@@ -78,6 +78,11 @@ class RoomHelper : Presenter.RoomHelper {
         }
     }
 
+    /*Remove bill entity from firebase.*/
+    override fun removeFromFirebase(serverKey:String){
+        firebase.removeFromServer(serverKey!!)
+    }
+
     /* Database operation for message received by Nearby API */
     /* Insert received bill into database*/
     override  fun insertToRDb(entityData: ReceivedBillEntity) {

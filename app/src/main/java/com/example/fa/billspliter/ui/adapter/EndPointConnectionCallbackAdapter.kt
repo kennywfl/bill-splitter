@@ -7,17 +7,19 @@ import android.util.Log
 import com.example.fa.billspliter.data.model.DeviceData
 import com.example.fa.billspliter.ui.billspliter.HomeActivity
 import com.example.fa.billspliter.util.DialogFactory
+import com.example.fa.billspliter.util.ViewUtil
 import com.google.android.gms.nearby.connection.DiscoveredEndpointInfo
 import com.google.android.gms.nearby.connection.EndpointDiscoveryCallback
 
 class EndPointConnectionCallbackAdapter:EndpointDiscoveryCallback {
 
     var DeviceList:ArrayList<DeviceData> ?=null
-    var DeviceListDialogFactory:DialogFactory ?=null
+    var viewUtil = ViewUtil()
+    val dialogfactory = DialogFactory()
 
     override fun onEndpointFound(endpointId: String, discoveredEndpointInfo: DiscoveredEndpointInfo) {
         DeviceList!!.add(DeviceData(discoveredEndpointInfo.endpointName,endpointId))
-        DeviceListDialogFactory!!.resetRecyclerView(DeviceList!!)
+        viewUtil!!.resetRecyclerView(DeviceList!!)
         Log.d("founded", endpointId + " founded");
     }
 
@@ -25,14 +27,13 @@ class EndPointConnectionCallbackAdapter:EndpointDiscoveryCallback {
         for (i in 0..DeviceList!!.count()-1){
             if(endpointId==DeviceList!![i].EndPointID){
                 DeviceList!!.remove(DeviceList!![i])
-                DeviceListDialogFactory!!.resetRecyclerView(DeviceList!!)
+                viewUtil!!.resetRecyclerView(DeviceList!!)
             }
         }
     }
 
     constructor(context:Context,data:String) : super() {
         DeviceList = ArrayList<DeviceData>()
-        DeviceListDialogFactory = DialogFactory()
-        DeviceListDialogFactory!!.showNearbyDialog(context,DeviceList!!,data)
+        dialogfactory!!.showNearbyDialog(context,DeviceList!!,data)
     }
 }

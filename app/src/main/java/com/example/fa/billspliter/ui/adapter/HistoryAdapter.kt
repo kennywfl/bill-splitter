@@ -9,6 +9,7 @@ import android.view.ViewGroup
 import android.widget.TextView
 import com.example.fa.billspliter.R
 import com.example.fa.billspliter.data.model.BillEntity
+import com.example.fa.billspliter.data.model.ReceivedBillEntity
 import com.example.fa.billspliter.ui.billhistory.MvpViewHistory
 import kotlinx.android.synthetic.main.history_rv_layout.view.*
 
@@ -20,14 +21,12 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
     private var historyView : MvpViewHistory?=null
     var count = 1
 
-    constructor(c: Context, nearbyPlaceList: List<BillEntity> ,historyView: MvpViewHistory)  {
+    constructor(c: Context, billList: List<BillEntity> ,historyView: MvpViewHistory)  {
         this.c = c
-        this.historyList = nearbyPlaceList
+        this.historyList = billList
         this.historyView = historyView
 
     }
-
-
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent?.getContext())
                 .inflate(R.layout.history_rv_layout, parent, false)
@@ -52,7 +51,10 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
         });
 
     }
-
+    fun setData(billList: List<BillEntity>) {
+        this.historyList = billList
+        notifyDataSetChanged()
+    }
     override fun getItemCount(): Int {
         return historyList.size
     }

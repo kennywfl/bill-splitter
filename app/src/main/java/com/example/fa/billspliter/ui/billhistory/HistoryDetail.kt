@@ -8,6 +8,7 @@ import android.os.Environment
 import android.support.v4.app.Fragment
 import android.util.Log
 import android.view.LayoutInflater
+import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
 import com.example.fa.billspliter.R
@@ -29,6 +30,10 @@ class HistoryDetail : Fragment() {
     var screenShotClass:ScreenShotClass ?=null
     private lateinit var preferenceHelper: PreferencesHelper
 
+    override fun onCreate(savedInstanceState: Bundle?) {
+        super.onCreate(savedInstanceState)
+        setHasOptionsMenu(true);
+    }
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_history_detail, container, false)
@@ -53,5 +58,7 @@ class HistoryDetail : Fragment() {
         return view
     }
 
-
+    override fun onPrepareOptionsMenu(menu: Menu?) {
+        menu?.setGroupVisible(0,false)
+    }
 }

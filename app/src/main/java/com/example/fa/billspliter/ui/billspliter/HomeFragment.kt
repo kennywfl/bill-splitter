@@ -1,6 +1,8 @@
 package com.example.fa.billspliter.ui.billspliter
 
 
+import android.app.Activity
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -15,9 +17,12 @@ import android.view.ViewGroup
 import android.widget.Toast
 import com.example.fa.billspliter.R
 import com.example.fa.billspliter.data.model.BillEntity
+import com.example.fa.billspliter.data.server.Firebase
 import com.example.fa.billspliter.presenter.NearbyConnectionManager
+import com.example.fa.billspliter.presenter.RoomHelper
 import com.example.fa.billspliter.ui.adapter.*
 import com.example.fa.billspliter.ui.billspliter.HomeActivity.Companion.connectionClients
+import com.example.fa.billspliter.ui.billspliter.HomeActivity.Companion.loginType
 import com.example.fa.billspliter.util.DateUtil
 import com.example.fa.billspliter.util.DialogFactory
 import com.example.fa.billspliter.util.ScreenShotClass
@@ -36,14 +41,14 @@ class HomeFragment : Fragment() , MvpViewHome.HomeFragment {
     private var Service_ID:String = "com.example.fa.billspliter.ui.billspliter"
     private var NearbyStrategy: Strategy = Strategy.P2P_CLUSTER
     private var screenShotClass:ScreenShotClass ?=null
+    private var firebase = Firebase()
+    private var roomHelper = RoomHelper()
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_home_page, container, false)
         screenShotClass = ScreenShotClass(context)
-
         initView(view)
-
-
         return view
     }
     override fun initView (view : View){
@@ -133,9 +138,17 @@ class HomeFragment : Fragment() , MvpViewHome.HomeFragment {
         val date = dateUtil.getDate()
 
         val entityData= BillEntity(null,amount,numPeople ,tax ,discount ,totalAmount , eachPaid , date,null)
-        dialogFactory.saveToDbDialog(context!!,entityData).show()
-
-
+        dialogFactory.createTwoButtonDialog(context!!,"ALERT!","Save To database?",
+                DialogInterface.OnClickListener { dialog, which ->
+                    if(loginType == "skip"){
+                        roomHelper.insertToDb(entityData)
+                    }
+                    else {
+                        firebase.saveBill(entityData)
+                    }
+                    (context as Activity).recreate()
+                    Toast.makeText(context!!,"Sucessfully saved . ",Toast.LENGTH_SHORT).show()
+                }).show()
     }
 
     override fun setBillTextAdapter(view:View) {

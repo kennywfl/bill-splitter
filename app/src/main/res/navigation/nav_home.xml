@@ -16,22 +16,31 @@
             app:launchDocument="false"
             app:popUpToInclusive="false" />
         <action
-            android:id="@+id/action_homePage_to_billHistory"
-            app:destination="@id/billHistory" />
-        <action
             android:id="@+id/action_homePage_to_nearby2"
             app:destination="@id/nearby2" />
+        <action
+            android:id="@+id/action_homePage_to_history"
+            app:destination="@id/history" />
     </fragment>
-    <activity
-        android:id="@+id/billHistory"
-        android:name="com.example.fa.billspliter.ui.billhistory.BillHistory"
-        android:label="activity_bill_history"
-        tools:layout="@layout/activity_bill_history" />
     <fragment
         android:id="@+id/nearby2"
         android:name="com.example.fa.billspliter.ui.nearbymessage.Nearby"
         android:label="fragment_nearby"
         tools:layout="@layout/fragment_nearby" ></fragment>
+    <fragment
+        android:id="@+id/historyDetail"
+        android:name="com.example.fa.billspliter.ui.billhistory.HistoryDetail"
+        android:label="fragment_history_detail"
+        tools:layout="@layout/fragment_history_detail" />
+    <fragment
+        android:id="@+id/history"
+        android:name="com.example.fa.billspliter.ui.billhistory.History"
+        android:label="fragment_history"
+        tools:layout="@layout/fragment_history" >
+        <action
+            android:id="@+id/action_history_to_historyDetail"
+            app:destination="@id/historyDetail" />
+    </fragment>
 
 
 </navigation>
