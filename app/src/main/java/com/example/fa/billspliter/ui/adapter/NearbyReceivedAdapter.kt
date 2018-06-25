@@ -45,7 +45,7 @@ class NearbyReceivedAdapter : RecyclerView.Adapter<NearbyReceivedAdapter.ViewHol
         holder?.tv_each_paid?.text ="Each  person paid : RM  ${data.eachPaid}"
         holder?.tv_date?.text = "Issue date : ${data.date}"
 
-        holder?.shareBtn.setOnClickListener(View.OnClickListener {
+        holder?.deleteBtn.setOnClickListener(View.OnClickListener {
             nearbyView?.onClick(RBList,position)
         });
     }
@@ -66,7 +66,7 @@ class NearbyReceivedAdapter : RecyclerView.Adapter<NearbyReceivedAdapter.ViewHol
         var tv_total: TextView
         var tv_each_paid:TextView
         var tv_date:TextView
-        var shareBtn: FloatingActionButton
+        var deleteBtn: FloatingActionButton
         init {
             tv_amount = itemView.tv_amount
             tv_num_people = itemView.tv_num_people
@@ -75,7 +75,7 @@ class NearbyReceivedAdapter : RecyclerView.Adapter<NearbyReceivedAdapter.ViewHol
             tv_total = itemView.tv_total
             tv_each_paid = itemView.tv_each_paid
             tv_date = itemView.tv_date
-            shareBtn =itemView.shareBtn
+            deleteBtn =itemView.deleteBtn
         }
 
     }

@@ -15,6 +15,8 @@ import android.view.LayoutInflater
 import android.view.View
 import android.view.ViewGroup
 import android.widget.Toast
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.example.fa.billspliter.R
 import com.example.fa.billspliter.data.model.BillEntity
 import com.example.fa.billspliter.data.server.Firebase
@@ -146,8 +148,9 @@ class HomeFragment : Fragment() , MvpViewHome.HomeFragment {
                     else {
                         firebase.saveBill(entityData)
                     }
-                    (context as Activity).recreate()
                     Toast.makeText(context!!,"Sucessfully saved . ",Toast.LENGTH_SHORT).show()
+                    activity?.recreate()
+
                 }).show()
     }
 

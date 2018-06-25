@@ -32,7 +32,7 @@ class DialogFactory
     fun createTwoButtonDialog(context: Context,title:String , message: String ,clickListener:DialogInterface.OnClickListener):Dialog {
         val alertDialog = AlertDialog.Builder(context, R.style.AlertDialogTheme)
         alertDialog.setTitle("$title")
-                .setMessage("Are you sure want to remove?")
+                .setMessage("$message")
                 .setPositiveButton("YES",clickListener)
                 .setNegativeButton("NO", DialogInterface.OnClickListener { dialog, which ->
                     dialog.dismiss()

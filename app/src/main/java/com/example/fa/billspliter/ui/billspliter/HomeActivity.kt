@@ -1,5 +1,6 @@
 package com.example.fa.billspliter.ui.billspliter
 
+import android.animation.ValueAnimator
 import android.arch.persistence.room.Room
 import android.content.DialogInterface
 import android.content.Intent
@@ -12,6 +13,7 @@ import android.support.v7.app.ActionBarDrawerToggle
 import android.util.Log
 import android.view.Menu
 import android.view.MenuItem
+import android.view.animation.DecelerateInterpolator
 import android.widget.Toast
 import androidx.navigation.Navigation
 import androidx.navigation.findNavController
@@ -44,7 +46,6 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     private var mGoogleSignInClient : GoogleApiClient?= null
     private var dialogFactory = DialogFactory()
     private lateinit var preferenceHelper: PreferencesHelper
-    private var previousMenuItem :  MenuItem ?=null
     private  var googleApiClient: GoogleApiClient? = null
     private var nearbyConnectionManager = NearbyConnectionManager()
     private var Service_ID:String = "com.example.fa.billspliter.ui.billspliter"
@@ -57,12 +58,14 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         var connectionClients: ConnectionsClient?=null
         var loginType :String ?= null
         var toggle : ActionBarDrawerToggle ?=null
+        var isArrow : Boolean = false
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_home)
         setSupportActionBar(toolbar)
+        supportActionBar?.setDisplayHomeAsUpEnabled(true);
 
         nav_view.setNavigationItemSelectedListener(this)
 
@@ -83,19 +86,24 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         drawer_layout.addDrawerListener(toggle!!)
         toggle!!.syncState()
 
-        toggle!!.setToolbarNavigationClickListener {
-                toolBarEvent()
+        toolbar.setNavigationOnClickListener{
+            if(isArrow){
+                backToPreviousFragment()
+            }else{
+                drawer_layout.openDrawer(GravityCompat.START)
+            }
+
         }
     }
 
-    private fun toolBarEvent(){
+    private fun backToPreviousFragment(){
         onSupportNavigateUp()
         if (checkToggleState()) {
-            getSupportActionBar()!!.setDisplayHomeAsUpEnabled(false);
-            toggle!!.setDrawerIndicatorEnabled(true);
             nav_view.menu.getItem(0).isChecked=true
+            changeToolbarIconToMenu()
         }
     }
+
     private fun checkToggleState():Boolean{
         val current = findNavController(R.id.nav_home_fragment).currentDestination.id
         if (current == R.id.homePage) {
@@ -138,7 +146,7 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             dialogFactory.createTwoButtonDialog(this,"ALERT!","Are you sure want to quit the application?",
                     DialogInterface.OnClickListener { dialog, which -> finish() }).show()
         }else{
-            toolBarEvent()
+            backToPreviousFragment()
         }
     }
 
@@ -158,23 +166,15 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onNavigationItemSelected(item: MenuItem): Boolean {
 
-        if(previousMenuItem != null) {
-            Navigation.findNavController(this,R.id.nav_home_fragment).popBackStack(R.id.nav_home_fragment,true)
-        }
         when (item.itemId) {
             R.id.home -> {
-                previousMenuItem = null
             }
             R.id.history -> {
-                previousMenuItem = item
-                toggle!!.setDrawerIndicatorEnabled(false);
-                supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+                changeToolbarIconToBackArrow()
                 Navigation.findNavController(this,R.id.nav_home_fragment).navigate(R.id.action_homePage_to_history)
             }
             R.id.nearby -> {
-                 previousMenuItem = item
-                 toggle!!.setDrawerIndicatorEnabled(false);
-                 supportActionBar!!.setDisplayHomeAsUpEnabled(true)
+                 changeToolbarIconToBackArrow()
                  Navigation.findNavController(this,R.id.nav_home_fragment).navigate(R.id.action_homePage_to_nearby2)
             }
             R.id.sign_out -> {
@@ -255,6 +255,26 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         finish()
     }
 
+    fun changeToolbarIconToBackArrow() {
+        isArrow=true
+        animateIcon(0, 1, 800);
+    }
 
+    fun changeToolbarIconToMenu() {
+        isArrow=false
+       animateIcon(1, 0, 800);
+    }
 
+    fun animateIcon(start: Int, end : Int, duration : Int) {
+        if (toggle != null) {
+            val anim = ValueAnimator.ofFloat(start.toFloat(), end.toFloat());
+            anim.addUpdateListener { animation ->
+                val slideOffset =  animation?.animatedValue as Float;
+                toggle!!.onDrawerSlide(drawer_layout, slideOffset);
+            };
+            anim.interpolator = DecelerateInterpolator();
+            anim.duration = duration.toLong();
+            anim.start();
+        }
+    }
 }

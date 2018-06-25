@@ -1,5 +1,6 @@
 package com.example.fa.billspliter.ui.billhistory
 
+import android.content.DialogInterface
 import android.content.Intent
 import android.graphics.Bitmap
 import android.net.Uri
@@ -11,10 +12,14 @@ import android.view.LayoutInflater
 import android.view.Menu
 import android.view.View
 import android.view.ViewGroup
+import androidx.navigation.Navigation
+import androidx.navigation.fragment.findNavController
 import com.example.fa.billspliter.R
 import com.example.fa.billspliter.data.local.PreferencesHelper
 import com.example.fa.billspliter.data.model.BillEntity
 import com.example.fa.billspliter.presenter.RoomHelper
+import com.example.fa.billspliter.ui.billspliter.HomeActivity
+import com.example.fa.billspliter.ui.billspliter.HomeActivity.Companion.loginType
 import com.example.fa.billspliter.util.DialogFactory
 import com.example.fa.billspliter.util.ScreenShotClass
 import com.google.android.gms.nearby.messages.Message
@@ -29,6 +34,8 @@ class HistoryDetail : Fragment() {
 
     var screenShotClass:ScreenShotClass ?=null
     private lateinit var preferenceHelper: PreferencesHelper
+    private val roomHelper = RoomHelper()
+    private val dialogFactory = DialogFactory()
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
@@ -55,6 +62,17 @@ class HistoryDetail : Fragment() {
                     screenShotClass!!.sharebuttonIntent()
                 }
         )
+        view.deleteBtn.setOnClickListener{
+            dialogFactory.createTwoButtonDialog(context!!,"Alert!" , "Are you sure want to remove?",
+                    DialogInterface.OnClickListener { dialog, which ->
+                        if(loginType == "skip"){
+                            roomHelper.removeFromDb(data)
+                        } else {
+                            roomHelper.removeFromFirebase(data.serverKey!!)
+                        }
+                        findNavController().navigateUp()
+                    }).show()
+        }
         return view
     }
 

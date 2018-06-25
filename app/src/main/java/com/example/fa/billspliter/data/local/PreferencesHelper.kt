@@ -15,7 +15,6 @@ open class PreferencesHelper{
         this.context = context
     }
 
-
     fun saveData(name:String ,email: String? , url: String?, type: String) {
         mPref = context.getSharedPreferences(PREF_FILE_NAME, Context.MODE_PRIVATE)
         val editor = mPref.edit()

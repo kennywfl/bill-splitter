@@ -42,14 +42,19 @@ class History : Fragment(), MvpViewHistory {
         val view = inflater.inflate(R.layout.fragment_history, container, false)
         recycleView = view.recycleView
 
+
+
+        return view
+    }
+
+    override fun onResume() {
+        super.onResume()
         if(loginType == "skip" ) {
             roomHelper.getHistory()
         }
         else{
             roomHelper.getHistorySaveServer()
         }
-
-        return view
     }
 
       override fun setRecycleView(billList : List<BillEntity>) {
