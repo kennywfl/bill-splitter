@@ -1,11 +1,3 @@
-
-
-
-
-
-
-
-
 package com.example.fa.billspliter.ui.login
 
 import android.os.Bundle
@@ -25,27 +17,24 @@ class SkipLogin : Fragment() {
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
-        preferenceHelper= PreferencesHelper(context!!)
+        preferenceHelper = PreferencesHelper(context!!)
     }
 
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_skip_login, container, false)
 
-        view.next_btn.setOnClickListener{
-            if(TextUtils.isEmpty(view.inputText.text.toString())) {
-                Toast.makeText(context,"Please input a username to proceed.",Toast.LENGTH_SHORT).show()
+        view.next_btn.setOnClickListener {
+            if (TextUtils.isEmpty(view.inputText.text.toString())) {
+                Toast.makeText(context, "Please input a username to proceed.", Toast.LENGTH_SHORT).show()
                 return@setOnClickListener
             }
-            preferenceHelper.saveData(view.inputText.text.toString(),"",null,"skip")
+            preferenceHelper.saveData(view.inputText.text.toString(), "", null, "skip")
             findNavController().navigate(R.id.action_skipLogin_to_homeActivity)
             activity!!.finish();
         }
         return view
     }
-
-
-
 
 
 }

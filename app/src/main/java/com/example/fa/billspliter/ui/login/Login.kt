@@ -11,6 +11,7 @@ import com.google.android.gms.auth.api.signin.GoogleSignInOptions
 import com.google.android.gms.common.api.ApiException
 import com.google.android.gms.auth.api.signin.GoogleSignIn
 import android.content.Intent
+import android.graphics.Paint
 import android.util.Log
 import androidx.navigation.fragment.findNavController
 import com.example.fa.billspliter.data.local.PreferencesHelper
@@ -33,23 +34,26 @@ import com.google.firebase.auth.GoogleAuthProvider
 import java.util.*
 
 
-class Login : Fragment() ,MvpViewLogin {
+class Login : Fragment(), MvpViewLogin {
 
     private var mAuth: FirebaseAuth? = null
     private val RC_SIGN_IN = 1;
-    private var mGoogleSignInClient : GoogleApiClient ?= null
+    private var mGoogleSignInClient: GoogleApiClient? = null
     private lateinit var preferenceHelper: PreferencesHelper
-    private lateinit var mCallbackManager : CallbackManager
+    private lateinit var mCallbackManager: CallbackManager
 
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         mAuth = FirebaseAuth.getInstance();
-        preferenceHelper= PreferencesHelper(context!!)
+        preferenceHelper = PreferencesHelper(context!!)
     }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
-                               savedInstanceState: Bundle?): View? {
+                              savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_login, container, false)
+
+        view.ssign_btn.paintFlags = view.ssign_btn.paintFlags or Paint.UNDERLINE_TEXT_FLAG
 
         checkSignIn()
         view.gsign_btn.setOnClickListener { view ->
@@ -67,14 +71,14 @@ class Login : Fragment() ,MvpViewLogin {
     }
 
     override fun checkSignIn() {
-        preferenceHelper= PreferencesHelper(context!!)
-        if(preferenceHelper.getName() != null ) {
-            if(preferenceHelper.getType() == "google") {
+        preferenceHelper = PreferencesHelper(context!!)
+        if (preferenceHelper.getName() != null) {
+            if (preferenceHelper.getType() == "google") {
                 val gso = GoogleSignInOptions.Builder(GoogleSignInOptions.DEFAULT_SIGN_IN)
                         .requestIdToken(getString(R.string.default_web_client_id))
                         .requestEmail()
                         .build()
-                mGoogleSignInClient = GoogleApiClient.Builder(context!!).addApi(Auth.GOOGLE_SIGN_IN_API,gso).build()
+                mGoogleSignInClient = GoogleApiClient.Builder(context!!).addApi(Auth.GOOGLE_SIGN_IN_API, gso).build()
                 mGoogleSignInClient?.connect()
             }
             findNavController().navigate(R.id.action_login_to_homeActivity)
@@ -94,7 +98,7 @@ class Login : Fragment() ,MvpViewLogin {
             }
 
             override fun onError(error: FacebookException) {
-                Log.d("FacebookError",error.toString())
+                Log.d("FacebookError", error.toString())
             }
         })
     }
@@ -104,7 +108,7 @@ class Login : Fragment() ,MvpViewLogin {
                 .requestIdToken(getString(R.string.default_web_client_id))
                 .requestEmail()
                 .build()
-        mGoogleSignInClient = GoogleApiClient.Builder(context!!).addApi(Auth.GOOGLE_SIGN_IN_API,gso).build()
+        mGoogleSignInClient = GoogleApiClient.Builder(context!!).addApi(Auth.GOOGLE_SIGN_IN_API, gso).build()
 
         val signInIntent = Auth.GoogleSignInApi.getSignInIntent(mGoogleSignInClient)
         startActivityForResult(signInIntent, RC_SIGN_IN)
@@ -122,8 +126,7 @@ class Login : Fragment() ,MvpViewLogin {
                 handleGoogleSignIn(account)
             } catch (e: ApiException) {
             }
-        }
-        else {
+        } else {
             mCallbackManager.onActivityResult(requestCode, resultCode, data);
         }
     }
@@ -142,11 +145,11 @@ class Login : Fragment() ,MvpViewLogin {
 
     override fun handleGoogleSignIn(acct: GoogleSignInAccount) {
         val credential = GoogleAuthProvider.getCredential(acct.idToken, null)
-        mAuth?.signInWithCredential(credential)?.addOnCompleteListener( OnCompleteListener<AuthResult> { task ->
+        mAuth?.signInWithCredential(credential)?.addOnCompleteListener(OnCompleteListener<AuthResult> { task ->
             if (task.isSuccessful()) {
                 mGoogleSignInClient?.connect()
                 val acct = GoogleSignIn.getLastSignedInAccount(context!!)
-                preferenceHelper.saveData(acct!!.displayName!!, acct?.email, acct?.photoUrl.toString(),"google")
+                preferenceHelper.saveData(acct!!.displayName!!, acct?.email, acct?.photoUrl.toString(), "google")
                 findNavController().navigate(R.id.action_login_to_homeActivity)
                 activity!!.finish();
             }

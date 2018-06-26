@@ -9,10 +9,10 @@ import java.text.DecimalFormat
 
 class TotalAmountAdapter : TextWatcher {
 
-    var TotalBillAmountText : TextView ?=null
-    var NumberOfPerson:EditText ?=null
-    var AfterSplitText:TextView ?=null
-    var cal:CalculationUtil ?=null
+    var TotalBillAmountText: TextView? = null
+    var NumberOfPerson: EditText? = null
+    var AfterSplitText: TextView? = null
+    var cal: CalculationUtil? = null
 
     constructor(TotalBillAmountText: TextView?, NumberOfPerson: EditText?, AfterSplitText: TextView?) {
         this.TotalBillAmountText = TotalBillAmountText
@@ -23,9 +23,9 @@ class TotalAmountAdapter : TextWatcher {
 
 
     override fun afterTextChanged(s: Editable?) {
-        val TotalBillAmountData :String = TotalBillAmountText!!.text.toString()
-        val NumberOfPersonData:String = NumberOfPerson!!.text.toString()
-        val AfterSplitAmount = cal!!.CalculateAverage(TotalBillAmountData.toFloat(),NumberOfPersonData.toFloat())
+        val TotalBillAmountData: String = TotalBillAmountText!!.text.toString()
+        val NumberOfPersonData: String = NumberOfPerson!!.text.toString()
+        val AfterSplitAmount = cal!!.CalculateAverage(TotalBillAmountData.toFloat(), NumberOfPersonData.toFloat())
         AfterSplitText!!.setText(roundTwoDecimals(AfterSplitAmount))
     }
 

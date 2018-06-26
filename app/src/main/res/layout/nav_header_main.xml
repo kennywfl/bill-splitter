@@ -36,7 +36,7 @@
 
     <Switch
         android:id="@+id/hosting_switch"
-        android:layout_width="match_parent"
+        android:layout_width="352dp"
         android:layout_height="wrap_content"
         android:text="Discoverable" />
 

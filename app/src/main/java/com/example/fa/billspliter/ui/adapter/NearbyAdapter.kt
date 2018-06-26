@@ -16,11 +16,11 @@ import kotlinx.android.synthetic.main.nearby_rv_layout.view.*
 class NearbyAdapter : RecyclerView.Adapter<NearbyAdapter.ViewHolder> {
 
 
-    private  var nearbyUser: ArrayList<DeviceData>
-    private var data : String ?= null
+    private var nearbyUser: ArrayList<DeviceData>
+    private var data: String? = null
     private var nearbyConnectionManager = NearbyConnectionManager()
 
-    constructor( nearbyUser: ArrayList<DeviceData>,data:String)  {
+    constructor(nearbyUser: ArrayList<DeviceData>, data: String) {
         this.nearbyUser = nearbyUser
         this.data = data
     }
@@ -37,7 +37,7 @@ class NearbyAdapter : RecyclerView.Adapter<NearbyAdapter.ViewHolder> {
         val Devicedata = nearbyUser[position]
         holder?.tv_name?.text = Devicedata.NickName
         holder.itemView?.setOnClickListener {
-            nearbyConnectionManager.startConnect(Devicedata,data!!)
+            nearbyConnectionManager.startConnect(Devicedata, data!!)
             DialogFactory.contentdialog!!.dismiss()
         }
 
@@ -47,15 +47,16 @@ class NearbyAdapter : RecyclerView.Adapter<NearbyAdapter.ViewHolder> {
         return nearbyUser.size
     }
 
-    fun setDevicedata(nearbyUser:ArrayList<DeviceData>) {
+    fun setDevicedata(nearbyUser: ArrayList<DeviceData>) {
         this.nearbyUser = nearbyUser
     }
 
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var tv_name: TextView
+
         init {
             tv_name = itemView.tv_name
         }
     }
 
-    }
+}

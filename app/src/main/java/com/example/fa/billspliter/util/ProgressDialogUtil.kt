@@ -9,8 +9,7 @@ class ProgressDialogUtil {
         lateinit var progressDialog: ProgressDialog
     }
 
-    constructor(context: Context)
-    {
+    constructor(context: Context) {
         progressDialog = ProgressDialog(context)
         progressDialog.setCancelable(false)
         progressDialog.setTitle("Loading...")

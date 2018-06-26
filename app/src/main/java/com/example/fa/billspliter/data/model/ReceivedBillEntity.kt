@@ -6,18 +6,18 @@ import android.arch.persistence.room.PrimaryKey
 import java.io.Serializable
 
 @Entity(tableName = "RBill")
-data class ReceivedBillEntity (
+data class ReceivedBillEntity(
         @PrimaryKey(autoGenerate = true)
-        var id : Int? = null,
+        var id: Int? = null,
 
         @ColumnInfo(name = "amount")
-        var amount : String = "",
+        var amount: String = "",
 
         @ColumnInfo(name = "numPeople")
         var numPeople: String = "1",
 
         @ColumnInfo(name = "tax")
-        var tax : String = "",
+        var tax: String = "",
 
         @ColumnInfo(name = "discount")
         var discount: String = "",
@@ -32,6 +32,6 @@ data class ReceivedBillEntity (
         var date: String = "",
 
         @ColumnInfo(name = "serverKey")
-        var serverKey: String ?= null
+        var serverKey: String? = null
 
-) :Serializable
+) : Serializable

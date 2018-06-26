@@ -16,17 +16,18 @@ import kotlinx.android.synthetic.main.history_rv_layout.view.*
 class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
 
 
-    private  var c: Context
-    private  var historyList: List<BillEntity>
-    private var historyView : MvpViewHistory?=null
+    private var c: Context
+    private var historyList: List<BillEntity>
+    private var historyView: MvpViewHistory? = null
     var count = 1
 
-    constructor(c: Context, billList: List<BillEntity> ,historyView: MvpViewHistory)  {
+    constructor(c: Context, billList: List<BillEntity>, historyView: MvpViewHistory) {
         this.c = c
         this.historyList = billList
         this.historyView = historyView
 
     }
+
     override fun onCreateViewHolder(parent: ViewGroup, viewType: Int): ViewHolder {
         val view = LayoutInflater.from(parent?.getContext())
                 .inflate(R.layout.history_rv_layout, parent, false)
@@ -37,7 +38,7 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
     override fun onBindViewHolder(holder: ViewHolder, position: Int) {
 
         var data = historyList[position]
-        holder?.tv_id?.text =  count.toString()
+        holder?.tv_id?.text = count.toString()
         count++
         holder?.tv_price?.text = data.amount
         holder?.tv_date?.text = data.date
@@ -51,10 +52,12 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
         });
 
     }
+
     fun setData(billList: List<BillEntity>) {
         this.historyList = billList
         notifyDataSetChanged()
     }
+
     override fun getItemCount(): Int {
         return historyList.size
     }
@@ -62,7 +65,7 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
     class ViewHolder(itemView: View) : RecyclerView.ViewHolder(itemView) {
         var tv_id: TextView
         var tv_price: TextView
-        var tv_date:TextView
+        var tv_date: TextView
 
         init {
             tv_id = itemView.tv_id

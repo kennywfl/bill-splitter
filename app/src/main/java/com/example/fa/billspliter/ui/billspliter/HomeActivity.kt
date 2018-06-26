@@ -42,23 +42,23 @@ import com.google.android.gms.nearby.connection.Strategy
 class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelectedListener, GoogleApiClient.ConnectionCallbacks,
         GoogleApiClient.OnConnectionFailedListener {
 
-    private  var userData : UserData?= null
-    private var mGoogleSignInClient : GoogleApiClient?= null
+    private var userData: UserData? = null
+    private var mGoogleSignInClient: GoogleApiClient? = null
     private var dialogFactory = DialogFactory()
     private lateinit var preferenceHelper: PreferencesHelper
-    private  var googleApiClient: GoogleApiClient? = null
+    private var googleApiClient: GoogleApiClient? = null
     private var nearbyConnectionManager = NearbyConnectionManager()
-    private var Service_ID:String = "com.example.fa.billspliter.ui.billspliter"
-    private var NearbyStrategy:Strategy = Strategy.P2P_CLUSTER
+    private var Service_ID: String = "com.example.fa.billspliter.ui.billspliter"
+    private var NearbyStrategy: Strategy = Strategy.P2P_CLUSTER
 
 
     companion object {
         var db: HistoryDatabase? = null
-        var rdb : ReceivedDatabase?= null
-        var connectionClients: ConnectionsClient?=null
-        var loginType :String ?= null
-        var toggle : ActionBarDrawerToggle ?=null
-        var isArrow : Boolean = false
+        var rdb: ReceivedDatabase? = null
+        var connectionClients: ConnectionsClient? = null
+        var loginType: String? = null
+        var toggle: ActionBarDrawerToggle? = null
+        var isArrow: Boolean = false
     }
 
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -70,88 +70,77 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
         nav_view.setNavigationItemSelectedListener(this)
 
         db = Room.databaseBuilder(applicationContext, HistoryDatabase::class.java, "bill").allowMainThreadQueries().build()
-        rdb= Room.databaseBuilder(applicationContext, ReceivedDatabase::class.java, "rbill").allowMainThreadQueries().build()
-
-        onCreateDrawerToggle()
-        initView()
+        rdb = Room.databaseBuilder(applicationContext, ReceivedDatabase::class.java, "rbill").allowMainThreadQueries().build()
 
         buildGoogleApiClient()
-        connectionClients =Nearby.getConnectionsClient(this)
+        onCreateDrawerToggle()
+
+        connectionClients = Nearby.getConnectionsClient(this)
         ProgressDialogUtil(this)
     }
 
-    private fun onCreateDrawerToggle(){
+    private fun onCreateDrawerToggle() {
         toggle = ActionBarDrawerToggle(
                 this, drawer_layout, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close)
         drawer_layout.addDrawerListener(toggle!!)
         toggle!!.syncState()
 
-        toolbar.setNavigationOnClickListener{
-            if(isArrow){
+        toolbar.setNavigationOnClickListener {
+            if (isArrow) {
                 backToPreviousFragment()
-            }else{
+            } else {
                 drawer_layout.openDrawer(GravityCompat.START)
             }
-
         }
+        initView()
     }
 
-    private fun backToPreviousFragment(){
+    private fun backToPreviousFragment() {
         onSupportNavigateUp()
         if (checkToggleState()) {
-            nav_view.menu.getItem(0).isChecked=true
+            nav_view.menu.getItem(0).isChecked = true
             changeToolbarIconToMenu()
         }
     }
 
-    private fun checkToggleState():Boolean{
+    private fun checkToggleState(): Boolean {
         val current = findNavController(R.id.nav_home_fragment).currentDestination.id
         if (current == R.id.homePage) {
-           return true
+            return true
         }
         return false
     }
 
-    private fun initView(){
-        preferenceHelper= PreferencesHelper(this)
-        userData= UserData(preferenceHelper.getName(), preferenceHelper.getEmail(), preferenceHelper.getUrl())
-        loginType =preferenceHelper.getType()
-        if(loginType == "google") {
+    private fun initView() {
+        preferenceHelper = PreferencesHelper(this)
+        userData = UserData(preferenceHelper.getName(), preferenceHelper.getEmail(), preferenceHelper.getUrl())
+        loginType = preferenceHelper.getType()
+        if (loginType == "google") {
             mGoogleSignInClient = GoogleApiClient.getAllClients().first()
         }
-        nav_view.getHeaderView(0).tv_name.text=userData?.name
-        nav_view.getHeaderView(0).tv_email.text=userData?.email
+        nav_view.getHeaderView(0).tv_name.text = userData?.name
+        nav_view.getHeaderView(0).tv_email.text = userData?.email
 
-        if(userData?.url != "" && userData?.url != null) {
+        if (userData?.url != "" && userData?.url != null) {
             Picasso.with(applicationContext).load(userData?.url).fit().into(nav_view.getHeaderView(0).imageView)
         }
-
-        buildGoogleApiClient()
-        connectionClients =Nearby.getConnectionsClient(this)
-        ProgressDialogUtil(this)
     }
 
-    override fun onResume() {
-        super.onResume()
-        nav_view.menu.getItem(0).isChecked=true
-    }
-
-    override fun onSupportNavigateUp()
-            = findNavController(R.id.nav_home_fragment).navigateUp()
+    override fun onSupportNavigateUp() = findNavController(R.id.nav_home_fragment).navigateUp()
 
     override fun onBackPressed() {
         if (drawer_layout.isDrawerOpen(GravityCompat.START)) {
             drawer_layout.closeDrawer(GravityCompat.START)
-        } else if (checkToggleState()){
-            dialogFactory.createTwoButtonDialog(this,"ALERT!","Are you sure want to quit the application?",
+        } else if (checkToggleState()) {
+            dialogFactory.createTwoButtonDialog(this, "ALERT!", "Are you sure want to quit the application?",
                     DialogInterface.OnClickListener { dialog, which -> finish() }).show()
-        }else{
+        } else {
             backToPreviousFragment()
         }
     }
 
     override fun onCreateOptionsMenu(menu: Menu?): Boolean {
-        menuInflater.inflate(R.menu.support_menu,menu)
+        menuInflater.inflate(R.menu.support_menu, menu)
         return true
     }
 
@@ -171,18 +160,18 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
             }
             R.id.history -> {
                 changeToolbarIconToBackArrow()
-                Navigation.findNavController(this,R.id.nav_home_fragment).navigate(R.id.action_homePage_to_history)
+                Navigation.findNavController(this, R.id.nav_home_fragment).navigate(R.id.action_homePage_to_history)
             }
             R.id.nearby -> {
-                 changeToolbarIconToBackArrow()
-                 Navigation.findNavController(this,R.id.nav_home_fragment).navigate(R.id.action_homePage_to_nearby2)
+                changeToolbarIconToBackArrow()
+                Navigation.findNavController(this, R.id.nav_home_fragment).navigate(R.id.action_homePage_to_nearby2)
             }
             R.id.sign_out -> {
                 signOut()
             }
             R.id.Exit -> {
-             dialogFactory.createTwoButtonDialog(this,"ALERT!","Are you sure want to quit the application?",
-                     DialogInterface.OnClickListener { dialog, which -> finish() }).show()
+                dialogFactory.createTwoButtonDialog(this, "ALERT!", "Are you sure want to quit the application?",
+                        DialogInterface.OnClickListener { dialog, which -> finish() }).show()
             }
         }
         drawer_layout.closeDrawer(GravityCompat.START)
@@ -190,8 +179,8 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     override fun recreate() {
-        Navigation.findNavController(this,R.id.nav_home_fragment).navigate(R.id.action_homePage_self)
-        nav_view.menu.getItem(0).isChecked=true
+        Navigation.findNavController(this, R.id.nav_home_fragment).navigate(R.id.action_homePage_self)
+        nav_view.menu.getItem(0).isChecked = true
     }
 
     private fun buildGoogleApiClient() {
@@ -208,32 +197,27 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     override fun onConnected(p0: Bundle?) {
         nav_view.getHeaderView(0).hosting_switch.setOnCheckedChangeListener({ compoundButton, isChecked ->
-            if(isChecked) {
-                nearbyConnectionManager.startAdvertising(userData!!,Service_ID,NearbyStrategy)
-                Toast.makeText(this,"You are now discoverable to nearby people", Toast.LENGTH_SHORT).show()
-            }
-            else {
+            if (isChecked) {
+                nearbyConnectionManager.startAdvertising(userData!!, Service_ID, NearbyStrategy)
+                Toast.makeText(this, "You are now discoverable to nearby people", Toast.LENGTH_SHORT).show()
+            } else {
                 connectionClients?.stopAdvertising()
-                Toast.makeText(this,"You are now hidden from nearby people ", Toast.LENGTH_SHORT).show()
+                Toast.makeText(this, "You are now hidden from nearby people ", Toast.LENGTH_SHORT).show()
             }
         })
-
         Log.i("HomeActivity", "GoogleApiClient connected")
     }
 
     override fun onConnectionSuspended(p0: Int) {
+
     }
 
     override fun onConnectionFailed(p0: ConnectionResult) {
+
     }
 
-    override fun onDestroy() {
-        super.onDestroy()
-        checkDiscoverable()
-    }
-
-    private fun checkDiscoverable(){
-        if(nav_view.hosting_switch.isChecked) {
+    private fun checkDiscoverable() {
+        if (nav_view.hosting_switch.isChecked) {
             connectionClients?.stopAdvertising()
             connectionClients?.stopDiscovery()
 
@@ -242,11 +226,10 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
 
     private fun signOut() {
         preferenceHelper.clear()
-        if(loginType == "google") {
+        if (loginType == "google") {
             FirebaseAuth.getInstance().signOut()
             Auth.GoogleSignInApi.signOut(mGoogleSignInClient)
-        }
-        else if(loginType=="facebook"){
+        } else if (loginType == "facebook") {
             FirebaseAuth.getInstance().signOut()
             LoginManager.getInstance().logOut();
         }
@@ -256,25 +239,35 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     }
 
     fun changeToolbarIconToBackArrow() {
-        isArrow=true
+        isArrow = true
         animateIcon(0, 1, 800);
     }
 
     fun changeToolbarIconToMenu() {
-        isArrow=false
-       animateIcon(1, 0, 800);
+        isArrow = false
+        animateIcon(1, 0, 800);
     }
 
-    fun animateIcon(start: Int, end : Int, duration : Int) {
+    fun animateIcon(start: Int, end: Int, duration: Int) {
         if (toggle != null) {
             val anim = ValueAnimator.ofFloat(start.toFloat(), end.toFloat());
             anim.addUpdateListener { animation ->
-                val slideOffset =  animation?.animatedValue as Float;
+                val slideOffset = animation?.animatedValue as Float;
                 toggle!!.onDrawerSlide(drawer_layout, slideOffset);
             };
             anim.interpolator = DecelerateInterpolator();
             anim.duration = duration.toLong();
             anim.start();
         }
+    }
+
+    override fun onDestroy() {
+        super.onDestroy()
+        checkDiscoverable()
+    }
+
+    override fun onResume() {
+        super.onResume()
+        nav_view.menu.getItem(0).isChecked = true
     }
 }

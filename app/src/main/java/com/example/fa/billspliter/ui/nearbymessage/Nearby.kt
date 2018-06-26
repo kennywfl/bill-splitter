@@ -21,14 +21,14 @@ import com.example.fa.billspliter.util.ViewUtil
 import kotlinx.android.synthetic.main.fragment_nearby.view.*
 
 
-class Nearby : Fragment() , MvpViewNearby {
+class Nearby : Fragment(), MvpViewNearby {
 
 
     private val roomHelper = RoomHelper(this)
-    private lateinit var recycleView : RecyclerView
+    private lateinit var recycleView: RecyclerView
     private val dialogFactory = DialogFactory()
-    private var  recycleAdapter:NearbyReceivedAdapter ?= null
-    private lateinit var existList :List<ReceivedBillEntity>
+    private var recycleAdapter: NearbyReceivedAdapter? = null
+    private lateinit var existList: List<ReceivedBillEntity>
     private val firebase = Firebase()
     private val viewUtil = ViewUtil()
 
@@ -44,40 +44,39 @@ class Nearby : Fragment() , MvpViewNearby {
 
         recycleView = view.recycleView
 
-        if(loginType == "skip" ) {
+        if (loginType == "skip") {
             roomHelper.getRBillHistory()
-        }
-        else{
+        } else {
             roomHelper.getRBillSaveServer()
         }
         return view
     }
-    override fun onClick(RBList: List<ReceivedBillEntity> , position : Int) {
-        dialogFactory.createTwoButtonDialog(context!!,"ALERT!","Are you sure want to remove?",
+
+    override fun onClick(RBList: List<ReceivedBillEntity>, position: Int) {
+        dialogFactory.createTwoButtonDialog(context!!, "ALERT!", "Are you sure want to remove?",
                 DialogInterface.OnClickListener { dialog, which ->
-                    if(loginType == "skip"){
+                    if (loginType == "skip") {
                         roomHelper.removeFromRDb(RBList[position])
-                    }
-                    else {
+                    } else {
                         firebase.removeRBill(RBList[position].serverKey!!)
                     }
-                    viewUtil.resetRecyclerView(RBList,position,recycleAdapter) }).show()
+                    viewUtil.resetRecyclerView(RBList, position, recycleAdapter)
+                }).show()
     }
 
     override fun setRecycleViewRBIll(billList: List<ReceivedBillEntity>) {
         try {
-            existList=billList
+            existList = billList
             recycleAdapter = NearbyReceivedAdapter(context!!, billList, this)
             val recycleLayout = LinearLayoutManager(context!!, LinearLayoutManager.VERTICAL, false)
             recycleView.layoutManager = recycleLayout
             recycleView.adapter = recycleAdapter
-        }
-        catch (e:NullPointerException) {
-            Log.d("Nearby Adapter error:",e.toString())
+        } catch (e: NullPointerException) {
+            Log.d("Nearby Adapter error:", e.toString())
         }
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?) {
-        menu?.setGroupVisible(0,false)
+        menu?.setGroupVisible(0, false)
     }
 }

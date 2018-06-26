@@ -23,7 +23,7 @@
     <fragment
         android:id="@+id/skipLogin"
         android:name="com.example.fa.billspliter.ui.login.SkipLogin"
-        tools:layout="@layout/fragment_skip_login" >
+        tools:layout="@layout/fragment_skip_login">
         <action
             android:id="@+id/action_skipLogin_to_homeActivity"
             app:destination="@id/homeActivity" />

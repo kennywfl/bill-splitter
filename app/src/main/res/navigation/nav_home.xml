@@ -8,7 +8,7 @@
         android:id="@+id/homePage"
         android:name="com.example.fa.billspliter.ui.billspliter.HomeFragment"
         android:label="fragment_home_page"
-        tools:layout="@layout/fragment_home_page" >
+        tools:layout="@layout/fragment_home_page">
         <action
             android:id="@+id/action_homePage_self"
             app:clearTask="true"
@@ -26,7 +26,7 @@
         android:id="@+id/nearby2"
         android:name="com.example.fa.billspliter.ui.nearbymessage.Nearby"
         android:label="fragment_nearby"
-        tools:layout="@layout/fragment_nearby" ></fragment>
+        tools:layout="@layout/fragment_nearby"></fragment>
     <fragment
         android:id="@+id/historyDetail"
         android:name="com.example.fa.billspliter.ui.billhistory.HistoryDetail"
@@ -36,7 +36,7 @@
         android:id="@+id/history"
         android:name="com.example.fa.billspliter.ui.billhistory.History"
         android:label="fragment_history"
-        tools:layout="@layout/fragment_history" >
+        tools:layout="@layout/fragment_history">
         <action
             android:id="@+id/action_history_to_historyDetail"
             app:destination="@id/historyDetail" />

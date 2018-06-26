@@ -14,28 +14,27 @@ import com.google.firebase.database.DataSnapshot
 import com.google.firebase.database.ValueEventListener
 
 
-class Firebase : MvpModelServer
-{
+class Firebase : MvpModelServer {
     val id = FirebaseAuth.getInstance().uid
-    private var roomPresenter : Presenter.RoomHelper ?=null
+    private var roomPresenter: Presenter.RoomHelper? = null
 
-    constructor(){}
+    constructor() {}
 
     constructor(roomPresenter: Presenter.RoomHelper) {
-        this.roomPresenter=roomPresenter
+        this.roomPresenter = roomPresenter
     }
 
-    override fun saveBill(bill : BillEntity) {
+    override fun saveBill(bill: BillEntity) {
         val historyDB = FirebaseDatabase.getInstance().getReference("History").child(id!!)
         val key = historyDB.push().key
         bill.serverKey = key
         historyDB.child(key!!).setValue(bill)
     }
 
-    override fun saveToServer(historyList : List<BillEntity>) {
+    override fun saveToServer(historyList: List<BillEntity>) {
 
         val historyDB = FirebaseDatabase.getInstance().getReference("History").child(id!!)
-        for (i in  historyList.indices){
+        for (i in historyList.indices) {
             val key = historyDB.push().key
             historyList[i].serverKey = key
             historyDB.child(key!!).setValue(historyList[i])
@@ -47,11 +46,11 @@ class Firebase : MvpModelServer
         historyDB.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val arrayContainer = ArrayList<BillEntity>()
-                for (ds in dataSnapshot.children){
+                for (ds in dataSnapshot.children) {
                     val bill = ds.getValue(BillEntity::class.java)!!
                     arrayContainer.add(bill)
                 }
-                if(!arrayContainer.isEmpty()) {
+                if (!arrayContainer.isEmpty()) {
                     roomPresenter!!.showList(arrayContainer)
                 }
             }
@@ -62,22 +61,22 @@ class Firebase : MvpModelServer
         })
     }
 
-    override fun removeFromServer(serverKey : String) {
+    override fun removeFromServer(serverKey: String) {
         val historyDB = FirebaseDatabase.getInstance().getReference("History").child(id!!).child(serverKey)
         historyDB.removeValue()
     }
 
-    override fun saveNearbyBill(bill : ReceivedBillEntity) {
+    override fun saveNearbyBill(bill: ReceivedBillEntity) {
         val nearbyBillDB = FirebaseDatabase.getInstance().getReference("NearbyBill").child(id!!)
         val key = nearbyBillDB.push().key
         bill.serverKey = key
         nearbyBillDB.child(key!!).setValue(bill)
     }
 
-    override fun saveRBillToServer(RBillList : List<ReceivedBillEntity>) {
+    override fun saveRBillToServer(RBillList: List<ReceivedBillEntity>) {
 
         val nearbyBillDB = FirebaseDatabase.getInstance().getReference("NearbyBill").child(id!!)
-        for (i in  RBillList.indices){
+        for (i in RBillList.indices) {
             val key = nearbyBillDB.push().key
             RBillList[i].serverKey = key
             nearbyBillDB.child(key!!).setValue(RBillList[i])
@@ -89,12 +88,12 @@ class Firebase : MvpModelServer
         nearbyBillDB.addValueEventListener(object : ValueEventListener {
             override fun onDataChange(dataSnapshot: DataSnapshot) {
                 val arrayContainer = ArrayList<ReceivedBillEntity>()
-                for (ds in dataSnapshot.children){
+                for (ds in dataSnapshot.children) {
                     val bill = ds.getValue(ReceivedBillEntity::class.java)!!
                     arrayContainer.add(bill)
                 }
 
-                if(!arrayContainer.isEmpty()) {
+                if (!arrayContainer.isEmpty()) {
                     roomPresenter!!.showRList(arrayContainer)
                 }
             }
@@ -105,7 +104,7 @@ class Firebase : MvpModelServer
         })
     }
 
-    override fun removeRBill(serverKey : String) {
+    override fun removeRBill(serverKey: String) {
         val nearbyBillDB = FirebaseDatabase.getInstance().getReference("NearbyBill").child(id!!).child(serverKey)
         nearbyBillDB.removeValue()
     }

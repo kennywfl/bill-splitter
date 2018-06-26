@@ -8,9 +8,10 @@
     <LinearLayout xmlns:android="http://schemas.android.com/apk/res/android"
         xmlns:tools="http://schemas.android.com/tools"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:gravity="center"
-        android:orientation="vertical">
+        android:orientation="vertical"
+        android:background="@drawable/side_nav_bar">
 
 
         <EditText
@@ -20,13 +21,16 @@
             android:layout_gravity="center"
             android:layout_margin="5dp"
             android:hint="Input a username to proceed"
-            android:textSize="22dp" />
+            android:textSize="22dp"
+            android:textColor="#ffffff" />
 
         <Button
             android:id="@+id/next_btn"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Proceed" />
+            android:text="Proceed"
+            android:textColor="#ffffff"
+            android:background="#D2D2D2" />
 
     </LinearLayout>
 

@@ -7,12 +7,13 @@ import com.example.fa.billspliter.ui.adapter.NearbyReceivedAdapter
 
 class ViewUtil {
 
-    fun resetRecyclerView(nearbyUser: ArrayList<DeviceData>){
-        val  recycleAdapter: NearbyAdapter?= null
+    fun resetRecyclerView(nearbyUser: ArrayList<DeviceData>) {
+        val recycleAdapter: NearbyAdapter? = null
         recycleAdapter!!.setDevicedata(nearbyUser)
         recycleAdapter!!.notifyDataSetChanged()
     }
-    fun resetRecyclerView(RBList: List<ReceivedBillEntity>, position: Int,recycleAdapter : NearbyReceivedAdapter?){
+
+    fun resetRecyclerView(RBList: List<ReceivedBillEntity>, position: Int, recycleAdapter: NearbyReceivedAdapter?) {
         val dummy = RBList as ArrayList<ReceivedBillEntity>
         dummy.remove(RBList[position])
         recycleAdapter?.setData(dummy)

@@ -18,35 +18,35 @@ import com.google.android.gms.tasks.OnSuccessListener
 
 class NearbyConnectionManager {
 
-    constructor(){
+    constructor() {
 
     }
 
 
-    public fun startAdvertising(userData: UserData, Service_ID:String, NearbyStrategy: Strategy) {
-       connectionClients!!.startAdvertising(
+    public fun startAdvertising(userData: UserData, Service_ID: String, NearbyStrategy: Strategy) {
+        connectionClients!!.startAdvertising(
                 userData!!.name!!,
                 Service_ID,
-                ConnectionLifeCycleCallBackAcceptAdapter(connectionClients!!,null),
+                ConnectionLifeCycleCallBackAcceptAdapter(connectionClients!!, null),
                 AdvertisingOptions(NearbyStrategy)
-        ).addOnSuccessListener(object: OnSuccessListener<Void> {
+        ).addOnSuccessListener(object : OnSuccessListener<Void> {
             override fun onSuccess(p0: Void?) {
                 Log.d("successful called", "advertising")
             }
 
-        }).addOnFailureListener(object: OnFailureListener {
+        }).addOnFailureListener(object : OnFailureListener {
             override fun onFailure(it: Exception) {
-                Log.d("Failed to called", "advertising"+ it.message)
+                Log.d("Failed to called", "advertising" + it.message)
             }
         })
     }
 
 
-    public fun startDiscovery(Service_ID:String, NearbyStrategy: Strategy,context: Context,data:String) {
-        Log.d("test123","Connecting.....")
+    public fun startDiscovery(Service_ID: String, NearbyStrategy: Strategy, context: Context, data: String) {
+        Log.d("test123", "Connecting.....")
         connectionClients!!.startDiscovery(
                 Service_ID,
-                EndPointConnectionCallbackAdapter(context,data),
+                EndPointConnectionCallbackAdapter(context, data),
                 DiscoveryOptions(NearbyStrategy)
         ).addOnSuccessListener(object : OnSuccessListener<Void> {
             override fun onSuccess(p0: Void?) {
@@ -55,17 +55,17 @@ class NearbyConnectionManager {
 
         }).addOnFailureListener(object : OnFailureListener {
             override fun onFailure(it: Exception) {
-                Log.d("Failed to called", "discovering"+ it.message)
+                Log.d("Failed to called", "discovering" + it.message)
             }
         })
     }
 
 
-    public fun sendPayLoad(endpointId: String,data:String){
+    public fun sendPayLoad(endpointId: String, data: String) {
         connectionClients!!.sendPayload(endpointId, Payload.fromBytes(data.toByteArray())
-        ).addOnFailureListener(object: OnFailureListener {
+        ).addOnFailureListener(object : OnFailureListener {
             override fun onFailure(it: Exception) {
-                Log.d("ConnectionLifeCycle", "Fail to send message . "+ it.message)
+                Log.d("ConnectionLifeCycle", "Fail to send message . " + it.message)
             }
         }).addOnCompleteListener({
             Log.d("completed ", "disconnect endpoint")
@@ -74,12 +74,12 @@ class NearbyConnectionManager {
     }
 
 
-    public fun startConnect(deviceData: DeviceData,data: String) {
+    public fun startConnect(deviceData: DeviceData, data: String) {
         ProgressDialogUtil.progressDialog.show()
         connectionClients!!.requestConnection(
                 deviceData.NickName!!,
                 deviceData.EndPointID!!,
-                ConnectionLifeCycleCallBackAcceptAdapter(connectionClients!!,data)
+                ConnectionLifeCycleCallBackAcceptAdapter(connectionClients!!, data)
         ).addOnSuccessListener(object : OnSuccessListener<Void> {
             override fun onSuccess(p0: Void?) {
                 Log.d("connection connected", "connection connected")

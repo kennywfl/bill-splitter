@@ -14,36 +14,34 @@ import java.io.FileOutputStream
 import java.io.IOException
 
 class ScreenShotClass {
-    var ImagePath:File ?=null
-    var context:Context ?=null
+    var ImagePath: File? = null
+    var context: Context? = null
 
     constructor(context: Context?) {
         this.context = context
     }
 
 
-    public fun takeScreenshot(view: View) : Bitmap {
+    public fun takeScreenshot(view: View): Bitmap {
         val rootView: View = view.rootView
         rootView.isDrawingCacheEnabled = true
         return rootView.drawingCache
     }
 
     public fun saveBitmap(bitmap: Bitmap) {
-        val path:String = Environment.getExternalStorageDirectory().toString()
-        ImagePath = File(path,"/DCIM/Screenshots/screenshot.png")
+        val path: String = Environment.getExternalStorageDirectory().toString()
+        ImagePath = File(path, "/DCIM/Screenshots/screenshot.png")
 
-        Log.d("Path",ImagePath!!.path.toString())
+        Log.d("Path", ImagePath!!.path.toString())
         val fos: FileOutputStream
         try {
             fos = FileOutputStream(ImagePath)
-            bitmap.compress(Bitmap.CompressFormat.JPEG,100,fos)
+            bitmap.compress(Bitmap.CompressFormat.JPEG, 100, fos)
             fos.flush()
             fos.close()
-        }
-        catch (e: FileNotFoundException) {
+        } catch (e: FileNotFoundException) {
             Log.e("Image share error:", e.message, e)
-        }
-        catch (e: IOException) {
+        } catch (e: IOException) {
             Log.e("Image share error:", e.message, e)
         }
     }
@@ -53,9 +51,9 @@ class ScreenShotClass {
         val uri: Uri = Uri.fromFile(ImagePath)
         val myIntent: Intent = Intent(Intent.ACTION_SEND)
         myIntent.setType("image/*")
-        val shareBody:String = "Below Show the Bill Amount of the Bill and How many Each Person Should Pay"
-        myIntent.putExtra(Intent.EXTRA_SUBJECT,shareBody)
-        myIntent.putExtra(Intent.EXTRA_STREAM,uri)
-        startActivity(context!!,Intent.createChooser(myIntent,"Share Using : "),null)
+        val shareBody: String = "Below Show the Bill Amount of the Bill and How many Each Person Should Pay"
+        myIntent.putExtra(Intent.EXTRA_SUBJECT, shareBody)
+        myIntent.putExtra(Intent.EXTRA_STREAM, uri)
+        startActivity(context!!, Intent.createChooser(myIntent, "Share Using : "), null)
     }
 }

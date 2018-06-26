@@ -3,33 +3,35 @@
     xmlns:tools="http://schemas.android.com/tools"
     tools:showIn="navigation_view">
 
-    <group android:checkableBehavior="single"
+    <group
+        android:checkableBehavior="single"
         android:id="@+id/menu">
         <item
             android:id="@+id/home"
             android:title="Home"
-            android:icon="@drawable/home_icon"/>
+            android:icon="@drawable/home_icon" />
         <item
             android:id="@+id/history"
             android:title="History"
-            android:icon="@drawable/history_icon"/>
+            android:icon="@drawable/history_icon" />
         <item
             android:id="@+id/nearby"
             android:title="Nearby"
-            android:icon="@drawable/nearby_icon"/>
+            android:icon="@drawable/nearby_icon" />
 
     </group>
 
-    <group android:checkableBehavior="single"
+    <group
+        android:checkableBehavior="single"
         android:id="@+id/out">
         <item
             android:id="@+id/sign_out"
             android:title="Sign out"
-            android:icon="@drawable/logout_icon"/>
+            android:icon="@drawable/logout_icon" />
         <item
             android:id="@+id/Exit"
             android:title="Exit"
-            android:icon="@drawable/exit_icon"/>
+            android:icon="@drawable/exit_icon" />
     </group>
 
 

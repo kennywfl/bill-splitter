@@ -8,15 +8,15 @@ import android.widget.TextView
 import com.example.fa.billspliter.util.CalculationUtil
 import org.w3c.dom.Text
 
-class TaxRateTextWatcherAdapter:TextWatcher {
-    var TaxRateBar:SeekBar ?=null
-    var TotalTaxAmount:EditText ?=null
-    var BillAmountText:EditText?=null
-    var TotalBillAmountText:TextView ?=null
-    var TaxRate : EditText ?=null
-    var cal: CalculationUtil?=null
+class TaxRateTextWatcherAdapter : TextWatcher {
+    var TaxRateBar: SeekBar? = null
+    var TotalTaxAmount: EditText? = null
+    var BillAmountText: EditText? = null
+    var TotalBillAmountText: TextView? = null
+    var TaxRate: EditText? = null
+    var cal: CalculationUtil? = null
 
-    constructor(TaxRateBar: SeekBar?, TotalTaxAmount: EditText?, BillAmountText: EditText?, TotalBillAmountText: TextView?, TaxRate:EditText?) {
+    constructor(TaxRateBar: SeekBar?, TotalTaxAmount: EditText?, BillAmountText: EditText?, TotalBillAmountText: TextView?, TaxRate: EditText?) {
         this.TaxRateBar = TaxRateBar
         this.TotalTaxAmount = TotalTaxAmount
         this.BillAmountText = BillAmountText
@@ -27,21 +27,18 @@ class TaxRateTextWatcherAdapter:TextWatcher {
 
 
     override fun afterTextChanged(s: Editable?) {
-        if(TaxRate!!.text.toString()!="") {
-            val TaxRateP:String = TaxRate!!.text.toString()
-            if(TaxRateP.toInt()<0||TaxRateP=="00") {
+        if (TaxRate!!.text.toString() != "") {
+            val TaxRateP: String = TaxRate!!.text.toString()
+            if (TaxRateP.toInt() < 0 || TaxRateP == "00") {
                 TaxRate!!.setText("0")
-                TaxRateBar!!.progress=0
-            }
-            else if(TaxRateP.toInt()>100) {
-                TaxRateBar!!.progress=100
-            }
-            else {
+                TaxRateBar!!.progress = 0
+            } else if (TaxRateP.toInt() > 100) {
+                TaxRateBar!!.progress = 100
+            } else {
                 TaxRateBar!!.progress = TaxRateP.toInt()
             }
-        }
-        else {
-            TaxRateBar!!.progress=0
+        } else {
+            TaxRateBar!!.progress = 0
         }
     }
 

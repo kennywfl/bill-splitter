@@ -3,7 +3,7 @@ package com.example.fa.billspliter.ui.login
 import com.facebook.AccessToken
 import com.google.android.gms.auth.api.signin.GoogleSignInAccount
 
-interface MvpViewLogin{
+interface MvpViewLogin {
     fun checkSignIn()
     fun facebookSignIn()
     fun googleSignIn()

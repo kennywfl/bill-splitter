@@ -15,18 +15,18 @@ import org.jetbrains.anko.coroutines.experimental.bg
 
 class RoomHelper : Presenter.RoomHelper {
 
-    private var historyView : MvpViewHistory?=null
+    private var historyView: MvpViewHistory? = null
     private var firebase = Firebase(this)
-    private var nearbyView : MvpViewNearby?=null
+    private var nearbyView: MvpViewNearby? = null
 
     constructor() {
     }
 
     constructor(historyView: MvpViewHistory) {
-        this.historyView=historyView
+        this.historyView = historyView
     }
 
-    constructor(nearbyView : MvpViewNearby){
+    constructor(nearbyView: MvpViewNearby) {
         this.nearbyView = nearbyView
     }
 
@@ -45,11 +45,11 @@ class RoomHelper : Presenter.RoomHelper {
     }
 
     /* Retrieving the data from the database. */
-    override fun getHistory()  {
+    override fun getHistory() {
         async(UI) {
             val historyList = bg { db!!.billDao().getBillHistory() }.await()
-            if(historyList .size > 0) {
-               showList(historyList)
+            if (historyList.size > 0) {
+                showList(historyList)
             }
         }
     }
@@ -58,7 +58,7 @@ class RoomHelper : Presenter.RoomHelper {
     override fun getHistorySaveServer() {
         async(UI) {
             val historyList = bg { db!!.billDao().getBillHistory() }.await()
-            if(historyList .size > 0) {
+            if (historyList.size > 0) {
                 firebase.saveToServer(historyList)
                 removeTable()
             }
@@ -79,13 +79,13 @@ class RoomHelper : Presenter.RoomHelper {
     }
 
     /*Remove bill entity from firebase.*/
-    override fun removeFromFirebase(serverKey:String){
+    override fun removeFromFirebase(serverKey: String) {
         firebase.removeFromServer(serverKey!!)
     }
 
     /* Database operation for message received by Nearby API */
     /* Insert received bill into database*/
-    override  fun insertToRDb(entityData: ReceivedBillEntity) {
+    override fun insertToRDb(entityData: ReceivedBillEntity) {
         async(CommonPool) {
             bg { rdb!!.RBillDao().addBill(entityData) }.await()
         }
@@ -99,10 +99,10 @@ class RoomHelper : Presenter.RoomHelper {
     }
 
     /*Retrieve received bill from the database.*/
-    override  fun getRBillHistory()  {
+    override fun getRBillHistory() {
         async(UI) {
             val RBillList = bg { rdb!!.RBillDao().getBillHistory() }.await()
-            if(RBillList .size > 0) {
+            if (RBillList.size > 0) {
                 showRList(RBillList)
             }
         }
@@ -112,7 +112,7 @@ class RoomHelper : Presenter.RoomHelper {
     override fun getRBillSaveServer() {
         async(UI) {
             val RBillList = bg { rdb!!.RBillDao().getBillHistory() }.await()
-            if(RBillList .size > 0) {
+            if (RBillList.size > 0) {
                 firebase.saveRBillToServer(RBillList)
                 removeRTable()
             }

@@ -32,7 +32,7 @@ import java.io.IOException
 
 class HistoryDetail : Fragment() {
 
-    var screenShotClass:ScreenShotClass ?=null
+    var screenShotClass: ScreenShotClass? = null
     private lateinit var preferenceHelper: PreferencesHelper
     private val roomHelper = RoomHelper()
     private val dialogFactory = DialogFactory()
@@ -41,31 +41,32 @@ class HistoryDetail : Fragment() {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true);
     }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_history_detail, container, false)
-        val data = arguments?.getSerializable("data")  as BillEntity
+        val data = arguments?.getSerializable("data") as BillEntity
 
         screenShotClass = ScreenShotClass(context)
-        view.tv_amount.text="Bill amount : RM  ${data.amount}"
-        view.tv_num_people.text="Number of people  ${data.numPeople}"
-        view.tv_tax.text="Tex rate:  ${data.tax} %"
-        view.tv_discount.text="Discount : ${data.discount} %"
-        view.tv_total.text="Total bill amount : RM  ${data.totalPaid}"
-        view.tv_each_paid.text="Each  person paid : RM  ${data.eachPaid}"
-        view.tv_date.text="Issue date : ${data.date}"
+        view.tv_amount.text = "Bill amount : RM  ${data.amount}"
+        view.tv_num_people.text = "Number of people  ${data.numPeople}"
+        view.tv_tax.text = "Tex rate:  ${data.tax} %"
+        view.tv_discount.text = "Discount : ${data.discount} %"
+        view.tv_total.text = "Total bill amount : RM  ${data.totalPaid}"
+        view.tv_each_paid.text = "Each  person paid : RM  ${data.eachPaid}"
+        view.tv_date.text = "Issue date : ${data.date}"
 
-        preferenceHelper= PreferencesHelper(context!!)
+        preferenceHelper = PreferencesHelper(context!!)
         view.shareBtn.setOnClickListener({
-                    val bitmap: Bitmap = screenShotClass!!.takeScreenshot(view)
-                    screenShotClass!!.saveBitmap(bitmap)
-                    screenShotClass!!.sharebuttonIntent()
-                }
+            val bitmap: Bitmap = screenShotClass!!.takeScreenshot(view)
+            screenShotClass!!.saveBitmap(bitmap)
+            screenShotClass!!.sharebuttonIntent()
+        }
         )
-        view.deleteBtn.setOnClickListener{
-            dialogFactory.createTwoButtonDialog(context!!,"Alert!" , "Are you sure want to remove?",
+        view.deleteBtn.setOnClickListener {
+            dialogFactory.createTwoButtonDialog(context!!, "Alert!", "Are you sure want to remove?",
                     DialogInterface.OnClickListener { dialog, which ->
-                        if(loginType == "skip"){
+                        if (loginType == "skip") {
                             roomHelper.removeFromDb(data)
                         } else {
                             roomHelper.removeFromFirebase(data.serverKey!!)
@@ -77,6 +78,6 @@ class HistoryDetail : Fragment() {
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?) {
-        menu?.setGroupVisible(0,false)
+        menu?.setGroupVisible(0, false)
     }
 }

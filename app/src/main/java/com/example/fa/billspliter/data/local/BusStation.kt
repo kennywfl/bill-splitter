@@ -5,7 +5,7 @@ import com.squareup.otto.ThreadEnforcer
 
 class BusStation {
     companion object {
-            var bus:Bus = Bus(ThreadEnforcer.ANY)
+        var bus: Bus = Bus(ThreadEnforcer.ANY)
     }
 
 

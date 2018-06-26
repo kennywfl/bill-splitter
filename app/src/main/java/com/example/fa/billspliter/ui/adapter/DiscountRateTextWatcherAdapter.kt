@@ -7,55 +7,53 @@ import android.widget.TextView
 import com.example.fa.billspliter.util.CalculationUtil
 import java.text.DecimalFormat
 
-class DiscountRateTextWatcherAdapter:TextWatcher
-{
+class DiscountRateTextWatcherAdapter : TextWatcher {
 
-    var DiscountText:EditText?=null
-    var TotalBillAmount:TextView ?=null
-    var BillAmountText : EditText ?=null
-    var cal : CalculationUtil ?=null
-    var TaxAmountText:EditText?=null
+    var DiscountText: EditText? = null
+    var TotalBillAmount: TextView? = null
+    var BillAmountText: EditText? = null
+    var cal: CalculationUtil? = null
+    var TaxAmountText: EditText? = null
 
-    constructor(DiscountText: EditText?, TotalBillAmount: TextView?,BillAmountText:EditText?,TaxAmountText:EditText?) {
+    constructor(DiscountText: EditText?, TotalBillAmount: TextView?, BillAmountText: EditText?, TaxAmountText: EditText?) {
         this.DiscountText = DiscountText
         this.TotalBillAmount = TotalBillAmount
         this.BillAmountText = BillAmountText
-        this.TaxAmountText=TaxAmountText
+        this.TaxAmountText = TaxAmountText
         cal = CalculationUtil()
     }
 
 
     override fun afterTextChanged(s: Editable?) {
-        var BillAmountNum:String = ""
-        var TaxAmount:String = ""
-        var discount_amount:Float = 0f
-        var AfterDiscount:Float = 0f
-        var finalAmount:Float = 0f
-        if(DiscountText!!.text.toString()!="") {
+        var BillAmountNum: String = ""
+        var TaxAmount: String = ""
+        var discount_amount: Float = 0f
+        var AfterDiscount: Float = 0f
+        var finalAmount: Float = 0f
+        if (DiscountText!!.text.toString() != "") {
             var discount_rate: String = DiscountText!!.text.toString()
-            if (discount_rate=="00") {
-                discount_rate="0"
+            if (discount_rate == "00") {
+                discount_rate = "0"
                 DiscountText!!.setText("0")
-                if(BillAmountText!!.text.toString()=="") {
+                if (BillAmountText!!.text.toString() == "") {
                     return
                 }
                 BillAmountNum = BillAmountText!!.text.toString()
-                TaxAmount= TaxAmountText!!.text.toString()
-                discount_amount = cal!!.CalculateTaxRate(BillAmountNum.toFloat(),discount_rate.toFloat())
-                AfterDiscount= cal!!.subtraction(BillAmountNum.toFloat(),discount_amount)
-                finalAmount = cal!!.addition(AfterDiscount,TaxAmount.toFloat())
+                TaxAmount = TaxAmountText!!.text.toString()
+                discount_amount = cal!!.CalculateTaxRate(BillAmountNum.toFloat(), discount_rate.toFloat())
+                AfterDiscount = cal!!.subtraction(BillAmountNum.toFloat(), discount_amount)
+                finalAmount = cal!!.addition(AfterDiscount, TaxAmount.toFloat())
 
                 TotalBillAmount!!.setText(roundTwoDecimals(finalAmount))
-            }
-            else {
-                if(BillAmountText!!.text.toString()=="") {
+            } else {
+                if (BillAmountText!!.text.toString() == "") {
                     return
                 }
                 BillAmountNum = BillAmountText!!.text.toString()
-                TaxAmount= TaxAmountText!!.text.toString()
-                discount_amount = cal!!.CalculateTaxRate(BillAmountNum.toFloat(),discount_rate.toFloat())
-                AfterDiscount= cal!!.subtraction(BillAmountNum.toFloat(),discount_amount)
-                finalAmount = cal!!.addition(AfterDiscount,TaxAmount.toFloat())
+                TaxAmount = TaxAmountText!!.text.toString()
+                discount_amount = cal!!.CalculateTaxRate(BillAmountNum.toFloat(), discount_rate.toFloat())
+                AfterDiscount = cal!!.subtraction(BillAmountNum.toFloat(), discount_amount)
+                finalAmount = cal!!.addition(AfterDiscount, TaxAmount.toFloat())
 
                 TotalBillAmount!!.setText(roundTwoDecimals(finalAmount))
             }

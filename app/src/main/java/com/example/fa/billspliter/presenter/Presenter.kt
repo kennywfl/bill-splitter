@@ -10,9 +10,9 @@ interface Presenter {
         fun removeFromDb(entityData: BillEntity)
         fun getHistory()
         fun getHistorySaveServer()
-        fun showList(historyList:List<BillEntity>)
+        fun showList(historyList: List<BillEntity>)
         fun removeTable()
-        fun removeFromFirebase(serverKey:String)
+        fun removeFromFirebase(serverKey: String)
         fun insertToRDb(entityData: ReceivedBillEntity)
         fun removeFromRDb(entityData: ReceivedBillEntity)
         fun getRBillHistory()
@@ -24,6 +24,6 @@ interface Presenter {
     }
 
     interface NearbyConnection {
-        
+
     }
 }

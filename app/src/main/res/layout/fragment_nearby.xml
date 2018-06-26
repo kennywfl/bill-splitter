@@ -1,8 +1,8 @@
 <FrameLayout xmlns:android="http://schemas.android.com/apk/res/android"
-xmlns:tools="http://schemas.android.com/tools"
-android:layout_width="match_parent"
-android:layout_height="match_parent"
-tools:context=".ui.nearbymessage.Nearby">
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ui.nearbymessage.Nearby">
 
     <LinearLayout
         android:layout_width="match_parent"
@@ -16,7 +16,7 @@ tools:context=".ui.nearbymessage.Nearby">
             android:text="Bill recevied"
             android:textColor="@color/black"
             android:layout_gravity="center"
-            android:textSize="18dp"/>
+            android:textSize="18dp" />
 
         <android.support.v7.widget.RecyclerView
             android:id="@+id/recycleView"

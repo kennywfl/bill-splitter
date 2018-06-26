@@ -22,24 +22,25 @@ import com.google.android.gms.nearby.messages.Message
 import kotlinx.android.synthetic.main.nearby_dialog.view.*
 
 
-class DialogFactory
-{
-    private var  recycleAdapter:NearbyAdapter ?= null
+class DialogFactory {
+    private var recycleAdapter: NearbyAdapter? = null
+
     companion object {
-        var contentdialog:AlertDialog ?=null
+        var contentdialog: AlertDialog? = null
     }
 
-    fun createTwoButtonDialog(context: Context,title:String , message: String ,clickListener:DialogInterface.OnClickListener):Dialog {
+    fun createTwoButtonDialog(context: Context, title: String, message: String, clickListener: DialogInterface.OnClickListener): Dialog {
         val alertDialog = AlertDialog.Builder(context, R.style.AlertDialogTheme)
         alertDialog.setTitle("$title")
                 .setMessage("$message")
-                .setPositiveButton("YES",clickListener)
+                .setPositiveButton("YES", clickListener)
                 .setNegativeButton("NO", DialogInterface.OnClickListener { dialog, which ->
                     dialog.dismiss()
                 })
         return alertDialog.create()
     }
-    fun showNearbyDialog(context:Context,nearbyUser: ArrayList<DeviceData>,data:String){
+
+    fun showNearbyDialog(context: Context, nearbyUser: ArrayList<DeviceData>, data: String) {
         val alertDialog = AlertDialog.Builder(context)
         val inflater = LayoutInflater.from(context)
         val dialogView = inflater.inflate(R.layout.nearby_dialog, null)
@@ -47,11 +48,11 @@ class DialogFactory
         alertDialog.setCancelable(false)
         alertDialog.setTitle("Select and send to nearby user.")
         val recycleLayout = LinearLayoutManager(context!!, LinearLayoutManager.VERTICAL, false)
-        recycleAdapter =  NearbyAdapter(nearbyUser,data)
+        recycleAdapter = NearbyAdapter(nearbyUser, data)
         dialogView.recycleView.layoutManager = recycleLayout
         dialogView.recycleView.adapter = recycleAdapter
         dialogView.recycleView.adapter
-        contentdialog= alertDialog.create()
+        contentdialog = alertDialog.create()
         contentdialog!!.show()
         dialogView.CloseBtn.setOnClickListener({
             HomeActivity.connectionClients!!.stopDiscovery()

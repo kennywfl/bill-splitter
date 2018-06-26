@@ -30,13 +30,14 @@ class History : Fragment(), MvpViewHistory {
     var roomHelper = RoomHelper(this)
     private lateinit var recycleView: RecyclerView
     private var dialogFactory = DialogFactory()
-    private var billList : ArrayList<BillEntity> ?= null
+    private var billList: ArrayList<BillEntity>? = null
     private lateinit var recycleAdapter: HistoryAdapter
 
     override fun onCreate(savedInstanceState: Bundle?) {
         super.onCreate(savedInstanceState)
         setHasOptionsMenu(true);
     }
+
     override fun onCreateView(inflater: LayoutInflater, container: ViewGroup?,
                               savedInstanceState: Bundle?): View? {
         val view = inflater.inflate(R.layout.fragment_history, container, false)
@@ -49,25 +50,23 @@ class History : Fragment(), MvpViewHistory {
 
     override fun onResume() {
         super.onResume()
-        if(loginType == "skip" ) {
+        if (loginType == "skip") {
             roomHelper.getHistory()
-        }
-        else{
+        } else {
             roomHelper.getHistorySaveServer()
         }
     }
 
-      override fun setRecycleView(billList : List<BillEntity>) {
-          try {
-              this.billList = billList as ArrayList<BillEntity>
-              recycleAdapter = HistoryAdapter(context!!, billList, this)
-              val recycleLayout = LinearLayoutManager(context!!, LinearLayoutManager.VERTICAL, false)
-              recycleView.layoutManager = recycleLayout
-              recycleView.adapter = recycleAdapter
-          }
-          catch (e:NullPointerException) {
-              Log.d("History Adapter error:",e.toString())
-          }
+    override fun setRecycleView(billList: List<BillEntity>) {
+        try {
+            this.billList = billList as ArrayList<BillEntity>
+            recycleAdapter = HistoryAdapter(context!!, billList, this)
+            val recycleLayout = LinearLayoutManager(context!!, LinearLayoutManager.VERTICAL, false)
+            recycleView.layoutManager = recycleLayout
+            recycleView.adapter = recycleAdapter
+        } catch (e: NullPointerException) {
+            Log.d("History Adapter error:", e.toString())
+        }
 
     }
 
@@ -75,25 +74,25 @@ class History : Fragment(), MvpViewHistory {
     override fun onClick(billEntity: BillEntity) {
         var dataBundle: Bundle = Bundle()
         dataBundle.putSerializable("data", billEntity)
-        findNavController().navigate(R.id.action_history_to_historyDetail,dataBundle)
+        findNavController().navigate(R.id.action_history_to_historyDetail, dataBundle)
     }
 
     /* Handling on long click event. */
-    override fun onLongClick(billEntity: BillEntity ) {
-        dialogFactory.createTwoButtonDialog(context!!,"Alert!" , "Are you sure want to remove?",
+    override fun onLongClick(billEntity: BillEntity) {
+        dialogFactory.createTwoButtonDialog(context!!, "Alert!", "Are you sure want to remove?",
                 DialogInterface.OnClickListener { dialog, which ->
-            if(loginType == "skip"){
-                roomHelper.removeFromDb(billEntity)
-            } else {
-                roomHelper.removeFromFirebase(billEntity.serverKey!!)
-            }
-            billList?.remove(billEntity)
-            recycleAdapter.setData(billList!!)
-        }).show()
+                    if (loginType == "skip") {
+                        roomHelper.removeFromDb(billEntity)
+                    } else {
+                        roomHelper.removeFromFirebase(billEntity.serverKey!!)
+                    }
+                    billList?.remove(billEntity)
+                    recycleAdapter.setData(billList!!)
+                }).show()
     }
 
     override fun onPrepareOptionsMenu(menu: Menu?) {
-      menu?.setGroupVisible(0,false)
+        menu?.setGroupVisible(0, false)
     }
 
 }
