@@ -1,11 +1,8 @@
 package com.example.fa.billspliter.ui.adapter
 
-import android.app.Activity
-import android.app.Dialog
 import android.content.Context
 import android.util.Log
 import com.example.fa.billspliter.data.model.DeviceData
-import com.example.fa.billspliter.ui.billspliter.HomeActivity
 import com.example.fa.billspliter.util.DialogFactory
 import com.example.fa.billspliter.util.ViewUtil
 import com.google.android.gms.nearby.connection.DiscoveredEndpointInfo
