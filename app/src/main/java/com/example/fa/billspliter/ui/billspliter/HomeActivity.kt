@@ -9,6 +9,7 @@ import android.os.Bundle
 import android.renderscript.Sampler
 import android.support.design.widget.NavigationView
 import android.support.v4.view.GravityCompat
+import android.support.v4.widget.DrawerLayout
 import android.support.v7.app.ActionBarDrawerToggle
 import android.util.Log
 import android.view.Menu
@@ -241,11 +242,13 @@ class HomeActivity : AppCompatActivity(), NavigationView.OnNavigationItemSelecte
     fun changeToolbarIconToBackArrow() {
         isArrow = true
         animateIcon(0, 1, 800);
+        drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_LOCKED_CLOSED);
     }
 
     fun changeToolbarIconToMenu() {
         isArrow = false
         animateIcon(1, 0, 800);
+        drawer_layout.setDrawerLockMode(DrawerLayout.LOCK_MODE_UNLOCKED);
     }
 
     fun animateIcon(start: Int, end: Int, duration: Int) {
