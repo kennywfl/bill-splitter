@@ -55,6 +55,7 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
 
     fun setData(billList: List<BillEntity>) {
         this.historyList = billList
+        count = 1
         notifyDataSetChanged()
     }
 
