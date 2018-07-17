@@ -14,7 +14,11 @@
             app:destination="@id/homeActivity" />
         <action
             android:id="@+id/action_login_to_skipLogin"
-            app:destination="@id/skipLogin" />
+            app:destination="@id/skipLogin"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
     <activity
         android:id="@+id/homeActivity"

@@ -17,10 +17,18 @@
             app:popUpToInclusive="false" />
         <action
             android:id="@+id/action_homePage_to_nearby2"
-            app:destination="@id/nearby2" />
+            app:destination="@id/nearby2"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
         <action
             android:id="@+id/action_homePage_to_history"
-            app:destination="@id/history" />
+            app:destination="@id/history"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
     <fragment
         android:id="@+id/nearby2"
@@ -39,7 +47,11 @@
         tools:layout="@layout/fragment_history">
         <action
             android:id="@+id/action_history_to_historyDetail"
-            app:destination="@id/historyDetail" />
+            app:destination="@id/historyDetail"
+            app:popEnterAnim="@anim/slide_in_left"
+            app:popExitAnim="@anim/slide_out_right"
+            app:enterAnim="@anim/slide_in_right"
+            app:exitAnim="@anim/slide_out_left" />
     </fragment>
 
 
