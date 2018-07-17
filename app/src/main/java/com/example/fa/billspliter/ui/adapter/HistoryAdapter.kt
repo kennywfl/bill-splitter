@@ -50,7 +50,6 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
             historyView?.onLongClick(data)
             true
         });
-
     }
 
     fun setData(billList: List<BillEntity>) {
@@ -72,8 +71,6 @@ class HistoryAdapter : RecyclerView.Adapter<HistoryAdapter.ViewHolder> {
             tv_id = itemView.tv_id
             tv_price = itemView.tv_price
             tv_date = itemView.tv_date
-
         }
-
     }
 }

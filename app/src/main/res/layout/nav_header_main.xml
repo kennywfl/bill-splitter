@@ -36,9 +36,10 @@
 
     <Switch
         android:id="@+id/hosting_switch"
-        android:layout_width="352dp"
+        android:layout_width="wrap_content"
         android:layout_height="wrap_content"
-        android:text="Discoverable" />
+        android:text="Discoverable"
+        android:theme="@style/SwitchCompatTheme" />
 
 
 </LinearLayout>
